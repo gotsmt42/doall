@@ -1,0 +1,87 @@
+{
+  "home": {
+    "title": "Home - Do All Architect And Engineering Co, Ltd.",
+    "description": "Thailand’s leading innovation company providing future-ready technologies and solutions.",
+    "hero_title": "Welcome to Do All Architect And Engineering Co, Ltd.",
+    "hero_sub": "Leader in innovation and technology for Thai businesses",
+    "cta": "Learn More About Us",
+    "services_title": "Our Services",
+    "service1_title": "AI Technology",
+    "service1_desc": "Develop intelligent systems that enhance business performance and competitiveness.",
+    "service2_title": "Enterprise Software",
+    "service2_desc": "Design ERP and CRM systems tailored to your business needs.",
+    "service3_title": "Innovation Consulting",
+    "service3_desc": "Strategic consulting for organizations seeking creative transformation.",
+    "why_title": "Why Choose Us?",
+    "why1": "Over 15 years of experience in the tech industry",
+    "why2": "Professional team with enterprise-level project background",
+    "why3": "Committed to developing sustainable innovation",
+    "why4": "After-sales service and customer satisfaction support"
+  },
+
+
+  
+  "about": {
+    "title": "About Us - Do All Architect and Engineering Co., Ltd.",
+    "description": "Learn more about Dual Architect and Engineering, a leader in engineering, innovation, and professional project services.",
+    "heading": "About Us",
+    "paragraph1": "Do All Architect and Engineering Co., Ltd. was established in 2022 with a vision to integrate architecture, engineering, and technology innovation to enhance quality of life. We offer comprehensive services from planning, design, and project management to final delivery with professionalism.",
+    "paragraph2": "We are committed to becoming a strong partner for both government and private organizations in Thailand and across the ASEAN region, by delivering value-driven and sustainable solutions.",
+    "management_title": "Management Team",
+    "ceo": "Mr. Anan – Chief Executive Officer (CEO)",
+    "cfo": "Ms. Wipa – Chief Financial Officer (CFO)",
+    "engineering": "Mr. Kittichai – Director of Engineering",
+    "design": "Ms. Sirintip – Director of Design"
+  },
+
+  "projects": {
+    "title": "Our Projects - Do All Architect and Engineering Co., Ltd.",
+    "description": "Explore our featured projects, from intelligent automation to sustainable green technology.",
+    "heading": "Our Projects",
+   
+    "video_caption": "Company presentation & project showcase",
+    "image_caption": "Sample project from an actual site",
+    "image_alt": "Highlighted project image"
+  },
+
+  "products": {
+    "title": "Our products and services - Do All Architect and Engineering Co., Ltd.",
+    "description": "EOur products and services",
+    "heading": "Our products and services",
+    "contact": "Contact US",
+    "des": "Need a quote or more information?"
+   
+
+  },
+
+
+  "contact": {
+    "title": "Contact Us - Do All Architect and Engineering Co., Ltd.",
+    "description": "Get in touch with our team for inquiries, services, or business collaboration opportunities.",
+    "heading": "Contact Us",
+    "name_label": "Your Name",
+    "name_placeholder": "Full Name",
+    "email_label": "Email",
+    "message_label": "Message",
+    "message_placeholder": "Type your message here...",
+    "submit_button": "Send Message",
+    "success": "Your message has been sent successfully. Thank you!",
+    "errors": {
+      "name": "Please enter your name",
+      "email": "Please enter your email",
+      "email_format": "Invalid email format",
+      "message": "Please enter a message"
+    }
+  },
+
+  
+  "footer": {
+    "company": "Do All Architect and Engineering Co., Ltd.",
+    "privacy": "Privacy Policy",
+    "contact": "Contact Us"
+  }
+
+
+
+
+}

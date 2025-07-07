@@ -1,4 +1,21 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* เพิ่มใน index.css หรือไฟล์ global */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #e53e3e; /* สีแดง primary ของคุณ */
+  scale: 1.2;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 20px;
+}
+
+
+
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +27,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
