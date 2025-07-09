@@ -6,6 +6,7 @@ import { services } from "../data/services";
 const ServiceDetail = () => {
   const { id } = useParams();
   const service = services.find((s) => s.id === id);
+  
 
   if (!service) {
     return <div className="text-center mt-20">ไม่พบข้อมูลบริการนี้</div>;
