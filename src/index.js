@@ -8,7 +8,7 @@ import { ThemeProvider } from 'next-themes';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <HelmetProvider>
-    <ThemeProvider defaultTheme="light" attribute="class">
+    <ThemeProvider defaultTheme="dark" attribute="class">
     <App />
     </ThemeProvider>
   </HelmetProvider>
