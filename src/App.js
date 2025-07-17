@@ -1,14 +1,15 @@
 // src/App.js
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Home from './pages/Home';
-import About from './pages/About';
-import Projects from './pages/Projects';
-import Products from './pages/Products';
-import InvestorRelations from './pages/InvestorRelations';
-import Contact from './pages/Contact';
-import ServiceDetail from './pages/ServiceDetail';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Projects from "./pages/Projects";
+import Products from "./pages/Products";
+import InvestorRelations from "./pages/InvestorRelations";
+import Contact from "./pages/Contact";
+import ServiceDetail from "./pages/ServiceDetail";
+import ProjectDetail from "./pages/ProjectDetail";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
 
           <Route path="/services/:id" element={<ServiceDetail />} />
-
+          <Route path="/projects/:id" element={<ProjectDetail />} />
         </Route>
       </Routes>
     </Router>

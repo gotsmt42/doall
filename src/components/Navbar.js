@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import DarkModeToggle from "./DarkModeToggle";
 import { useTheme } from "next-themes";
-import logoLight from "../assets/logo-light.png";
-import logoDark from "../assets/logo-dark.png";
+import logoLight from "../assets/logo-light-2.png";
+import logoDark from "../assets/logo-dark-2.png";
 import { Helmet } from "react-helmet-async";
 
 const Navbar = () => {
@@ -43,14 +43,12 @@ const Navbar = () => {
         {/* 🔷 Logo */}
         <Link to="/" className="flex-shrink-0 mt-3">
           {" "}
-<img
-  src={logoSrc}
-  onError={(e) => (e.target.src = logoLight)}
-  alt="โลโก้บริษัท"
-  className="h-28 sm:h-32 md:h-36 lg:h-29 object-contain max-w-[300px] sm:max-w-[340px]"
-/>
-
-
+          <img
+            src={logoSrc}
+            onError={(e) => (e.target.src = logoLight)}
+            alt="โลโก้บริษัท"
+            className="h-28 sm:h-32 md:h-36 lg:h-29 object-contain max-w-[300px] sm:max-w-[340px]"
+          />
         </Link>
 
         {/* 💻 Desktop Menu */}
@@ -66,7 +64,7 @@ const Navbar = () => {
             </li>
             <li className="hover:text-primary-light px-2">
               <Link to="/projects">
-                {i18n.language === "th" ? "ผลงาน" : "Projects"}
+                {i18n.language === "th" ? "ผลงานของเรา" : "Projects"}
               </Link>
             </li>
             <li className="hover:text-primary-light px-2">
@@ -135,7 +133,7 @@ const Navbar = () => {
                 to="/projects"
                 onClick={() => setMenuOpen(false)}
               >
-                {i18n.language === "th" ? "ผลงาน" : "Projects"}
+                {i18n.language === "th" ? "ผลงานของเรา" : "Projects"}
               </Link>
             </li>
             <li>
