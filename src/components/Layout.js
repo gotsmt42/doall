@@ -13,7 +13,7 @@ const Layout = () => {
 
 
   const toggleSidebar = () => {
-    const newState = !sidebarCollapsed;
+    const newState = sidebarCollapsed;
     setSidebarCollapsed(newState);
     localStorage.setItem("sidebarCollapsed", String(newState));
   };
