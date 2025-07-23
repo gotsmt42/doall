@@ -6,16 +6,12 @@ import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 
 const Layout = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
-    const saved = localStorage.getItem("sidebarCollapsed");
-    return saved === "true";
-  });
-
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true)
 
   const toggleSidebar = () => {
-    const newState = sidebarCollapsed;
+    const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem("sidebarCollapsed", String(newState));
+    // localStorage.setItem("sidebarCollapsed", String(newState));
   };
   // กำหนด padding ให้เนื้อหาเปลี่ยนตาม sidebar
   const contentPadding = sidebarCollapsed ? "md:pr-16" : "md:pr-72";
