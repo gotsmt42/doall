@@ -30,9 +30,9 @@ const Layout = () => {
         </div>
         <Footer />
       </main>
-{/* 
-      <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} /> */}
-      <Sidebar collapsed={sidebarCollapsed} />
+
+      <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
+      {/* <Sidebar collapsed={sidebarCollapsed} /> */}
     </div>
   );
 };
