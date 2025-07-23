@@ -92,17 +92,13 @@ const Navbar = () => {
         </div>
 
         {/* 🍔 Mobile Toggle */}
-        <button
-          onClick={toggleMenu}
-          className="sm:hidden ml-auto p-2"
-          aria-label="Toggle Menu"
-        >
-          {menuOpen ? (
-            <XMarkIcon className="w-6 h-6" />
-          ) : (
-            <Bars3Icon className="w-6 h-6" />
-          )}
-        </button>
+<button
+  onClick={toggleMenu}
+  className="sm:hidden ml-auto p-2 z-50 text-gray-700 dark:text-white hover:text-red-500 transition"
+>
+  {menuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
+</button>
+
       </div>
 
       {/* 📱 Mobile Menu */}

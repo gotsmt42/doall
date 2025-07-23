@@ -20,7 +20,10 @@ const Layout = () => {
     <div className="min-h-screen flex bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition relative">
 <main className={`flex-1 transition-all duration-500 ease-in-out ${contentPadding}`}>
 
-        <Navbar />
+       <header className="sticky top-0 z-[999]">
+  <Navbar />
+</header>
+
         <div className="px-0 py-0">
           <Outlet />
         </div>
