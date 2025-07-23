@@ -37,10 +37,10 @@ const ProjectDetail = () => {
       </p>
 
       <ul className="list-disc ml-6 mt-4 text-gray-700 dark:text-gray-300 space-y-2">
-        <li>มีระบบควบคุมผ่านแอปพลิเคชันมือถือ</li>
-        <li>ตรวจสอบสถานะอุปกรณ์แบบ real-time</li>
-        <li>รองรับการเชื่อมต่อ IoT ในภาคอุตสาหกรรม</li>
-      </ul>
+  <li>มีระบบควบคุมผ่านแอปพลิเคชันมือถือ</li>
+  <li>ตรวจสอบสถานะอุปกรณ์แบบ real-time</li>
+  <li>รองรับการเชื่อมต่อ IoT ในภาคอุตสาหกรรม</li>
+</ul>
 
       {/* เพิ่มข้อมูลเพิ่มเติมได้ที่นี่ เช่น bullet list, video, gallery, etc. */}
     </section>

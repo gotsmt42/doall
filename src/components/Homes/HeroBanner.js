@@ -5,9 +5,9 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/navigation";
 
-const HeroBanner = ({ bannerImages, handleScroll }) => {
+const HeroBanner = ({ bannerImages, handleScroll, collapsed }) => {
   return (
-    <div className="relative hidden md:block">
+<div className={`relative hidden md:block`}>
       <Swiper
         modules={[Autoplay, Navigation]}
         autoplay={{ delay: 4000 }}

@@ -26,7 +26,7 @@ const Navbar = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <nav className="relative bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-300 shadow-sm h-20 z-50">
+    <nav className="relative bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 shadow-sm h-20 z-50">
       <Helmet>
         <title>
           {i18n.language === "th"

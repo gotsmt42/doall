@@ -36,13 +36,11 @@ const About = () => {
         </div>
 
         <div className="mb-12">
-          <p className="text-lg leading-relaxed">
             <p className="text-lg leading-relaxed">
               บริษัทมีวิศวกรผู้เชี่ยวชาญด้วยประสบการร์ทำงานมากกว่า 10
               ปีและทีมงานที่มีคุณภาพหลายด้าน สามารถดำเนินการติดตั้ง
               แก้ไขและปรับเปลี่ยนขอบเขตของงานได้ตามความต้องการของลูกค้าเป็นหลัก
             </p>
-          </p>
         </div>
 
         <div className="mb-12">
@@ -111,10 +109,8 @@ const About = () => {
         {/* วิสัยทัศน์ */}
         <div className="mb-12">
           <p className="text-lg leading-relaxed">
-            <p className="text-lg leading-relaxed">
               เพื่อก้าวสู่การเป็นพันธมิตรที่แข็งแกร่งทั้งในระดับประเทศและอาเซียน
               เราให้ความสำคัญกับคุณภาพและความพึงพอใจของลูกค้า...
-            </p>
           </p>
         </div>
 
