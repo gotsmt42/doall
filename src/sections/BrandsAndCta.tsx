@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  ArrowRight, BadgeCheck, Camera, Fingerprint, Flame, Info, Network, Package, ShieldCheck, type LucideIcon,
+  ArrowRight, Camera, Fingerprint, Flame, Info, Network, Package, ShieldCheck, type LucideIcon,
 } from "lucide-react";
 
 import { ButtonLink, Container, Section, SectionHeading, cx } from "@/components/ui";
@@ -41,7 +41,7 @@ const Wordmark = ({ name, size }: { name: string; size: "xl" | "lg" | "md" }) =>
  * ยี่ห้ออุปกรณ์ที่เราทำงานด้วย — จัดกลุ่มตามระบบ
  *
  * ✅ บริษัทสั่ง "ว้าวกว่านี้ มืออาชีพ" — จากการ์ดชื่อเรียงกันเป็นตาราง เปลี่ยนเป็น:
- *    • หมวดที่มีแบรนด์หลัก (ตอนนี้ Fire Alarm) เป็นแผงใหญ่ ชูแบรนด์หลักตัวใหญ่พร้อมป้าย
+ *    • หมวดที่มีแบรนด์หลัก (ตอนนี้ Fire Alarm) เป็นแผงใหญ่ ชูแบรนด์หลักตัวใหญ่ (ไม่มีป้ายคำว่า "แบรนด์หลัก" — บริษัทสั่งเอาออก)
  *    • หมวดอื่นเป็นการ์ดย่อยพร้อมไอคอน — กวาดตาเดียวรู้ว่าแต่ละระบบรองรับยี่ห้ออะไร
  *    • ชวนต่อ: "ระบบเดิมเป็นยี่ห้ออื่น?" — ลูกค้าที่มีระบบอยู่แล้วคือกลุ่มงาน PM ที่ใหญ่ที่สุด
  * ⚠️ หัวข้อต้องเป็น "ยี่ห้อที่เราทำงานด้วย" เสมอ ห้ามเปลี่ยนเป็น "พาร์ตเนอร์" หรือ
@@ -110,15 +110,11 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
                 </div>
 
                 <div className="p-5 sm:p-8">
-                  {/* ป้าย "แบรนด์หลัก" อยู่บนการ์ดแต่ละใบแล้ว — ไม่ต้องมีหัวข้อซ้ำด้านบน */}
+                  {/* ⚠️ บริษัทสั่งไม่ให้มีคำว่า "แบรนด์หลัก" บนหน้าเว็บ — เน้นด้วยขนาดตัวอักษรและการ์ดแทน */}
                   <ul className="grid gap-3 sm:grid-cols-2">
                     {main.map((b) => (
-                      <li key={b.name} className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-5 py-5 transition-colors hover:border-red-200 hover:bg-red-50/40">
+                      <li key={b.name} className="flex items-center rounded-xl border border-slate-200 bg-slate-50/70 px-5 py-5 transition-colors hover:border-red-200 hover:bg-red-50/40">
                         <Wordmark name={b.name} size="xl" />
-                        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-red-600 px-2.5 py-1 text-[11px] font-semibold text-white">
-                          <BadgeCheck aria-hidden="true" className="size-3.5" />
-                          แบรนด์หลัก
-                        </span>
                       </li>
                     ))}
                   </ul>
