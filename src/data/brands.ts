@@ -30,6 +30,7 @@ const LOGOS: Record<string, BrandLogo> = {
   hikvision: { src: "/brands/hikvision.png", width: 1200, height: 152 },
   dahua: { src: "/brands/dahua.png", width: 882, height: 264 },
   hip: { src: "/brands/hip.png", width: 266, height: 132 },
+  zkteco: { src: "/brands/zkteco.png", width: 911, height: 210 },
 };
 export const logoFor = (name: string): BrandLogo | undefined => LOGOS[name.trim().toLowerCase()];
 
@@ -42,8 +43,9 @@ export const logoFor = (name: string): BrandLogo | undefined => LOGOS[name.trim(
  * ✅ CCTV: Hikvision, Dahua (บริษัทส่งโลโก้มา 24 ก.ย. 2569) · ⚠️ ตัด Axis ออกตามที่บริษัทสั่ง — ห้ามใส่กลับ
  * ✅ Access Control: มีแค่ ZKTeco, HIP, Hikvision (บริษัทสั่ง 24 ก.ย. 2569)
  *    ⚠️ Hikvision อยู่ได้สองหมวด — ยี่ห้อเดียวกันซ้ำได้ถ้าคนละหมวด (ฐานข้อมูลบังคับไม่ซ้ำแค่ ชื่อ+หมวด)
- *    ⚠️ ZKTeco ยังไม่มีโลโก้: รูปที่ได้มามีลายน้ำเว็บแจกรูป (cleanpng) ทับ — ไม่ลบลายน้ำของคนอื่น รอไฟล์สะอาด
- * ⚠️ TODO(ข้อมูลจริง): ยี่ห้อหมวด Security / Network ยังไม่ได้ยืนยันกับบริษัท
+ *    ✅ ZKTeco: รูปที่บริษัทส่งมามีลายน้ำเว็บแจกรูปทับ — บริษัทยืนยันให้ใช้ จึงวาดใหม่เป็นสีเรียบ 2 สีของโลโก้
+ *       (เทาเข้ม #494949 + เขียว #7DBD2F วัดจากรูปต้นฉบับ) · ได้ไฟล์ทางการเมื่อไรให้เปลี่ยนเป็นไฟล์นั้น
+ * ⚠️ Security / Network: บริษัทสั่ง "ยังไม่ต้องใส่แบรนด์" (24 ก.ย. 2569) — ไม่มีการ์ดหมวดนี้ในส่วนยี่ห้อ
  * ⚠️ ตัดยี่ห้อหมวดไฟฟ้า (Schneider Electric, ABB) ออกตามที่บริษัทสั่ง "ตัดระบบไฟฟ้าออกก่อน"
  */
 export const BRANDS: readonly Brand[] = [
@@ -57,9 +59,6 @@ export const BRANDS: readonly Brand[] = [
   { name: "ZKTeco", category: "Access Control" },
   { name: "HIP", category: "Access Control" },
   { name: "Hikvision", category: "Access Control" },
-  { name: "Bosch", category: "Security" },
-  { name: "Cisco", category: "Network" },
-  { name: "Ubiquiti", category: "Network" },
 ].map((b) => ({ ...b, logo: logoFor(b.name) }));
 
 /** ข้อความกำกับที่ต้องแสดงคู่กับรายชื่อเสมอ — กันการเข้าใจผิดว่าเป็นตัวแทนจำหน่าย */

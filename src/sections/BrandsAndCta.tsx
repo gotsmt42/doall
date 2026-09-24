@@ -4,7 +4,7 @@ import {
 } from "lucide-react";
 
 import BrandMark from "@/components/BrandMark";
-import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
+import { ButtonLink, Container, Section, SectionHeading, cx } from "@/components/ui";
 import { BRANDS_DISCLAIMER, type Brand } from "@/data/brands";
 import { getContent } from "@/lib/cms";
 
@@ -124,9 +124,9 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
           );
         })}
 
-        {/* ── หมวดอื่น ── */}
+        {/* ── หมวดอื่น ── (มี 2 หมวดใช้ 2 คอลัมน์ ไม่เหลือช่องว่างบนจอใหญ่) */}
         {rest.length > 0 && (
-          <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className={cx("mt-5 grid gap-5 sm:grid-cols-2", rest.length >= 3 && "lg:grid-cols-3")}>
             {rest.map((g, i) => {
               const Icon = CATEGORY_ICON[g.category] ?? Package;
               return (
