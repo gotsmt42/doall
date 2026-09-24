@@ -118,7 +118,7 @@ export default function Header({ tel, telRaw, showArticles }: { tel: string; tel
 
       <Container>
         <div className="flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
-          {/* ⚠️ โลโก้จริงของบริษัท (สร้างจาก scripts/make-brand.mjs) — ห้ามแทนด้วยไอคอนของแอป Flowix
+          {/* ⚠️ โลโก้จริงของบริษัท (สร้างจาก scripts/make-brand.mjs) — ห้ามแทนด้วยไอคอนของแอป WiRix (เดิม Flowix)
               เว็บนี้เป็นของบริษัท ไม่เกี่ยวกับแอป
               ⚠️ priority = โหลดทันทีไม่รอ lazy เพราะอยู่บนสุดของทุกหน้า
               ⚠️ ใส่ width/height ตามสัดส่วนจริง (954x412) เสมอ ไม่งั้นหน้าจะกระตุกตอนรูปโหลดเสร็จ (CLS) */}
