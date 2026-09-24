@@ -27,6 +27,8 @@ const LOGOS: Record<string, BrandLogo> = {
   hochiki: { src: "/brands/hochiki.png", width: 493, height: 87 },
   asenware: { src: "/brands/asenware.png", width: 600, height: 376 },
   gst: { src: "/brands/gst.png", width: 283, height: 96 },
+  hikvision: { src: "/brands/hikvision.png", width: 1200, height: 152 },
+  dahua: { src: "/brands/dahua.png", width: 882, height: 264 },
 };
 export const logoFor = (name: string): BrandLogo | undefined => LOGOS[name.trim().toLowerCase()];
 
@@ -36,7 +38,8 @@ export const logoFor = (name: string): BrandLogo | undefined => LOGOS[name.trim(
  *    ⚠️ ตัด Nohmi ออกตามที่บริษัทสั่ง (24 ก.ย. 2569) — ห้ามใส่กลับ
  *    (บริษัทยืนยันทั้งหมด 24 ก.ย. 2569) — ห้ามสลับลำดับสองตัวแรก
  * ⚠️ ตัด Honeywell ออก — บริษัทระบุยี่ห้อ Fire Alarm มาสองครั้งแล้วไม่มี Honeywell
- * ⚠️ TODO(ข้อมูลจริง): ยี่ห้อหมวดอื่น (CCTV / Security / Network) ยังไม่ได้ยืนยันกับบริษัท
+ * ✅ CCTV: Hikvision, Dahua (บริษัทส่งโลโก้มา 24 ก.ย. 2569) · ⚠️ ตัด Axis ออกตามที่บริษัทสั่ง — ห้ามใส่กลับ
+ * ⚠️ TODO(ข้อมูลจริง): ยี่ห้อหมวด Security / Network ยังไม่ได้ยืนยันกับบริษัท
  * ⚠️ ตัดยี่ห้อหมวดไฟฟ้า (Schneider Electric, ABB) ออกตามที่บริษัทสั่ง "ตัดระบบไฟฟ้าออกก่อน"
  */
 export const BRANDS: readonly Brand[] = [
@@ -47,7 +50,6 @@ export const BRANDS: readonly Brand[] = [
   { name: "GST", category: "Fire Alarm" },
   { name: "Hikvision", category: "CCTV" },
   { name: "Dahua", category: "CCTV" },
-  { name: "Axis", category: "CCTV" },
   { name: "Bosch", category: "Security" },
   { name: "Cisco", category: "Network" },
   { name: "Ubiquiti", category: "Network" },
