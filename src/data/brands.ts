@@ -5,17 +5,34 @@
  *    โดยไม่มีหนังสือแต่งตั้งจริง** — เป็นการกล่าวอ้างที่เจ้าของแบรนด์ดำเนินคดีได้
  *    และลูกค้า B2B ตรวจสอบได้ง่ายมากด้วยการโทรถามเจ้าของแบรนด์โดยตรง
  *    หัวข้อบนหน้าเว็บจึงใช้คำว่า "ยี่ห้อและผลิตภัณฑ์ที่เราทำงานด้วย" เท่านั้น
- * ⚠️ ไม่ใช้โลโก้ของแบรนด์ — การใช้เครื่องหมายการค้าของผู้อื่นบนเว็บเชิงพาณิชย์
- *    ต้องได้รับอนุญาต จึงแสดงเป็นชื่อตัวอักษรแทน ซึ่งเป็นการอ้างถึงตามปกติที่ทำได้
+ * ✅ โลโก้: บริษัทส่งไฟล์มาและสั่งให้ใส่ (24 ก.ย. 2569) — ไฟล์อยู่ที่ public/brands/
+ *    ⚠️ ห้ามแต่งตัวโลโก้ (เปลี่ยนสี บิด ตัดส่วน) — ทำได้แค่ตัดขอบว่าง/ทำพื้นโปร่งใส
+ *    ⚠️ ยี่ห้อไหนไม่มีไฟล์โลโก้ แสดงเป็นชื่อตัวอักษรแทน (เช่น Nohmi ตอนนี้)
  * ⚠️ TODO(ข้อมูลจริง): ให้บริษัทยืนยันว่าทำงานกับยี่ห้อใดจริงบ้าง แล้วลบที่เหลือออก
  */
 
+export type BrandLogo = { src: string; width: number; height: number };
+
 /** featured = แบรนด์หลัก — แสดงเด่นกว่ายี่ห้ออื่นในหมวดเดียวกัน (ตั้งได้จากหลังบ้าน ปุ่มดาว) */
-export type Brand = { name: string; category: string; featured?: boolean };
+export type Brand = { name: string; category: string; featured?: boolean; logo?: BrandLogo };
+
+/**
+ * โลโก้ตั้งต้นในโค้ด (ขนาดคือขนาดไฟล์จริงหลังตัดขอบ) — ค้นด้วยชื่อยี่ห้อแบบไม่สนตัวพิมพ์
+ * ⚠️ โลโก้ที่อัปจากหลังบ้านชนะเสมอ ตัวนี้ใช้เมื่อหลังบ้านไม่ได้อัปไว้ (ดู lib/cms.ts)
+ * ⚠️ ไฟล์สร้างจากรูปที่บริษัทส่งมา: ตัดขอบว่าง · Edwards เอาพื้นลายหมากรุกที่ฝังในรูปออก
+ */
+const LOGOS: Record<string, BrandLogo> = {
+  notifier: { src: "/brands/notifier.png", width: 170, height: 48 },
+  edwards: { src: "/brands/edwards.png", width: 591, height: 113 },
+  hochiki: { src: "/brands/hochiki.png", width: 493, height: 87 },
+  asenware: { src: "/brands/asenware.png", width: 600, height: 376 },
+  gst: { src: "/brands/gst.png", width: 283, height: 96 },
+};
+export const logoFor = (name: string): BrandLogo | undefined => LOGOS[name.trim().toLowerCase()];
 
 /**
  * ⚠️ เรียง Fire Alarm ขึ้นก่อนโดยตั้งใจ — บริษัทต้องการเน้นระบบนี้เป็นหลัก
- * ✅ แบรนด์หลัก Fire Alarm คือ Notifier และ Edwards · รองลงมา Hochiki, Nohmi, Asenware
+ * ✅ แบรนด์หลัก Fire Alarm คือ Notifier และ Edwards · รองลงมา Hochiki, Nohmi, Asenware, GST
  *    (บริษัทยืนยันทั้งหมด 24 ก.ย. 2569) — ห้ามสลับลำดับสองตัวแรก
  * ⚠️ ตัด Honeywell ออก — บริษัทระบุยี่ห้อ Fire Alarm มาสองครั้งแล้วไม่มี Honeywell
  * ⚠️ TODO(ข้อมูลจริง): ยี่ห้อหมวดอื่น (CCTV / Security / Network) ยังไม่ได้ยืนยันกับบริษัท
@@ -27,13 +44,14 @@ export const BRANDS: readonly Brand[] = [
   { name: "Hochiki", category: "Fire Alarm" },
   { name: "Nohmi", category: "Fire Alarm" },
   { name: "Asenware", category: "Fire Alarm" },
+  { name: "GST", category: "Fire Alarm" },
   { name: "Hikvision", category: "CCTV" },
   { name: "Dahua", category: "CCTV" },
   { name: "Axis", category: "CCTV" },
   { name: "Bosch", category: "Security" },
   { name: "Cisco", category: "Network" },
   { name: "Ubiquiti", category: "Network" },
-] as const;
+].map((b) => ({ ...b, logo: logoFor(b.name) }));
 
 /** ข้อความกำกับที่ต้องแสดงคู่กับรายชื่อเสมอ — กันการเข้าใจผิดว่าเป็นตัวแทนจำหน่าย */
 export const BRANDS_DISCLAIMER =

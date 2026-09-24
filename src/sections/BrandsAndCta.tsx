@@ -3,7 +3,8 @@ import {
   ArrowRight, Camera, Fingerprint, Flame, Info, Network, Package, ShieldCheck, type LucideIcon,
 } from "lucide-react";
 
-import { ButtonLink, Container, Section, SectionHeading, cx } from "@/components/ui";
+import BrandMark from "@/components/BrandMark";
+import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
 import { BRANDS_DISCLAIMER, type Brand } from "@/data/brands";
 import { getContent } from "@/lib/cms";
 
@@ -23,30 +24,16 @@ const CATEGORY_TH: Record<string, string> = {
   Security: "ระบบรักษาความปลอดภัย",
 };
 
-/** ชื่อยี่ห้อแบบ wordmark — ตัวพิมพ์ใหญ่ หนา เว้นระยะ ให้ความรู้สึกเป็น "กำแพงโลโก้" โดยไม่ใช้โลโก้จริง */
-const Wordmark = ({ name, size }: { name: string; size: "xl" | "lg" | "md" }) => (
-  <span
-    className={cx(
-      "font-bold tracking-[0.08em] uppercase transition-colors duration-200",
-      size === "xl" && "text-2xl text-slate-900 sm:text-[2rem]",
-      size === "lg" && "text-lg text-slate-500 group-hover:text-slate-900 sm:text-xl",
-      size === "md" && "text-base text-slate-600 hover:text-slate-900",
-    )}
-  >
-    {name}
-  </span>
-);
-
 /**
  * ยี่ห้ออุปกรณ์ที่เราทำงานด้วย — จัดกลุ่มตามระบบ
  *
  * ✅ บริษัทสั่ง "ว้าวกว่านี้ มืออาชีพ" — จากการ์ดชื่อเรียงกันเป็นตาราง เปลี่ยนเป็น:
  *    • หมวดที่มีแบรนด์หลัก (ตอนนี้ Fire Alarm) เป็นแผงใหญ่ ชูแบรนด์หลักตัวใหญ่ (ไม่มีป้ายคำว่า "แบรนด์หลัก" — บริษัทสั่งเอาออก)
+ *    • ✅ ใช้โลโก้จริงที่บริษัทส่งมา (24 ก.ย. 2569) ในกล่องขนาดเท่ากัน — ไม่มีโลโก้แสดงเป็นชื่อ (ดู BrandMark)
  *    • หมวดอื่นเป็นการ์ดย่อยพร้อมไอคอน — กวาดตาเดียวรู้ว่าแต่ละระบบรองรับยี่ห้ออะไร
  *    • ชวนต่อ: "ระบบเดิมเป็นยี่ห้ออื่น?" — ลูกค้าที่มีระบบอยู่แล้วคือกลุ่มงาน PM ที่ใหญ่ที่สุด
  * ⚠️ หัวข้อต้องเป็น "ยี่ห้อที่เราทำงานด้วย" เสมอ ห้ามเปลี่ยนเป็น "พาร์ตเนอร์" หรือ
  *    "ตัวแทนจำหน่าย" จนกว่าจะมีหนังสือแต่งตั้งจริง (เหตุผลเต็มอยู่ใน data/brands.ts)
- * ⚠️ ยังไม่ใช้โลโก้จริงของแบรนด์ — ต้องได้รับอนุญาตจากเจ้าของเครื่องหมายการค้าก่อน
  * ⚠️ หมวดและลำดับมาจากหลังบ้านทั้งหมด (เพิ่ม/ลบ/ตั้งแบรนด์หลักได้) — ห้ามเขียนชื่อยี่ห้อตายตัวที่นี่
  */
 export function Brands({ brands }: { brands: readonly Brand[] }) {
@@ -113,8 +100,8 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
                   {/* ⚠️ บริษัทสั่งไม่ให้มีคำว่า "แบรนด์หลัก" บนหน้าเว็บ — เน้นด้วยขนาดตัวอักษรและการ์ดแทน */}
                   <ul className="grid gap-3 sm:grid-cols-2">
                     {main.map((b) => (
-                      <li key={b.name} className="flex items-center rounded-xl border border-slate-200 bg-slate-50/70 px-5 py-5 transition-colors hover:border-red-200 hover:bg-red-50/40">
-                        <Wordmark name={b.name} size="xl" />
+                      <li key={b.name} className="flex h-28 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 transition-[border-color,box-shadow] duration-200 hover:border-slate-300 hover:shadow-md sm:h-32">
+                        <BrandMark brand={b} base={50} textClassName="text-2xl text-slate-900 sm:text-[1.75rem]" />
                       </li>
                     ))}
                   </ul>
@@ -122,10 +109,10 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
                   {others.length > 0 && (
                     <>
                       <p className="mt-6 text-xs font-semibold tracking-wide text-slate-500 uppercase">รองรับเพิ่มเติม</p>
-                      <ul className="mt-2 flex flex-wrap items-center gap-x-8 gap-y-3">
+                      <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                         {others.map((b) => (
-                          <li key={b.name} className="group">
-                            <Wordmark name={b.name} size="lg" />
+                          <li key={b.name} className="flex h-20 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 transition-[border-color,box-shadow] duration-200 hover:border-slate-300 hover:shadow-sm">
+                            <BrandMark brand={b} base={30} textClassName="text-lg" />
                           </li>
                         ))}
                       </ul>
@@ -158,9 +145,9 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
                       <span className="block text-xs text-slate-500">{CATEGORY_TH[g.category] ?? "ยี่ห้อที่เราติดตั้งและดูแล"}</span>
                     </span>
                   </div>
-                  <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-3 sm:mt-5 sm:pt-4">
+                  <ul className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-slate-100 pt-3 sm:mt-5 sm:pt-4">
                     {g.items.map((b) => (
-                      <li key={b.name}><Wordmark name={b.name} size="md" /></li>
+                      <li key={b.name} className="flex h-8 items-center"><BrandMark brand={b} base={22} textClassName="text-base" /></li>
                     ))}
                   </ul>
                 </li>

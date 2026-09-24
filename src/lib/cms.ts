@@ -1,7 +1,7 @@
 import { cache } from "react";
 
 import { ARTICLES, type Article, type ArticleBlock } from "@/data/articles";
-import { BRANDS, type Brand } from "@/data/brands";
+import { BRANDS, logoFor, type Brand } from "@/data/brands";
 import { COMPANY } from "@/data/company";
 import { PRODUCTS, type Product, type ProductCategory } from "@/data/products";
 import { PROJECTS, type Project } from "@/data/projects";
@@ -156,7 +156,15 @@ function normalize(data: any): SiteContent {
     products,
     projects,
     articles,
-    brands: (data.brands || []).map((b: any) => ({ name: str(b.name), category: str(b.category), featured: Boolean(b.featured) })),
+    /** โลโก้: ที่อัปจากหลังบ้านชนะ ไม่มีก็ใช้ไฟล์ตั้งต้นในโค้ดตามชื่อ ไม่มีทั้งคู่ = แสดงเป็นชื่อตัวอักษร */
+    brands: (data.brands || []).map((b: any) => ({
+      name: str(b.name),
+      category: str(b.category),
+      featured: Boolean(b.featured),
+      logo: validUrl(str(b.logo?.url)) && b.logo.width && b.logo.height
+        ? { src: b.logo.url, width: Number(b.logo.width), height: Number(b.logo.height) }
+        : logoFor(str(b.name)),
+    })),
     settings: {
       ...FALLBACK_SETTINGS,
       ...Object.fromEntries(Object.entries(s).filter(([, v]) => v !== undefined && v !== null)),

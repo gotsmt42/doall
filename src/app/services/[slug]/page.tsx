@@ -3,10 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Building2, ChevronDown } from "lucide-react";
 
+import BrandMark from "@/components/BrandMark";
 import ProjectCard from "@/components/ProjectCard";
 import ServiceIcon from "@/components/ServiceIcon";
 import { ButtonLink, Card, CheckList, Container, JsonLd, Section, SectionHeading } from "@/components/ui";
 import { getContent } from "@/lib/cms";
+import { logoFor } from "@/data/brands";
 import { SERVICES, serviceBySlug } from "@/data/services";
 import Breadcrumb from "@/layouts/Breadcrumb";
 import { faqJsonLd, serviceJsonLd } from "@/lib/jsonld";
@@ -53,7 +55,11 @@ export default async function ServiceDetailPage({ params }: Props) {
   // ⚠️ ชื่อบริการที่ขึ้นต้นด้วย "งาน" อยู่แล้ว ห้ามต่อ "งาน" หน้าซ้ำ (เคยได้ "ขอใบเสนอราคางาน งานระบบ…")
   //    จึงเติมเฉพาะชื่อที่ยังไม่มี
   const job = service.name.startsWith("งาน") ? service.name : `งาน ${service.name}`;
-  const related = (await getContent()).projects.filter((p) => p.systems.includes(service.slug)).slice(0, 3);
+  const content = await getContent();
+  const related = content.projects.filter((p) => p.systems.includes(service.slug)).slice(0, 3);
+  // โลโก้จากหลังบ้านชนะ ไม่มีใช้ไฟล์ตั้งต้น ไม่มีทั้งคู่แสดงเป็นชื่อ
+  const brandLogo = (name: string) =>
+    content.brands.find((b) => b.name.toLowerCase() === name.toLowerCase())?.logo ?? logoFor(name);
   const others = SERVICES.filter((s) => s.slug !== service.slug);
 
   return (
@@ -105,9 +111,11 @@ export default async function ServiceDetailPage({ params }: Props) {
                 {service.brands && service.brands.length > 0 && (
                   <>
                     <h2 className="mt-6 border-t border-slate-100 pt-6 text-base font-bold">ยี่ห้อที่เราติดตั้งและดูแล</h2>
-                    <ul className="mt-4 flex flex-wrap gap-2">
+                    <ul className="mt-4 grid grid-cols-3 gap-2">
                       {service.brands.map((b) => (
-                        <li key={b} className="rounded-md border border-red-100 bg-red-50 px-3 py-1.5 text-sm font-semibold text-red-800">{b}</li>
+                        <li key={b} className="flex h-14 items-center justify-center rounded-lg border border-slate-200 bg-white px-2">
+                          <BrandMark brand={{ name: b, logo: brandLogo(b) }} base={20} textClassName="text-xs" />
+                        </li>
                       ))}
                     </ul>
                     <p className="mt-3 text-xs leading-relaxed text-slate-500">มิได้หมายความว่าเป็นตัวแทนจำหน่ายอย่างเป็นทางการ</p>
