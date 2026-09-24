@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/**
+ * ระบบดีไซน์ของเว็บบริษัท — "สีน้อย ตัวอักษรชัด ที่ว่างพอดี"
+ *
+ * ⚠️ กฎที่ทำให้เว็บดูเป็นมืออาชีพ: **ทั้งเว็บมีสีเน้นสีเดียว** คือแดงของแบรนด์
+ *    ที่เหลือเป็นสเกลเทา-ดำล้วน ห้ามเพิ่มสีที่สาม (ฟ้า/เขียว/ส้ม) เข้ามาเป็นสีตกแต่ง
+ *    เว็บบริษัทที่ดู "เหมือนเทมเพลตสำเร็จรูป" เกือบทั้งหมดพังตรงนี้จุดเดียว
+ * ⚠️ สีสถานะ (สำเร็จ/ผิดพลาด) ใช้ได้เฉพาะในฟอร์ม ซึ่งเป็นความหมายเชิงหน้าที่ ไม่ใช่การตกแต่ง
+ */
+@theme {
+  /* ── สีเดียวของแบรนด์ ── */
+  --color-brand: #dc2626;
+  --color-brand-dark: #b91c1c;
+  --color-brand-soft: #fef2f2;
+  --color-brand-line: #fecaca;
+
+  /* ── สเกลกลาง (ตัวอักษร เส้น พื้น) ── */
+  --color-ink: #0f172a;
+  --color-ink-soft: #334155;
+  --color-body: #475569;
+  --color-muted: #64748b;
+  --color-faint: #94a3b8;
+  --color-line: #e2e8f0;
+  --color-line-soft: #f1f5f9;
+  --color-surface: #ffffff;
+  --color-subtle: #f8fafc;
+
+  /* ── ตัวอักษร ── */
+  /* ⚠️ ฟอนต์ถูกโหลดผ่าน next/font ใน layout.tsx แล้วผูกกับตัวแปรนี้ — ห้าม @import จาก
+     Google Fonts ในไฟล์นี้ เพราะจะกลายเป็น request ที่บล็อกการเรนเดอร์ (เสียคะแนน LCP) */
+  --font-sans: var(--font-plex-thai), "IBM Plex Sans Thai", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ── จังหวะของเงาและมุม: ใช้ไม่กี่ค่า ให้การ์ดทุกใบเหมือนกันหมด ── */
+  --radius-card: 0.875rem;
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 1px 3px rgb(15 23 42 / 0.06);
+  --shadow-card-hover: 0 8px 24px rgb(15 23 42 / 0.08), 0 2px 6px rgb(15 23 42 / 0.04);
+}
+
+/* ⚠️ สไตล์พื้นฐานทั้งหมดต้องอยู่ใน @layer base เสมอ
+   🐛 เดิมเขียนไว้นอก layer — ใน Tailwind v4 CSS ที่อยู่นอก layer ชนะคลาส utility ทุกตัว
+      กฎ h2 { color: ink } จึงทับ class="text-white" ทำให้หัวข้อบนพื้นเข้ม (แถบชวนติดต่อท้ายหน้า)
+      กลายเป็นตัวหนังสือสีเข้มบนพื้นเข้ม มองไม่เห็นเลย — ตรวจเจอจากภาพหน้าจริง
+      อยู่ใน base = เป็นค่าเริ่มต้นที่คลาสบนแท็กเปลี่ยนทับได้ตามปกติ */
+@layer base {
+  /* ─────────────────────────────────────────────────────────────────────────
+     พื้นฐานของหน้า
+     ───────────────────────────────────────────────────────────────────────── */
+  html {
+    scroll-behavior: smooth;
+    /* ✅ กันหัวข้อถูกแถบบนแบบ sticky บังตอนกดลิงก์ #anchor */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-surface);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    /* ⚠️ ภาษาไทยต้องการระยะบรรทัดมากกว่าอังกฤษเพราะมีสระบน/ล่าง ถ้าใช้ 1.5 แบบอังกฤษ
+       วรรณยุกต์บรรทัดบนจะเกือบชนสระล่างของบรรทัดถัดไป อ่านแล้วล้า */
+    line-height: 1.75;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ⚠️ กันหน้าเลื่อนออกด้านข้างทุกความกว้าง — ข้อห้ามข้อแรกของ responsive ในโจทย์
+     ตารางหรือแถวที่กว้างเกินต้องใส่ overflow-x ของตัวเอง ไม่ใช่ปล่อยให้ทั้งหน้าเลื่อน */
+  body {
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    color: var(--color-ink);
+    font-weight: 700;
+    /* หัวข้อไทยไม่ต้องการระยะบรรทัดเท่าเนื้อความ แต่ก็แน่นเกินไม่ได้ */
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   สถานะโฟกัส — ต้องเห็นชัดเสมอสำหรับคนที่ใช้แป้นพิมพ์ (ข้อกำหนด Accessibility)
+   ⚠️ ห้ามใช้ outline:none โดยไม่มีตัวแทน — เป็นสาเหตุอันดับหนึ่งที่เว็บใช้แป้นพิมพ์ไม่ได้
+   ───────────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   แอนิเมชันตอนเลื่อนถึง — ทำด้วย CSS ล้วน + IntersectionObserver
+   ⚠️ ตั้งใจไม่ใช้ไลบรารีแอนิเมชัน (เช่น framer-motion ~40 kB) เพราะเว็บนี้ต้องการ
+      แค่ "โผล่ขึ้นมาตอนเลื่อนถึง" อย่างเดียว ซึ่ง CSS ทำได้ครบและไม่กินบันเดิลเลย
+      (เป้าหมาย Lighthouse Performance > 90 — ทุก kB มีผลกับคะแนนจริง)
+   ───────────────────────────────────────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ⚠️ คนที่ตั้งค่าเครื่องว่า "ลดการเคลื่อนไหว" ต้องเห็นเนื้อหาครบทันที ไม่ใช่เห็นหน้าว่าง
+   (บางคนเวียนหัวกับภาพเคลื่อนไหวจริงๆ — และถ้า JS พัง เนื้อหาต้องไม่หายไปด้วย) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   ตอนสั่งพิมพ์ — ลูกค้า B2B พิมพ์หน้าบริการ/ใบเสนอราคาออกมาจริง
+   ───────────────────────────────────────────────────────────────────────── */
+@media print {
+  [data-no-print] { display: none !important; }
+  body { color: #000; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.75em; }
+}
