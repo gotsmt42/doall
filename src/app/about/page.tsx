@@ -14,7 +14,7 @@ import { CtaBand } from "@/sections/BrandsAndCta";
 export const metadata = pageMetadata({
   title: "เกี่ยวกับเรา — ประวัติบริษัท วิสัยทัศน์ และพันธกิจ",
   description:
-    `${COMPANY.nameTh} ก่อตั้งเมื่อ ${COMPANY.foundedTh} รับออกแบบ จำหน่าย ติดตั้ง และบำรุงรักษาระบบ Fire Alarm ` +
+    `${COMPANY.nameTh} รับออกแบบ จำหน่าย ติดตั้ง และบำรุงรักษาระบบ Fire Alarm ` +
     "CCTV, Access Control, Network และ Fire Pump ดูแลโดยทีมวิศวกรประสบการณ์กว่า 10 ปี",
   path: "/about",
   keywords: ["ประวัติบริษัท", "ผู้รับเหมางานระบบ", "บริษัทรับเหมางานระบบ นนทบุรี", "DO ALL ARCHITECT AND ENGINEERING"],
@@ -52,7 +52,6 @@ export default async function AboutPage() {
                   {[
                     ["ชื่อบริษัท", COMPANY.nameTh],
                     ["ชื่อภาษาอังกฤษ", COMPANY.nameEn],
-                    ["วันที่ก่อตั้ง", COMPANY.foundedTh],
                     ["เลขประจำตัวผู้เสียภาษี", COMPANY.taxId],
                     ["ที่ตั้งออฟฟิศ", fullAddress(COMPANY.office)],
                     ["สำนักงานใหญ่", fullAddress(COMPANY.address)],

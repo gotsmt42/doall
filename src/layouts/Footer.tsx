@@ -39,10 +39,7 @@ export default async function Footer() {
             <Image src="/brand/logo-on-dark.png" alt={COMPANY.shortName} width={1003} height={454} sizes="130px" className="h-14 w-auto" />
             <p className="mt-4 text-sm font-medium text-slate-300">{COMPANY.nameTh}</p>
             <p className="mt-4 max-w-sm text-sm leading-relaxed">{COMPANY.tagline}</p>
-            <p className="mt-4 text-xs text-slate-400">
-              เลขประจำตัวผู้เสียภาษี {COMPANY.taxId}
-              <span className="block">ก่อตั้งเมื่อ {COMPANY.foundedTh}</span>
-            </p>
+            <p className="mt-4 text-xs text-slate-400">เลขประจำตัวผู้เสียภาษี {COMPANY.taxId}</p>
           </div>
 
           {/* ── บริการ ── */}
