@@ -9,10 +9,10 @@ import { CtaBand } from "@/sections/BrandsAndCta";
 export const metadata = pageMetadata({
   title: "สินค้าและอุปกรณ์ — Fire Alarm, CCTV, Access Control, Network",
   description:
-    "จำหน่ายและติดตั้งอุปกรณ์ระบบแจ้งเหตุเพลิงไหม้ Notifier, Edwards, Hochiki, Nohmi, Asenware กล้องวงจรปิด " +
+    "จำหน่ายและติดตั้งอุปกรณ์ระบบแจ้งเหตุเพลิงไหม้ Notifier, Edwards, Hochiki, Asenware, GST กล้องวงจรปิด " +
     "ระบบควบคุมการเข้าออก และอุปกรณ์เครือข่าย พร้อมให้คำปรึกษาเลือกอุปกรณ์ให้เหมาะกับหน้างาน",
   path: "/products",
-  keywords: ["จำหน่ายอุปกรณ์ fire alarm", "Notifier fire alarm", "Edwards fire alarm", "Hochiki", "Nohmi", "Asenware", "จำหน่ายกล้องวงจรปิด", "อุปกรณ์ access control"],
+  keywords: ["จำหน่ายอุปกรณ์ fire alarm", "Notifier fire alarm", "Edwards fire alarm", "Hochiki", "Asenware", "GST", "จำหน่ายกล้องวงจรปิด", "อุปกรณ์ access control"],
 });
 
 export default async function ProductsPage() {
@@ -31,7 +31,7 @@ export default async function ProductsPage() {
           {products.length === 0 ? (
             <EmptyState
               title="กำลังจัดทำรายการสินค้า"
-              description="เราจัดหาอุปกรณ์ระบบแจ้งเหตุเพลิงไหม้ Notifier, Edwards, Hochiki, Nohmi, Asenware รวมถึงกล้องวงจรปิดและระบบควบคุมการเข้าออก แจ้งรุ่นหรือประเภทที่ต้องการ ทีมงานจะเสนอราคาให้"
+              description="เราจัดหาอุปกรณ์ระบบแจ้งเหตุเพลิงไหม้ Notifier, Edwards, Hochiki, Asenware, GST รวมถึงกล้องวงจรปิดและระบบควบคุมการเข้าออก แจ้งรุ่นหรือประเภทที่ต้องการ ทีมงานจะเสนอราคาให้"
               action={<ButtonLink href="/quotation">สอบถามอุปกรณ์ที่ต้องการ</ButtonLink>}
             />
           ) : (

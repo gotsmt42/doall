@@ -7,7 +7,7 @@
  *    หัวข้อบนหน้าเว็บจึงใช้คำว่า "ยี่ห้อและผลิตภัณฑ์ที่เราทำงานด้วย" เท่านั้น
  * ✅ โลโก้: บริษัทส่งไฟล์มาและสั่งให้ใส่ (24 ก.ย. 2569) — ไฟล์อยู่ที่ public/brands/
  *    ⚠️ ห้ามแต่งตัวโลโก้ (เปลี่ยนสี บิด ตัดส่วน) — ทำได้แค่ตัดขอบว่าง/ทำพื้นโปร่งใส
- *    ⚠️ ยี่ห้อไหนไม่มีไฟล์โลโก้ แสดงเป็นชื่อตัวอักษรแทน (เช่น Nohmi ตอนนี้)
+ *    ⚠️ ยี่ห้อไหนไม่มีไฟล์โลโก้ แสดงเป็นชื่อตัวอักษรแทน
  * ⚠️ TODO(ข้อมูลจริง): ให้บริษัทยืนยันว่าทำงานกับยี่ห้อใดจริงบ้าง แล้วลบที่เหลือออก
  */
 
@@ -32,7 +32,8 @@ export const logoFor = (name: string): BrandLogo | undefined => LOGOS[name.trim(
 
 /**
  * ⚠️ เรียง Fire Alarm ขึ้นก่อนโดยตั้งใจ — บริษัทต้องการเน้นระบบนี้เป็นหลัก
- * ✅ แบรนด์หลัก Fire Alarm คือ Notifier และ Edwards · รองลงมา Hochiki, Nohmi, Asenware, GST
+ * ✅ แบรนด์หลัก Fire Alarm คือ Notifier และ Edwards · รองลงมา Hochiki, Asenware, GST
+ *    ⚠️ ตัด Nohmi ออกตามที่บริษัทสั่ง (24 ก.ย. 2569) — ห้ามใส่กลับ
  *    (บริษัทยืนยันทั้งหมด 24 ก.ย. 2569) — ห้ามสลับลำดับสองตัวแรก
  * ⚠️ ตัด Honeywell ออก — บริษัทระบุยี่ห้อ Fire Alarm มาสองครั้งแล้วไม่มี Honeywell
  * ⚠️ TODO(ข้อมูลจริง): ยี่ห้อหมวดอื่น (CCTV / Security / Network) ยังไม่ได้ยืนยันกับบริษัท
@@ -42,7 +43,6 @@ export const BRANDS: readonly Brand[] = [
   { name: "Notifier", category: "Fire Alarm", featured: true },
   { name: "Edwards", category: "Fire Alarm", featured: true },
   { name: "Hochiki", category: "Fire Alarm" },
-  { name: "Nohmi", category: "Fire Alarm" },
   { name: "Asenware", category: "Fire Alarm" },
   { name: "GST", category: "Fire Alarm" },
   { name: "Hikvision", category: "CCTV" },
