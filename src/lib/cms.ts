@@ -156,7 +156,7 @@ function normalize(data: any): SiteContent {
     products,
     projects,
     articles,
-    brands: (data.brands || []).map((b: any) => ({ name: str(b.name), category: str(b.category) })),
+    brands: (data.brands || []).map((b: any) => ({ name: str(b.name), category: str(b.category), featured: Boolean(b.featured) })),
     settings: {
       ...FALLBACK_SETTINGS,
       ...Object.fromEntries(Object.entries(s).filter(([, v]) => v !== undefined && v !== null)),

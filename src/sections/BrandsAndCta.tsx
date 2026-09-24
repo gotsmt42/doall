@@ -1,34 +1,182 @@
-import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowRight, BadgeCheck, Camera, Fingerprint, Flame, Info, Network, Package, ShieldCheck, type LucideIcon,
+} from "lucide-react";
 
-import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
+import { ButtonLink, Container, Section, SectionHeading, cx } from "@/components/ui";
 import { BRANDS_DISCLAIMER, type Brand } from "@/data/brands";
 import { getContent } from "@/lib/cms";
 
+/** ไอคอนของแต่ละหมวด — หมวดที่ไม่รู้จัก (เพิ่มใหม่จากหลังบ้าน) ใช้ไอคอนกลาง */
+const CATEGORY_ICON: Record<string, LucideIcon> = {
+  "Fire Alarm": Flame,
+  CCTV: Camera,
+  "Access Control": Fingerprint,
+  Network: Network,
+  Security: ShieldCheck,
+};
+const CATEGORY_TH: Record<string, string> = {
+  "Fire Alarm": "ระบบแจ้งเหตุเพลิงไหม้",
+  CCTV: "ระบบกล้องวงจรปิด",
+  "Access Control": "ระบบควบคุมการเข้าออก",
+  Network: "ระบบเครือข่าย",
+  Security: "ระบบรักษาความปลอดภัย",
+};
+
+/** ชื่อยี่ห้อแบบ wordmark — ตัวพิมพ์ใหญ่ หนา เว้นระยะ ให้ความรู้สึกเป็น "กำแพงโลโก้" โดยไม่ใช้โลโก้จริง */
+const Wordmark = ({ name, size }: { name: string; size: "xl" | "lg" | "md" }) => (
+  <span
+    className={cx(
+      "font-bold tracking-[0.08em] uppercase transition-colors duration-200",
+      size === "xl" && "text-2xl text-slate-900 sm:text-[2rem]",
+      size === "lg" && "text-lg text-slate-500 group-hover:text-slate-900 sm:text-xl",
+      size === "md" && "text-base text-slate-600 hover:text-slate-900",
+    )}
+  >
+    {name}
+  </span>
+);
+
 /**
- * ยี่ห้ออุปกรณ์ที่เราทำงานด้วย
+ * ยี่ห้ออุปกรณ์ที่เราทำงานด้วย — จัดกลุ่มตามระบบ
+ *
+ * ✅ บริษัทสั่ง "ว้าวกว่านี้ มืออาชีพ" — จากการ์ดชื่อเรียงกันเป็นตาราง เปลี่ยนเป็น:
+ *    • หมวดที่มีแบรนด์หลัก (ตอนนี้ Fire Alarm) เป็นแผงใหญ่ ชูแบรนด์หลักตัวใหญ่พร้อมป้าย
+ *    • หมวดอื่นเป็นการ์ดย่อยพร้อมไอคอน — กวาดตาเดียวรู้ว่าแต่ละระบบรองรับยี่ห้ออะไร
+ *    • ชวนต่อ: "ระบบเดิมเป็นยี่ห้ออื่น?" — ลูกค้าที่มีระบบอยู่แล้วคือกลุ่มงาน PM ที่ใหญ่ที่สุด
  * ⚠️ หัวข้อต้องเป็น "ยี่ห้อที่เราทำงานด้วย" เสมอ ห้ามเปลี่ยนเป็น "พาร์ตเนอร์" หรือ
  *    "ตัวแทนจำหน่าย" จนกว่าจะมีหนังสือแต่งตั้งจริง (เหตุผลเต็มอยู่ใน data/brands.ts)
+ * ⚠️ ยังไม่ใช้โลโก้จริงของแบรนด์ — ต้องได้รับอนุญาตจากเจ้าของเครื่องหมายการค้าก่อน
+ * ⚠️ หมวดและลำดับมาจากหลังบ้านทั้งหมด (เพิ่ม/ลบ/ตั้งแบรนด์หลักได้) — ห้ามเขียนชื่อยี่ห้อตายตัวที่นี่
  */
 export function Brands({ brands }: { brands: readonly Brand[] }) {
+  // จัดกลุ่มตามหมวด โดยคงลำดับที่หลังบ้านเรียงไว้ (แบรนด์หลักขึ้นก่อนอยู่แล้ว)
+  const groups: { category: string; items: Brand[] }[] = [];
+  for (const b of brands) {
+    const g = groups.find((x) => x.category === b.category);
+    if (g) g.items.push(b);
+    else groups.push({ category: b.category, items: [b] });
+  }
+  const hero = groups.filter((g) => g.items.some((b) => b.featured));
+  const rest = groups.filter((g) => !g.items.some((b) => b.featured));
+
   return (
-    <Section tone="subtle" className="!py-14 sm:!py-16">
-      <Container>
-        <SectionHeading
-          align="center"
-          eyebrow="Brands & Products We Work With"
-          title="ยี่ห้ออุปกรณ์ที่เราจัดหาและติดตั้ง"
-        />
-        {/* ⚠️ จำนวนยี่ห้อเปลี่ยนได้จากระบบหลังบ้าน — ใช้ flex จัดกึ่งกลาง ไม่ใช่กริดตายตัว
-            กริด 6 ช่องกับ 11 ยี่ห้อจะเหลือแถวล่างเป็นช่องโหว่ ดูเหมือนข้อมูลหาย */}
-        <ul className="mt-10 flex flex-wrap justify-center gap-3">
-          {brands.map((b) => (
-            <li key={b.name} className="flex w-[calc(50%-0.375rem)] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-5 text-center sm:w-40">
-              <span className="text-base font-bold tracking-tight text-slate-800">{b.name}</span>
-              <span className="mt-1 text-xs text-slate-500">{b.category}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="mx-auto mt-5 max-w-2xl text-center text-xs leading-relaxed text-slate-500">{BRANDS_DISCLAIMER}</p>
+    <Section tone="subtle" className="relative overflow-hidden">
+      {/* ลายเส้นตารางจางๆ มุมขวาบน — ให้ส่วนนี้มีมิติ (CSS ล้วน ไม่มีต้นทุนโหลด) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          maskImage: "radial-gradient(ellipse 60% 70% at 100% 0%, #000 20%, transparent 70%)",
+          WebkitMaskImage: "radial-gradient(ellipse 60% 70% at 100% 0%, #000 20%, transparent 70%)",
+        }}
+      />
+      <Container className="relative">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <SectionHeading
+            eyebrow="Brands & Products We Work With"
+            title="ยี่ห้ออุปกรณ์ที่เราจัดหาและติดตั้ง"
+            description="เลือกอุปกรณ์จากผู้ผลิตที่มีมาตรฐานรองรับและหาอะไหล่ทดแทนได้ พร้อมดูแลระบบเดิมได้หลายยี่ห้อ"
+          />
+          <Link
+            href="/contact"
+            className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-red-700 hover:text-red-800"
+          >
+            ระบบเดิมเป็นยี่ห้ออื่น? สอบถามได้
+            <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" />
+          </Link>
+        </div>
+
+        {/* ── หมวดที่มีแบรนด์หลัก ── */}
+        {hero.map((g) => {
+          const Icon = CATEGORY_ICON[g.category] ?? Package;
+          const main = g.items.filter((b) => b.featured);
+          const others = g.items.filter((b) => !b.featured);
+          return (
+            <div key={g.category} data-reveal className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="grid lg:grid-cols-[17rem_1fr]">
+                {/* แถบหัวหมวดด้านซ้าย — พื้นเข้ม ทำให้แผงนี้เป็นจุดเด่นของทั้งส่วน */}
+                <div className="flex items-center gap-4 bg-slate-900 p-6 lg:flex-col lg:items-start lg:justify-center lg:p-8">
+                  <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-red-600 text-white">
+                    <Icon aria-hidden="true" className="size-6" />
+                  </span>
+                  <span>
+                    <span className="block text-lg font-bold text-white">{g.category}</span>
+                    <span className="block text-sm text-slate-400">{CATEGORY_TH[g.category] ?? "ยี่ห้อที่เราติดตั้งและดูแล"}</span>
+                  </span>
+                </div>
+
+                <div className="p-5 sm:p-8">
+                  {/* ป้าย "แบรนด์หลัก" อยู่บนการ์ดแต่ละใบแล้ว — ไม่ต้องมีหัวข้อซ้ำด้านบน */}
+                  <ul className="grid gap-3 sm:grid-cols-2">
+                    {main.map((b) => (
+                      <li key={b.name} className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-5 py-5 transition-colors hover:border-red-200 hover:bg-red-50/40">
+                        <Wordmark name={b.name} size="xl" />
+                        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-red-600 px-2.5 py-1 text-[11px] font-semibold text-white">
+                          <BadgeCheck aria-hidden="true" className="size-3.5" />
+                          แบรนด์หลัก
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {others.length > 0 && (
+                    <>
+                      <p className="mt-6 text-xs font-semibold tracking-wide text-slate-500 uppercase">รองรับเพิ่มเติม</p>
+                      <ul className="mt-2 flex flex-wrap items-center gap-x-8 gap-y-3">
+                        {others.map((b) => (
+                          <li key={b.name} className="group">
+                            <Wordmark name={b.name} size="lg" />
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* ── หมวดอื่น ── */}
+        {rest.length > 0 && (
+          <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {rest.map((g, i) => {
+              const Icon = CATEGORY_ICON[g.category] ?? Package;
+              return (
+                <li
+                  key={g.category}
+                  data-reveal
+                  style={{ "--reveal-delay": `${i * 70}ms` } as React.CSSProperties}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 transition-[box-shadow,border-color] duration-200 hover:border-slate-300 hover:shadow-md sm:p-6"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="grid size-10 place-items-center rounded-lg bg-red-50 text-red-600">
+                      <Icon aria-hidden="true" className="size-5" />
+                    </span>
+                    <span>
+                      <span className="block font-bold text-slate-900">{g.category}</span>
+                      <span className="block text-xs text-slate-500">{CATEGORY_TH[g.category] ?? "ยี่ห้อที่เราติดตั้งและดูแล"}</span>
+                    </span>
+                  </div>
+                  <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-3 sm:mt-5 sm:pt-4">
+                    {g.items.map((b) => (
+                      <li key={b.name}><Wordmark name={b.name} size="md" /></li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        <p className="mt-6 flex items-start gap-2 text-xs leading-relaxed text-slate-500">
+          <Info aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
+          {BRANDS_DISCLAIMER}
+        </p>
       </Container>
     </Section>
   );

@@ -10,7 +10,8 @@
  * ⚠️ TODO(ข้อมูลจริง): ให้บริษัทยืนยันว่าทำงานกับยี่ห้อใดจริงบ้าง แล้วลบที่เหลือออก
  */
 
-export type Brand = { name: string; category: string };
+/** featured = แบรนด์หลัก — แสดงเด่นกว่ายี่ห้ออื่นในหมวดเดียวกัน (ตั้งได้จากหลังบ้าน ปุ่มดาว) */
+export type Brand = { name: string; category: string; featured?: boolean };
 
 /**
  * ⚠️ เรียง Fire Alarm ขึ้นก่อนโดยตั้งใจ — บริษัทต้องการเน้นระบบนี้เป็นหลัก
@@ -21,8 +22,8 @@ export type Brand = { name: string; category: string };
  * ⚠️ ตัดยี่ห้อหมวดไฟฟ้า (Schneider Electric, ABB) ออกตามที่บริษัทสั่ง "ตัดระบบไฟฟ้าออกก่อน"
  */
 export const BRANDS: readonly Brand[] = [
-  { name: "Notifier", category: "Fire Alarm" },
-  { name: "Edwards", category: "Fire Alarm" },
+  { name: "Notifier", category: "Fire Alarm", featured: true },
+  { name: "Edwards", category: "Fire Alarm", featured: true },
   { name: "Hochiki", category: "Fire Alarm" },
   { name: "Nohmi", category: "Fire Alarm" },
   { name: "Asenware", category: "Fire Alarm" },
