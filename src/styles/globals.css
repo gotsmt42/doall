@@ -95,14 +95,18 @@
       แค่ "โผล่ขึ้นมาตอนเลื่อนถึง" อย่างเดียว ซึ่ง CSS ทำได้ครบและไม่กินบันเดิลเลย
       (เป้าหมาย Lighthouse Performance > 90 — ทุก kB มีผลกับคะแนนจริง)
    ───────────────────────────────────────────────────────────────────────── */
-[data-reveal] {
+/* ⚠️ ซ่อนเฉพาะเมื่อ JavaScript พร้อมแล้วเท่านั้น (Reveal.tsx ตั้ง html[data-reveal-ready])
+   🐛 เดิมซ่อนตั้งแต่ HTML — ถ้า JS ไม่ทำงานด้วยเหตุใดก็ตาม (เน็ตหลุดกลางทาง, สคริปต์ถูกบล็อก,
+      เปิดจากมือถือตอนพัฒนาแล้ว React ไม่ทำงาน — เคยเจอจริง 22 ส่วนค้างโปร่งใส) เนื้อหาจะหายทั้งส่วน
+   ✅ ตอนนี้ JS ไม่มา = เห็นเนื้อหาครบทันที แค่ไม่มีแอนิเมชัน */
+html[data-reveal-ready] [data-reveal] {
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-[data-reveal].is-visible {
+html[data-reveal-ready] [data-reveal].is-visible {
   opacity: 1;
   transform: none;
 }
@@ -111,7 +115,7 @@
    (บางคนเวียนหัวกับภาพเคลื่อนไหวจริงๆ — และถ้า JS พัง เนื้อหาต้องไม่หายไปด้วย) */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  html[data-reveal-ready] [data-reveal] { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

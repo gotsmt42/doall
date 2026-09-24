@@ -19,6 +19,9 @@ import { useEffect } from "react";
  */
 export default function Reveal() {
   useEffect(() => {
+    // ✅ เปิดโหมดซ่อน-แล้วค่อยโผล่ "หลัง" JS พร้อมเท่านั้น (ดู globals.css) — ชิ้นที่อยู่ในจออยู่แล้ว
+    //    ถูกทำเครื่องหมายโผล่ใน task เดียวกันก่อนเบราว์เซอร์วาดรอบถัดไป จึงไม่กะพริบ
+    document.documentElement.setAttribute("data-reveal-ready", "");
     const pending = new Set<Element>();
     const show = (el: Element) => {
       el.classList.add("is-visible");
