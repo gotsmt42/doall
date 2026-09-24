@@ -15,6 +15,11 @@ import { FILE_RULES, detectFileType, leadSchema } from "@/lib/lead";
  */
 
 export const runtime = "nodejs";
+/**
+ * ⚠️ หลังบ้านอยู่บน Render — ถ้าเครื่องหลับอยู่ ปลุกให้ตื่นใช้เวลาได้ถึงราว 50 วินาที
+ *    ให้ฟังก์ชันรอได้ 60 วินาที (สูงสุดของ Vercel แผนฟรี) ไม่งั้นลูกค้าคนแรกหลังเครื่องหลับจะส่งไม่ผ่าน
+ */
+export const maxDuration = 60;
 
 /* ── กันสแปม: จำกัดจำนวนครั้งต่อ IP ─────────────────────────────────────── */
 
@@ -112,8 +117,8 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: { "x-lead-key": key },
       body: out,
-      // ⚠️ ไม่ให้ผู้ใช้ค้างหน้ารอนานไม่มีกำหนดถ้าระบบหลังบ้านช้า
-      signal: AbortSignal.timeout(20_000),
+      // ⚠️ ไม่ให้ผู้ใช้ค้างหน้ารอนานไม่มีกำหนดถ้าระบบหลังบ้านช้า — แต่ต้องนานพอให้ Render ตื่น (ดู maxDuration)
+      signal: AbortSignal.timeout(55_000),
       cache: "no-store",
     });
     const data = (await res.json().catch(() => ({}))) as { ref?: string; error?: string };
