@@ -2,7 +2,8 @@ import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 
 import { Badge, Card, Container, EmptyState, Section } from "@/components/ui";
-import { ARTICLES, readingMinutes, thaiShortDate } from "@/data/articles";
+import { readingMinutes, thaiShortDate } from "@/data/articles";
+import { getContent } from "@/lib/cms";
 import Breadcrumb, { PageHeader } from "@/layouts/Breadcrumb";
 import { pageMetadata } from "@/lib/seo";
 import { CtaBand } from "@/sections/BrandsAndCta";
@@ -16,8 +17,8 @@ export const metadata = pageMetadata({
   keywords: ["ความรู้ fire alarm", "ความรู้กล้องวงจรปิด", "บทความงานระบบ"],
 });
 
-export default function ArticlesPage() {
-  const articles = [...ARTICLES].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+export default async function ArticlesPage() {
+  const articles = [...(await getContent()).articles].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 
   return (
     <>

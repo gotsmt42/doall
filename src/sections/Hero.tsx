@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 
 import { ButtonLink, Container } from "@/components/ui";
-import { COMPANY } from "@/data/company";
 import { SERVICES } from "@/data/services";
 
 /**
@@ -45,7 +44,7 @@ export default function Hero() {
                    บรรทัดใหม่ จุดไปขึ้นต้นบรรทัด ("• Access Control") ดูผิดที่ทุกความกว้างจอ
                 ✅ ขึ้นบรรทัดหลังจุลภาคเป็นการเรียงพิมพ์ปกติ จึงดูถูกต้องไม่ว่าจะตัดตรงไหน */}
             <span className="mt-1 block text-red-600">
-              {["Fire Alarm", "CCTV", "Access Control", "Network"].map((name, i, all) => (
+              {["Fire Alarm", "Fire Pump", "CCTV", "Access Control", "Network"].map((name, i, all) => (
                 <span key={name}>
                   {i > 0 && (i === all.length - 1 ? " และ " : ", ")}
                   <span className="whitespace-nowrap">{name}</span>
@@ -54,13 +53,25 @@ export default function Hero() {
             </span>
           </h1>
 
+          {/* ✅ บริษัทสั่ง: "แสดงรายละเอียดให้มืออาชีพกว่านี้ ไม่ใช่แสดงแค่ระบบเดียว เอาสั้นๆ ได้ใจความ"
+              ⚠️ ย่อหน้านี้ต้องพูดถึง "ทั้งบริษัท" ไม่ใช่ระบบใดระบบหนึ่ง — รายชื่อยี่ห้ออยู่ส่วน "ยี่ห้อ" ท้ายหน้าแล้ว
+              ⚠️ ยาวไม่เกินสองบรรทัดบนจอใหญ่ — ส่วนหัวของหน้าแรกคือที่ที่คนอ่านน้อยที่สุด ตัดสินใจเร็วที่สุด */}
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
-            {COMPANY.nameTh} ผู้รับเหมางานระบบความปลอดภัยครบวงจร ตั้งแต่สำรวจหน้างานและออกแบบ
-            ไปจนถึงติดตั้ง ทดสอบ และบำรุงรักษา รองรับระบบ Fire Alarm หลายยี่ห้อ ทั้ง Edwards, Hochiki,
-            Nohmi และ Asenware
-            ดูแลโดยทีมวิศวกรประสบการณ์กว่า 10 ปี สำหรับโรงงาน หน่วยงานราชการ คลังสินค้า
-            อาคารพาณิชย์ และสำนักงาน
+            ดูแลครบทุกขั้นตอน ตั้งแต่สำรวจหน้างาน ออกแบบ ติดตั้ง ทดสอบ จนถึงบำรุงรักษา
+            ให้ระบบพร้อมใช้งานจริงทุกวัน สำหรับโรงงาน หน่วยงานราชการ คลังสินค้า และอาคารพาณิชย์
           </p>
+
+          {/* จุดเด่นสามข้อ — กวาดตาเดียวรู้ว่าต่างจากผู้รับเหมาทั่วไปตรงไหน
+              ⚠️ ทุกข้อต้องเป็นเรื่องจริงที่บริษัทยืนยันแล้ว: ประสบการณ์ 10 ปี (บริษัทแจ้ง) ·
+                 ปรึกษาฟรี (มีในเว็บเดิมของบริษัท) · รายงานผล/PM (ขอบเขตงานบริการจริง) */}
+          <ul className="mt-5 grid gap-2 sm:grid-cols-3 sm:gap-4">
+            {["ทีมวิศวกรประสบการณ์กว่า 10 ปี", "ให้คำปรึกษาก่อนตัดสินใจ ฟรี", "รายงานผลและบริการ PM หลังส่งมอบ"].map((t) => (
+              <li key={t} className="flex items-start gap-2 text-sm font-medium text-slate-700">
+                <CheckCircle2 aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-red-600" />
+                {t}
+              </li>
+            ))}
+          </ul>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href="/quotation" size="lg">
@@ -82,6 +93,7 @@ export default function Hero() {
                       (ทิ้ง JS/CSS ที่โหลดไว้แล้ว) แทนที่จะสลับหน้าทันทีแบบ SPA */}
                   <Link
                     href={`/services/${s.slug}`}
+                    prefetch={false}
                     className="text-sm font-medium text-slate-700 underline-offset-4 transition-colors hover:text-red-600 hover:underline"
                   >
                     {s.name}

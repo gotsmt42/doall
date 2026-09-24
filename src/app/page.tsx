@@ -5,6 +5,7 @@ import Hero from "@/sections/Hero";
 import ServicesGrid from "@/sections/ServicesGrid";
 import Stats from "@/sections/Stats";
 import WhyUs from "@/sections/WhyUs";
+import { getContent } from "@/lib/cms";
 import { pageMetadata } from "@/lib/seo";
 
 /**
@@ -20,15 +21,19 @@ export const metadata = pageMetadata({
   path: "/",
 });
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { settings, projects, brands } = await getContent();
   return (
     <>
       <Hero />
-      <Stats />
+      {/* ⚠️ ซ่อน/แสดงได้จากหลังบ้าน (เว็บไซต์บริษัท → การแสดงผล) */}
+      {settings.showStats && settings.stats.length > 0 && <Stats stats={settings.stats} />}
       <ServicesGrid />
       <WhyUs />
-      <FeaturedProjects />
-      <Brands />
+      {/* ⚠️ ยังไม่มีผลงานที่เผยแพร่ = ไม่แสดงส่วนนี้บนหน้าแรกเลย — กล่อง "กำลังรวบรวมผลงาน"
+          บนหน้าแรกทำให้บริษัทดูเหมือนยังไม่มีผลงาน (หน้า /projects ยังแสดงข้อความนั้นตามปกติ) */}
+      {settings.showProjects && projects.length > 0 && <FeaturedProjects projects={projects} />}
+      {settings.showBrands && brands.length > 0 && <Brands brands={brands} />}
       <CtaBand />
     </>
   );

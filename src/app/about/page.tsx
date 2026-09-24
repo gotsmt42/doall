@@ -4,9 +4,10 @@ import { Building2, Compass, Handshake, MapPin, ShieldCheck, Sparkles, Target } 
 import ServiceIcon from "@/components/ServiceIcon";
 import { Badge, Card, CheckList, Container, Section, SectionHeading } from "@/components/ui";
 import { ABOUT } from "@/data/about";
-import { COMPANY } from "@/data/company";
+import { COMPANY, fullAddress } from "@/data/company";
 import { SERVICES } from "@/data/services";
 import Breadcrumb, { PageHeader } from "@/layouts/Breadcrumb";
+import { getContent } from "@/lib/cms";
 import { pageMetadata } from "@/lib/seo";
 import { CtaBand } from "@/sections/BrandsAndCta";
 
@@ -14,14 +15,15 @@ export const metadata = pageMetadata({
   title: "เกี่ยวกับเรา — ประวัติบริษัท วิสัยทัศน์ และพันธกิจ",
   description:
     `${COMPANY.nameTh} ก่อตั้งเมื่อ ${COMPANY.foundedTh} รับออกแบบ จำหน่าย ติดตั้ง และบำรุงรักษาระบบ Fire Alarm ` +
-    "CCTV, Access Control, Network และงานระบบอาคาร ดูแลโดยทีมวิศวกรประสบการณ์กว่า 10 ปี",
+    "CCTV, Access Control, Network และ Fire Pump ดูแลโดยทีมวิศวกรประสบการณ์กว่า 10 ปี",
   path: "/about",
   keywords: ["ประวัติบริษัท", "ผู้รับเหมางานระบบ", "บริษัทรับเหมางานระบบ นนทบุรี", "DO ALL ARCHITECT AND ENGINEERING"],
 });
 
 const POLICY_ICONS = [Handshake, ShieldCheck, Sparkles] as const;
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const { settings } = await getContent();
   return (
     <>
       <Breadcrumb items={[{ name: "เกี่ยวกับเรา", href: "/about" }]} />
@@ -36,7 +38,7 @@ export default function AboutPage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">
-              <SectionHeading eyebrow="ประวัติบริษัท" title="ผู้รับเหมางานระบบอาคารแบบครบวงจร" />
+              <SectionHeading eyebrow="ประวัติบริษัท" title="ผู้รับเหมางานระบบแบบครบวงจร" />
               <div className="mt-6 space-y-5 text-base leading-[1.9] text-slate-600">
                 {ABOUT.history.map((p) => <p key={p.slice(0, 24)}>{p}</p>)}
               </div>
@@ -52,7 +54,8 @@ export default function AboutPage() {
                     ["ชื่อภาษาอังกฤษ", COMPANY.nameEn],
                     ["วันที่ก่อตั้ง", COMPANY.foundedTh],
                     ["เลขประจำตัวผู้เสียภาษี", COMPANY.taxId],
-                    ["ที่ตั้งสำนักงานใหญ่", `${COMPANY.address.street} ${COMPANY.address.subDistrict} ${COMPANY.address.district} ${COMPANY.address.province} ${COMPANY.address.postalCode}`],
+                    ["ที่ตั้งออฟฟิศ", fullAddress(COMPANY.office)],
+                    ["สำนักงานใหญ่", fullAddress(COMPANY.address)],
                   ].map(([k, v]) => (
                     <div key={k} className="grid gap-1 border-b border-slate-100 pb-4 last:border-0 last:pb-0 sm:grid-cols-[9.5rem_1fr] sm:gap-4">
                       <dt className="text-slate-500">{k}</dt>
@@ -116,7 +119,7 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="ความเชี่ยวชาญของเรา"
             title="งานระบบที่เรารับผิดชอบ"
-            description="ครอบคลุมทั้งงานระบบความปลอดภัยและงานระบบอาคาร จึงดูแลได้ทั้งโครงการในผู้รับเหมารายเดียว"
+            description="ครอบคลุมระบบความปลอดภัยและระบบป้องกันอัคคีภัย จึงดูแลได้ทั้งโครงการในผู้รับเหมารายเดียว"
           />
           <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map((s) => (
@@ -140,11 +143,11 @@ export default function AboutPage() {
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <SectionHeading
               eyebrow="พื้นที่ให้บริการ"
-              title="สำนักงานใหญ่ที่ปากเกร็ด นนทบุรี"
+              title="ออฟฟิศที่รามอินทรา กรุงเทพฯ"
               description="ให้บริการในกรุงเทพมหานครและปริมณฑลเป็นหลัก สำหรับโครงการในจังหวัดอื่น ติดต่อสอบถามเพื่อประเมินตามขนาดงาน"
             />
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {COMPANY.serviceAreas.map((a) => (
+              {settings.serviceAreas.map((a) => (
                 <li key={a} className="flex items-center gap-2 rounded-lg border border-slate-200 px-3.5 py-3 text-sm font-medium text-slate-700">
                   <MapPin aria-hidden="true" className="size-4 shrink-0 text-red-600" />
                   {a}

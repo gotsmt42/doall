@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 
 import { Container } from "@/components/ui";
-import { COMPANY } from "@/data/company";
 
 /**
  * ตัวเลขของบริษัทบนหน้าแรก พร้อมการนับขึ้น
@@ -14,19 +13,21 @@ import { COMPANY } from "@/data/company";
  * ⚠️ เริ่มนับเมื่อเลื่อนมาถึงเท่านั้น ไม่ใช่นับตั้งแต่โหลดหน้า ไม่งั้นคนที่เลื่อนลงมาทีหลัง
  *    จะเห็นแค่เลขนิ่งๆ แล้วไม่รู้ว่ามีแอนิเมชัน
  */
-export default function Stats() {
+export default function Stats({ stats }: { stats: { value: number; suffix: string; label: string; note: string }[] }) {
   return (
     <section className="border-b border-slate-200 bg-slate-50">
       <Container className="py-12 sm:py-14">
         <dl className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
-          {COMPANY.stats.map((s, i) => (
-            <div key={s.label} data-reveal style={{ "--reveal-delay": `${i * 70}ms` } as React.CSSProperties}>
-              <dd className="text-3xl font-bold text-slate-900 tabular-nums sm:text-4xl">
+          {stats.map((s, i) => (
+            // ⚠️ <dl> ต้องเรียง <dt> ก่อน <dd> และห้ามมี <p> ปน (Lighthouse Accessibility ตัดคะแนน)
+            //    ลำดับที่ตาเห็น (ตัวเลขก่อน) จัดด้วย CSS order แทนการสลับลำดับใน HTML
+            <div key={s.label} data-reveal className="flex flex-col" style={{ "--reveal-delay": `${i * 70}ms` } as React.CSSProperties}>
+              <dt className="order-2 mt-2 text-sm font-semibold text-slate-900">{s.label}</dt>
+              <dd className="order-1 text-3xl font-bold text-slate-900 tabular-nums sm:text-4xl">
                 <CountUp to={s.value} />
                 <span className="text-red-600">{s.suffix}</span>
               </dd>
-              <dt className="mt-2 text-sm font-semibold text-slate-900">{s.label}</dt>
-              <p className="mt-1 text-xs leading-relaxed text-slate-500">{s.note}</p>
+              {s.note && <dd className="order-3 mt-1 text-xs leading-relaxed text-slate-500">{s.note}</dd>}
             </div>
           ))}
         </dl>

@@ -1,4 +1,4 @@
-import { COMPANY, addressLine } from "@/data/company";
+import { COMPANY, addressLine, type ContactInfo } from "@/data/company";
 
 /**
  * นโยบายความเป็นส่วนตัว / เงื่อนไขการใช้งาน / นโยบายคุกกี้
@@ -15,12 +15,15 @@ import { COMPANY, addressLine } from "@/data/company";
 export type LegalSection = { heading: string; paragraphs?: readonly string[]; list?: readonly string[] };
 export type LegalDoc = { title: string; description: string; updatedAt: string; sections: readonly LegalSection[] };
 
-const contactLine = () =>
-  COMPANY.email
-    ? `อีเมล ${COMPANY.email}${COMPANY.tel ? ` หรือโทร ${COMPANY.tel}` : ""} หรือส่งจดหมายถึง ${addressLine()}`
-    : `ส่งจดหมายถึง ${COMPANY.nameTh} ${addressLine()}${COMPANY.tel ? ` หรือโทร ${COMPANY.tel}` : ""}`;
+/** ⚠️ ช่องทางติดต่อมาจากหลังบ้าน — นโยบายต้องบอกช่องทางที่ใช้ได้จริงในวันนั้นเสมอ */
+const contactLine = (c: ContactInfo) => {
+  const tel = c.tel || c.telRaw;
+  return c.email
+    ? `อีเมล ${c.email}${tel ? ` หรือโทร ${tel}` : ""} หรือส่งจดหมายถึง ${addressLine()}`
+    : `ส่งจดหมายถึง ${COMPANY.nameTh} ${addressLine()}${tel ? ` หรือโทร ${tel}` : ""}`;
+};
 
-export const PRIVACY: LegalDoc = {
+export const privacyDoc = (c: ContactInfo): LegalDoc => ({
   title: "นโยบายความเป็นส่วนตัว",
   description: `วิธีที่ ${COMPANY.nameTh} เก็บ ใช้ และดูแลข้อมูลส่วนบุคคลของผู้ใช้เว็บไซต์ ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562`,
   updatedAt: "2026-09-24",
@@ -77,12 +80,12 @@ export const PRIVACY: LegalDoc = {
     },
     {
       heading: "ติดต่อเรื่องข้อมูลส่วนบุคคล",
-      paragraphs: [`หากต้องการใช้สิทธิข้างต้นหรือมีข้อสงสัยเกี่ยวกับนโยบายนี้ กรุณา${contactLine()}`],
+      paragraphs: [`หากต้องการใช้สิทธิข้างต้นหรือมีข้อสงสัยเกี่ยวกับนโยบายนี้ กรุณา${contactLine(c)}`],
     },
   ],
-};
+});
 
-export const TERMS: LegalDoc = {
+export const termsDoc = (c: ContactInfo): LegalDoc => ({
   title: "เงื่อนไขการใช้งานเว็บไซต์",
   description: `เงื่อนไขการใช้งานเว็บไซต์ของ ${COMPANY.nameTh}`,
   updatedAt: "2026-09-24",
@@ -114,11 +117,11 @@ export const TERMS: LegalDoc = {
       heading: "การเปลี่ยนแปลงเงื่อนไข",
       paragraphs: ["บริษัทอาจปรับปรุงเงื่อนไขนี้เป็นครั้งคราว ฉบับล่าสุดจะแสดงบนหน้านี้พร้อมวันที่ปรับปรุง"],
     },
-    { heading: "ติดต่อเรา", paragraphs: [`หากมีข้อสงสัยเกี่ยวกับเงื่อนไขนี้ กรุณา${contactLine()}`] },
+    { heading: "ติดต่อเรา", paragraphs: [`หากมีข้อสงสัยเกี่ยวกับเงื่อนไขนี้ กรุณา${contactLine(c)}`] },
   ],
-};
+});
 
-export const COOKIES: LegalDoc = {
+export const cookiesDoc = (c: ContactInfo): LegalDoc => ({
   title: "นโยบายคุกกี้",
   description: `การใช้คุกกี้บนเว็บไซต์ของ ${COMPANY.nameTh}`,
   updatedAt: "2026-09-24",
@@ -141,6 +144,6 @@ export const COOKIES: LegalDoc = {
         "ท่านสามารถลบหรือปิดการใช้คุกกี้ได้จากการตั้งค่าเบราว์เซอร์ของท่าน การปิดคุกกี้วัดผลและการตลาดไม่มีผลต่อการใช้งานเว็บไซต์นี้",
       ],
     },
-    { heading: "ติดต่อเรา", paragraphs: [`หากมีข้อสงสัยเกี่ยวกับการใช้คุกกี้ กรุณา${contactLine()}`] },
+    { heading: "ติดต่อเรา", paragraphs: [`หากมีข้อสงสัยเกี่ยวกับการใช้คุกกี้ กรุณา${contactLine(c)}`] },
   ],
-};
+});

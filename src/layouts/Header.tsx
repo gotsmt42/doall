@@ -19,7 +19,13 @@ import { MAIN_NAV } from "@/data/nav";
  * ⚠️ ปุ่ม "ขอใบเสนอราคา" ต้องอยู่บนแถบบนทุกหน้า — เป็นสิ่งเดียวที่เราอยากให้ลูกค้าทำ
  *    และต้องอยู่ที่เดิมเสมอไม่ว่าอยู่หน้าไหน (การโต้ตอบที่คาดเดาได้)
  */
-export default function Header() {
+/**
+ * ⚠️ รับเบอร์โทรและตัวเลือกเมนูเป็น props จาก layout (Server Component ที่ดึงข้อมูลจากหลังบ้าน)
+ *    ไฟล์นี้เป็น Client Component จึงดึงข้อมูลจาก API เองไม่ได้โดยไม่เพิ่ม request ฝั่งเบราว์เซอร์
+ */
+export default function Header({ tel, telRaw, showArticles }: { tel: string; telRaw: string; showArticles: boolean }) {
+  // ⚠️ ปิด "บทความ" จากหลังบ้านได้ — ตอนยังไม่มีบทความ เมนูที่พาไปหน้าว่างทำให้เว็บดูไม่เสร็จ
+  const nav = MAIN_NAV.filter((i) => showArticles || i.href !== "/articles");
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -27,7 +33,7 @@ export default function Header() {
   const servicesRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const services = MAIN_NAV.find((i) => i.children)?.children ?? [];
+  const services = nav.find((i) => i.children)?.children ?? [];
 
   // เปลี่ยนหน้าแล้วต้องปิดเมนูเสมอ ไม่งั้นเมนูค้างทับหน้าใหม่
   // ⚠️ ทำระหว่าง render (เทียบกับ path ก่อนหน้า) ไม่ใช่ใน useEffect — setState ใน effect ทำให้
@@ -130,7 +136,7 @@ export default function Header() {
 
           {/* ── เมนูจอใหญ่ ── */}
           <nav aria-label="เมนูหลัก" className="hidden items-center gap-1 lg:flex">
-            {MAIN_NAV.map((item) =>
+            {nav.map((item) =>
               item.children ? (
                 <div key={item.href} ref={servicesRef} className="relative" onMouseEnter={openServices} onMouseLeave={scheduleCloseServices}>
                   <button
@@ -190,13 +196,13 @@ export default function Header() {
           <div className="flex items-center gap-2">
             {/* เบอร์โทรบนแถบบน — ลูกค้า B2B จำนวนมากโทรมากกว่ากรอกฟอร์ม
                 ⚠️ ขึ้นเฉพาะเมื่อมีเบอร์จริง (ดู company.ts) */}
-            {COMPANY.telRaw && (
+            {telRaw && (
               <a
-                href={`tel:${COMPANY.telRaw}`}
+                href={`tel:${telRaw}`}
                 className="hidden items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:text-red-600 xl:inline-flex"
               >
                 <Phone aria-hidden="true" className="size-4" />
-                {COMPANY.tel}
+                {tel || telRaw}
               </a>
             )}
             <ButtonLink href="/quotation" className="hidden sm:inline-flex">
@@ -224,7 +230,7 @@ export default function Header() {
               ถ้าไม่จำกัด ปุ่มล่างสุดจะตกจอจนกดไม่ได้เลย */}
           <nav aria-label="เมนูหลัก (มือถือ)" className="max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
             <Container className="py-3">
-              {MAIN_NAV.map((item) => (
+              {nav.map((item) => (
                 <div key={item.href}>
                   <Link
                     href={item.href}

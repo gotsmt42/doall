@@ -29,7 +29,7 @@ export const COMPANY = {
   foundedTh: "25 พฤษภาคม 2563",
 
   /** คำอธิบายหนึ่งประโยคที่ใช้ซ้ำทั้ง meta description และ JSON-LD */
-  tagline: "ผู้รับเหมางานระบบวิศวกรรมอาคารครบวงจร ตั้งแต่ออกแบบ ติดตั้ง จนถึงบำรุงรักษา",
+  tagline: "ผู้รับเหมางานระบบความปลอดภัยและป้องกันอัคคีภัยครบวงจร ตั้งแต่ออกแบบ ติดตั้ง จนถึงบำรุงรักษา",
   /**
    * ⚠️ บริษัทจดทะเบียนรวมงานระบบไฟฟ้าไว้ด้วย แต่ **ยังไม่นำเสนอบนเว็บในช่วงแรกตามที่บริษัทสั่ง**
    *    (24 ก.ย. 2569: "เบื้องต้นให้ตัดระบบไฟฟ้า Electrical ออกก่อน") — เปิดกลับได้ภายหลัง
@@ -37,12 +37,16 @@ export const COMPANY = {
    */
   descriptionTh:
     "รับออกแบบ จำหน่าย ติดตั้ง และบำรุงรักษางานระบบ Fire Alarm, CCTV, Access Control, Network " +
-    "และงานระบบอาคาร สำหรับโรงงาน หน่วยงานราชการ คลังสินค้า " +
+    "และ Fire Pump สำหรับโรงงาน หน่วยงานราชการ คลังสินค้า " +
     "อาคารพาณิชย์ และสำนักงาน ดูแลโดยทีมวิศวกรประสบการณ์กว่า 10 ปี",
 
   /** กลุ่มลูกค้าตามที่บริษัทระบุ */
   customerTypes: ["โรงงานอุตสาหกรรม", "หน่วยงานราชการ", "คลังสินค้า", "องค์กรขนาดใหญ่", "อาคารพาณิชย์", "สำนักงาน"],
 
+  /**
+   * สำนักงานใหญ่ตามทะเบียนนิติบุคคล — ใช้กับข้อมูลทางกฎหมาย/ภาษี (Organization ใน JSON-LD)
+   * ⚠️ ห้ามเปลี่ยนเป็นที่อยู่ออฟฟิศ — ที่อยู่ในใบกำกับภาษีต้องตรงกับที่จดทะเบียนไว้
+   */
   address: {
     label: "สำนักงานใหญ่",
     street: "68/155 หมู่ 3 ถนนชัยพฤกษ์",
@@ -51,13 +55,22 @@ export const COMPANY = {
     province: "จังหวัดนนทบุรี",
     postalCode: "11120",
     country: "TH",
-    /**
-     * ⚠️ TODO(ข้อมูลจริง): พิกัดนี้เป็นจุดกลางของอำเภอปากเกร็ด ไม่ใช่หน้าสำนักงานจริง
-     * ใช้ชั่วคราวให้แผนที่แสดงพื้นที่ถูก — ต้องแทนด้วยพิกัดจริงก่อนเปิดเว็บ
-     * (เปิด Google Maps → คลิกขวาที่หมุด → ตัวเลขชุดแรกคือ latitude)
-     */
-    lat: 13.9125,
-    lng: 100.4978,
+  },
+
+  /**
+   * ✅ ที่ตั้งออฟฟิศ (บริษัทแจ้ง 24 ก.ย. 2569) — ที่ทำงานจริงที่ลูกค้าติดต่อได้
+   *    ใช้เป็นแผนที่หน้า "ติดต่อเรา" และที่อยู่ของ ProfessionalService ใน JSON-LD (ผลค้นหาแบบท้องถิ่น)
+   * ⚠️ TODO(ข้อมูลจริง): ยังไม่มีพิกัดจริง — ถอดพิกัดประมาณเดิม (ปากเกร็ด) ออกแล้ว เพราะพิกัดผิด
+   *    แย่กว่าไม่มี (Google จะปักหมุดผิดที่) ได้พิกัดจริงแล้วให้เพิ่ม lat/lng ที่นี่ และใน jsonld.ts
+   */
+  office: {
+    label: "ที่ตั้งออฟฟิศ",
+    street: "161 ซอยรามอินทรา 58 แยก 3-13",
+    subDistrict: "แขวงรามอินทรา",
+    district: "เขตคันนายาว",
+    province: "กรุงเทพมหานคร",
+    postalCode: "10230",
+    country: "TH",
   },
 
   /**
@@ -111,10 +124,21 @@ export const COMPANY = {
 } as const;
 
 /** ที่อยู่แบบบรรทัดเดียว — ใช้ในฟุตเตอร์ JSON-LD และหน้าติดต่อ */
-export const addressLine = (): string => {
-  const a = COMPANY.address;
-  return `${a.label} : ${a.street} ${a.subDistrict} ${a.district} ${a.province} ${a.postalCode}`;
-};
+type Address = { label: string; street: string; subDistrict: string; district: string; province: string; postalCode: string };
+
+/** ที่อยู่แบบบรรทัดเดียว ไม่มีป้ายนำหน้า */
+export const fullAddress = (a: Address): string => `${a.street} ${a.subDistrict} ${a.district} ${a.province} ${a.postalCode}`;
+
+/** สำนักงานใหญ่แบบบรรทัดเดียว (มีป้ายนำหน้า) — ใช้ในเอกสารทางกฎหมาย/นโยบาย */
+export const addressLine = (): string => `${COMPANY.address.label} : ${fullAddress(COMPANY.address)}`;
+
+/** ที่ตั้งทั้งสองแห่ง — ออฟฟิศขึ้นก่อน เพราะเป็นที่ที่ลูกค้าติดต่อจริง */
+export const locations = (): { label: string; line: string; mapUrl: string }[] =>
+  [COMPANY.office, COMPANY.address].map((a) => ({
+    label: a.label,
+    line: fullAddress(a),
+    mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress(a))}`,
+  }));
 
 export type ContactChannel = {
   key: "tel" | "email" | "line" | "facebook";
@@ -126,27 +150,22 @@ export type ContactChannel = {
   external: boolean;
 };
 
+/** ข้อมูลติดต่อที่หน้าเว็บใช้ — มาจากหลังบ้าน (ตั้งค่าองค์กร) ผ่าน lib/cms.ts */
+export type ContactInfo = { tel: string; telRaw: string; email: string; lineUrl: string; facebookUrl: string };
+
 /**
  * ช่องทางติดต่อที่ "มีข้อมูลจริงแล้วเท่านั้น"
  *
  * ⚠️ นี่คือจุดที่ทำให้เว็บเปิดใช้งานได้ทั้งที่ข้อมูลยังไม่ครบ — ช่องทางไหนยังว่าง
  *    จะหายไปจากทุกที่พร้อมกัน (แถบบน ฟุตเตอร์ ปุ่มลอย หน้าติดต่อ) โดยไม่ต้องแก้ทีละหน้า
  *    ตรงข้ามกับการปล่อยให้ขึ้นเป็นปุ่มที่กดแล้วไม่ไปไหน ซึ่งทำลายความน่าเชื่อถือทันที
+ * ⚠️ ค่ามาจาก "ตั้งค่าองค์กร" ในแอป da-app (Super Admin) — แก้เบอร์ที่นั่นที่เดียว เว็บเปลี่ยนตาม
  */
-export const contactChannels = (): ContactChannel[] => {
+export const contactChannels = (c: ContactInfo): ContactChannel[] => {
   const out: ContactChannel[] = [];
-  if (COMPANY.telRaw) {
-    out.push({ key: "tel", label: "โทรศัพท์", value: COMPANY.tel || COMPANY.telRaw, href: `tel:${COMPANY.telRaw}`, external: false });
-  }
-  if (COMPANY.email) {
-    out.push({ key: "email", label: "อีเมล", value: COMPANY.email, href: `mailto:${COMPANY.email}`, external: false });
-  }
-  if (COMPANY.lineUrl || COMPANY.lineId) {
-    const href = COMPANY.lineUrl || `https://line.me/ti/p/~${COMPANY.lineId}`;
-    out.push({ key: "line", label: "LINE", value: COMPANY.lineId || "แชทผ่าน LINE", href, external: true });
-  }
-  if (COMPANY.facebookUrl) {
-    out.push({ key: "facebook", label: "Facebook", value: "Facebook Page", href: COMPANY.facebookUrl, external: true });
-  }
+  if (c.telRaw) out.push({ key: "tel", label: "โทรศัพท์", value: c.tel || c.telRaw, href: `tel:${c.telRaw}`, external: false });
+  if (c.email) out.push({ key: "email", label: "อีเมล", value: c.email, href: `mailto:${c.email}`, external: false });
+  if (c.lineUrl) out.push({ key: "line", label: "LINE", value: "แชทผ่าน LINE", href: c.lineUrl, external: true });
+  if (c.facebookUrl) out.push({ key: "facebook", label: "Facebook", value: "Facebook Page", href: c.facebookUrl, external: true });
   return out;
 };

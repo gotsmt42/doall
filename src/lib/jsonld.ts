@@ -1,4 +1,4 @@
-import { COMPANY, contactChannels } from "@/data/company";
+import { COMPANY, contactChannels, type ContactInfo } from "@/data/company";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
 /**
@@ -18,8 +18,8 @@ type Json = Record<string, unknown>;
 const absolute = (path: string) => (path.startsWith("http") ? path : `${SITE_URL}${path}`);
 
 /** ตัวบริษัทเอง — ใส่ครั้งเดียวที่ layout หลัก ทุกหน้าจึงได้ไปด้วย */
-export function organizationJsonLd(): Json {
-  const channels = contactChannels();
+export function organizationJsonLd(contact: ContactInfo): Json {
+  const channels = contactChannels(contact);
   const sameAs = channels.filter((c) => c.external).map((c) => c.href);
 
   return {
@@ -41,12 +41,12 @@ export function organizationJsonLd(): Json {
       addressCountry: COMPANY.address.country,
     },
     // ⚠️ ใส่เฉพาะช่องทางที่มีข้อมูลจริง — contactPoint ที่ไม่มีเบอร์คือ markup ที่ไม่ถูกต้อง
-    ...(COMPANY.telRaw
+    ...(contact.telRaw
       ? {
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: COMPANY.telRaw,
+              telephone: contact.telRaw,
               contactType: "sales",
               areaServed: "TH",
               availableLanguage: ["th", "en"],
@@ -63,7 +63,7 @@ export function organizationJsonLd(): Json {
  * ⚠️ แยกจาก Organization โดยตั้งใจ: Organization คือ "นิติบุคคล" ส่วนตัวนี้คือ "สถานที่ให้บริการ"
  *    ถ้ายุบรวมกัน ข้อมูลเวลาทำการกับพิกัดจะไปผูกกับนิติบุคคลซึ่งผิดความหมาย
  */
-export function localBusinessJsonLd(): Json {
+export function localBusinessJsonLd(contact: ContactInfo, serviceAreas: readonly string[]): Json {
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -71,19 +71,20 @@ export function localBusinessJsonLd(): Json {
     name: COMPANY.nameTh,
     image: absolute("/og/default.png"),
     url: SITE_URL,
-    ...(COMPANY.telRaw ? { telephone: COMPANY.telRaw } : {}),
-    ...(COMPANY.email ? { email: COMPANY.email } : {}),
+    ...(contact.telRaw ? { telephone: contact.telRaw } : {}),
+    ...(contact.email ? { email: contact.email } : {}),
     priceRange: "$$",
+    // ⚠️ ที่ตั้งออฟฟิศ (ที่ให้บริการจริง) ไม่ใช่สำนักงานใหญ่ตามทะเบียน — ดูเหตุผลที่ data/company.ts
+    // ⚠️ ยังไม่ใส่ geo จนกว่าจะมีพิกัดจริง — พิกัดผิดทำให้ Google ปักหมุดผิดที่
     address: {
       "@type": "PostalAddress",
-      streetAddress: `${COMPANY.address.street} ${COMPANY.address.subDistrict}`,
-      addressLocality: COMPANY.address.district,
-      addressRegion: COMPANY.address.province,
-      postalCode: COMPANY.address.postalCode,
-      addressCountry: COMPANY.address.country,
+      streetAddress: `${COMPANY.office.street} ${COMPANY.office.subDistrict}`,
+      addressLocality: COMPANY.office.district,
+      addressRegion: COMPANY.office.province,
+      postalCode: COMPANY.office.postalCode,
+      addressCountry: COMPANY.office.country,
     },
-    geo: { "@type": "GeoCoordinates", latitude: COMPANY.address.lat, longitude: COMPANY.address.lng },
-    areaServed: COMPANY.serviceAreas.map((a) => ({ "@type": "AdministrativeArea", name: a })),
+    areaServed: serviceAreas.map((a) => ({ "@type": "AdministrativeArea", name: a })),
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",

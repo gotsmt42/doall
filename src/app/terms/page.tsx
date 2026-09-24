@@ -1,14 +1,15 @@
-import { TERMS } from "@/data/legal";
+import type { Metadata } from "next";
+
+import { termsDoc } from "@/data/legal";
 import LegalPage from "@/layouts/LegalPage";
+import { getContent } from "@/lib/cms";
 import { pageMetadata } from "@/lib/seo";
 
-export const metadata = pageMetadata({
-  title: TERMS.title,
-  description: TERMS.description,
-  path: "/terms",
-  keywords: ["เงื่อนไขการใช้งาน"],
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const doc = termsDoc((await getContent()).contact);
+  return pageMetadata({ title: doc.title, description: doc.description, path: "/terms", keywords: ["เงื่อนไขการใช้งาน"] });
+}
 
-export default function Page() {
-  return <LegalPage doc={TERMS} href="/terms" />;
+export default async function Page() {
+  return <LegalPage doc={termsDoc((await getContent()).contact)} href="/terms" />;
 }

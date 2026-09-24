@@ -21,6 +21,9 @@ export const PRODUCT_CATEGORIES: readonly { value: ProductCategory; label: strin
   { value: "accessories", label: "อุปกรณ์เสริม" },
 ] as const;
 
+/** รูปหนึ่งรูป — มาจากระบบหลังบ้าน (Cloudinary) · width/height ใช้กันหน้ากระตุกตอนรูปโหลด (CLS) */
+export type SiteImage = { src: string; alt: string; width: number; height: number };
+
 export type Product = {
   id: string;
   category: ProductCategory;
@@ -35,6 +38,11 @@ export type Product = {
   specs: readonly { label: string; value: string }[];
   /** ลิงก์เอกสารข้อมูลจำเพาะของผู้ผลิต — ว่างได้ (ไม่แสดงปุ่ม) */
   datasheet: string;
+  /**
+   * ✅ บริษัทสั่ง "สินค้าต้องมีรูปภาพ" — ระบบหลังบ้านไม่ยอมให้เผยแพร่สินค้าที่ไม่มีรูป
+   * ⚠️ เนื้อหาตั้งต้นในไฟล์นี้ไม่มีรูป (ไม่ใช้ภาพสต็อกที่ไม่รู้ที่มา) — ใช้เฉพาะตอนหลังบ้านล่ม
+   */
+  images?: readonly SiteImage[];
 };
 
 export const PRODUCTS: readonly Product[] = [
@@ -59,7 +67,7 @@ export const PRODUCTS: readonly Product[] = [
     category: "fire-alarm",
     type: "ตู้ควบคุม",
     name: "ตู้ควบคุมระบบแจ้งเหตุเพลิงไหม้แบบแบ่งโซน",
-    brand: "Honeywell",
+    brand: "Notifier",
     model: "",
     description: "ตู้ควบคุมแบบ Conventional แบ่งพื้นที่เป็นโซน เหมาะกับอาคารขนาดเล็กและงบประมาณจำกัด",
     specs: [
@@ -73,7 +81,7 @@ export const PRODUCTS: readonly Product[] = [
     category: "fire-alarm",
     type: "อุปกรณ์ตรวจจับ",
     name: "อุปกรณ์ตรวจจับควัน (Smoke Detector)",
-    brand: "Honeywell",
+    brand: "Notifier",
     model: "",
     description: "ตรวจจับควันในระยะเริ่มต้นของเพลิงไหม้ เหมาะกับห้องทำงาน ทางเดิน และห้องพัก",
     specs: [
@@ -101,7 +109,7 @@ export const PRODUCTS: readonly Product[] = [
     category: "fire-alarm",
     type: "อุปกรณ์แจ้งเหตุ",
     name: "อุปกรณ์แจ้งเหตุด้วยมือ (Manual Pull Station)",
-    brand: "Honeywell",
+    brand: "Edwards",
     model: "",
     description: "ให้ผู้พบเหตุแจ้งเพลิงไหม้ได้ทันที ติดตั้งตามเส้นทางหนีไฟและใกล้ทางออก",
     specs: [{ label: "การใช้งาน", value: "ดึงหรือกดเพื่อแจ้งเหตุ" }],

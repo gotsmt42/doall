@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
 
@@ -21,8 +22,13 @@ export default function ProjectCard({ project }: { project: Project }) {
       <Link href={`/projects/${project.slug}`} className="flex h-full flex-col">
         <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
           {cover ? (
-            // eslint-disable-next-line @next/next/no-img-element -- แทนที่ด้วย next/image เมื่อมีรูปจริงและรู้ขนาดแน่นอน
-            <img src={cover.src} alt={cover.alt} loading="lazy" className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+            <Image
+              src={cover.src}
+              alt={cover.alt}
+              fill
+              sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            />
           ) : (
             <PlaceholderArt />
           )}

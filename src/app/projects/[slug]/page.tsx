@@ -1,28 +1,36 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AlertTriangle, ArrowLeft, Calendar, CheckCircle2, Lightbulb, MapPin, User } from "lucide-react";
 
 import ProjectCard from "@/components/ProjectCard";
 import { Badge, ButtonLink, Card, CheckList, Container, Section, SectionHeading } from "@/components/ui";
-import { PROJECTS, projectBySlug } from "@/data/projects";
+import { getContent } from "@/lib/cms";
 import { serviceBySlug } from "@/data/services";
 import Breadcrumb from "@/layouts/Breadcrumb";
 import { pageMetadata } from "@/lib/seo";
 import { CtaBand } from "@/sections/BrandsAndCta";
 
-/** ⚠️ slug ที่ไม่มีจริง = 404 จริง (ดูเหตุผลที่ services/[slug]/page.tsx) */
-export const dynamicParams = false;
+/**
+ * ⚠️ dynamicParams = true (ตั้งเหมือนกันทุกหน้า [slug]) — ผลงาน/บทความเพิ่มจากหลังบ้านหลัง build แล้ว
+ *    ถ้าเป็น false รายการใหม่ทุกรายการจะ 404 จนกว่าจะ deploy ใหม่ ซึ่งทำให้ระบบหลังบ้านไร้ความหมาย
+ *    slug ที่ไม่มีจริงยังได้ 404 จริงจาก notFound() (ตรวจแล้วด้วย curl — ไม่ใช่ soft 404)
+ */
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return PROJECTS.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const { projects } = await getContent();
+  return projects.map((p) => ({ slug: p.slug }));
 }
+
+const findProject = async (slug: string) => (await getContent()).projects.find((p) => p.slug === slug);
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const project = projectBySlug(slug);
+  const project = await findProject(slug);
   if (!project) return {};
   return pageMetadata({
     title: project.title,
@@ -42,10 +50,11 @@ const thaiDate = (iso: string) => {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
-  const project = projectBySlug(slug);
+  const { projects } = await getContent();
+  const project = projects.find((p) => p.slug === slug);
   if (!project) notFound();
 
-  const others = PROJECTS.filter((p) => p.slug !== project.slug && p.systems.some((s) => project.systems.includes(s))).slice(0, 3);
+  const others = projects.filter((p) => p.slug !== project.slug && p.systems.some((s) => project.systems.includes(s))).slice(0, 3);
 
   const facts = [
     { icon: User, label: "ลูกค้า", value: project.customer || "ขอสงวนชื่อลูกค้า" },
@@ -113,9 +122,8 @@ export default async function ProjectDetailPage({ params }: Props) {
                     <h2 className="text-xl font-bold sm:text-2xl">ภาพหน้างาน</h2>
                     <ul className="mt-5 grid gap-4 sm:grid-cols-2">
                       {project.images.map((img) => (
-                        <li key={img.src} className="overflow-hidden rounded-xl border border-slate-200">
-                          {/* eslint-disable-next-line @next/next/no-img-element -- เปลี่ยนเป็น next/image เมื่อมีรูปจริงและรู้ขนาด */}
-                          <img src={img.src} alt={img.alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
+                        <li key={img.src} className="relative aspect-[4/3] overflow-hidden rounded-xl border border-slate-200">
+                          <Image src={img.src} alt={img.alt} fill sizes="(min-width: 640px) 420px, 100vw" className="object-cover" />
                         </li>
                       ))}
                     </ul>

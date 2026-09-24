@@ -2,12 +2,13 @@ import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
 
 import { JsonLd } from "@/components/ui";
-import { COMPANY } from "@/data/company";
+import { COMPANY, contactChannels } from "@/data/company";
 import Analytics from "@/layouts/Analytics";
 import FloatingContact from "@/layouts/FloatingContact";
 import Footer from "@/layouts/Footer";
 import Header from "@/layouts/Header";
 import Reveal from "@/layouts/Reveal";
+import { getContent } from "@/lib/cms";
 import { localBusinessJsonLd, organizationJsonLd, webSiteJsonLd } from "@/lib/jsonld";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import "@/styles/globals.css";
@@ -22,7 +23,10 @@ import "@/styles/globals.css";
  */
 const plexThai = IBM_Plex_Sans_Thai({
   subsets: ["thai", "latin"],
-  weight: ["400", "500", "600", "700"],
+  // ⚠️ 3 น้ำหนักพอ (เนื้อความ 400 · หัวข้อรอง 600 · หัวข้อ 700) — เดิมโหลด 4 น้ำหนัก (8 ไฟล์ 88 KB)
+  //    ฟอนต์ถูก preload ทุกไฟล์ แต่ละน้ำหนักที่ตัดออกลดของที่ต้องโหลดก่อนแสดงผลได้ราว 27 KB
+  //    ข้อความ font-medium (500) จะแสดงเป็น 400 ตามกฎการเลือกน้ำหนักของ CSS
+  weight: ["400", "600", "700"],
   display: "swap",
   variable: "--font-plex-thai",
   preload: true,
@@ -61,7 +65,11 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // ⚠️ ดึงครั้งเดียวต่อคำขอ (React cache) — หน้าและ component ลูกเรียกซ้ำก็ไม่ยิง API เพิ่ม
+  const { contact, settings } = await getContent();
+  const channels = contactChannels(contact);
+
   return (
     // ⚠️ data-scroll-behavior="smooth" จำเป็นใน Next.js 16 — globals.css ตั้ง scroll-behavior:smooth
     //    ไว้ให้ลิงก์ #anchor ในหน้าเดียวกันเลื่อนนุ่ม แต่ตั้งแต่ v16 Next จะ "ไม่" ปิดมันให้ตอน
@@ -71,16 +79,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-dvh flex-col">
         {/* ⚠️ ข้อมูลโครงสร้างระดับเว็บใส่ครั้งเดียวที่นี่ ทุกหน้าจึงได้ไปด้วย
             หน้าย่อยเพิ่มเฉพาะของตัวเอง (Service / Article / Breadcrumb) */}
-        <JsonLd data={[organizationJsonLd(), localBusinessJsonLd(), webSiteJsonLd()]} />
+        <JsonLd data={[organizationJsonLd(contact), localBusinessJsonLd(contact, settings.serviceAreas), webSiteJsonLd()]} />
 
-        <Header />
+        {/* ประกาศสั้นจากหลังบ้าน (เช่น วันหยุดยาว) — ว่าง = ไม่แสดง */}
+        {settings.announcement && (
+          <div role="status" className="bg-slate-900 px-5 py-2 text-center text-sm text-white" data-no-print>
+            {settings.announcement}
+          </div>
+        )}
+        <Header telRaw={contact.telRaw} tel={contact.tel} showArticles={settings.showArticles} />
         {/* ⚠️ id="main" คือปลายทางของลิงก์ "ข้ามไปยังเนื้อหาหลัก" บนแถบบน */}
         <main id="main" className="flex-1">
           {children}
         </main>
         <Footer />
 
-        <FloatingContact />
+        <FloatingContact channels={channels} />
         <Reveal />
         <Analytics />
       </body>

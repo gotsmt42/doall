@@ -1,14 +1,14 @@
 import ProjectCard from "@/components/ProjectCard";
 import { ButtonLink, Container, EmptyState, Section, SectionHeading } from "@/components/ui";
-import { PROJECTS } from "@/data/projects";
+import type { Project } from "@/data/projects";
 
 /**
  * ผลงานล่าสุดบนหน้าแรก
  * ⚠️ รองรับกรณี "ยังไม่มีผลงานให้แสดง" ไว้แล้ว — ถ้าลบข้อมูลตัวอย่างออกจนหมด
  *    ส่วนนี้จะขึ้นข้อความที่อ่านแล้วเข้าใจ พร้อมปุ่มติดต่อ แทนที่จะเป็นพื้นที่ว่างเปล่า
  */
-export default function FeaturedProjects() {
-  const featured = [...PROJECTS].sort((a, b) => b.completedAt.localeCompare(a.completedAt)).slice(0, 6);
+export default function FeaturedProjects({ projects }: { projects: readonly Project[] }) {
+  const featured = [...projects].sort((a, b) => b.completedAt.localeCompare(a.completedAt)).slice(0, 6);
 
   return (
     <Section>

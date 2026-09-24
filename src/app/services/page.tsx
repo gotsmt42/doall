@@ -9,10 +9,10 @@ import { pageMetadata } from "@/lib/seo";
 import { CtaBand } from "@/sections/BrandsAndCta";
 
 export const metadata = pageMetadata({
-  title: "บริการงานระบบ Fire Alarm, CCTV, Access Control, Network และงานระบบอาคาร",
+  title: "บริการงานระบบ Fire Alarm, Fire Pump, CCTV, Access Control และ Network",
   description:
     "บริการออกแบบ ติดตั้ง ทดสอบ และบำรุงรักษางานระบบแจ้งเหตุเพลิงไหม้ กล้องวงจรปิด ระบบควบคุมการเข้าออก " +
-    "ระบบเครือข่าย และงานระบบประปา สุขาภิบาล และเครื่องกล พร้อมบริการ PM/CM",
+    "ระบบเครือข่าย และระบบเครื่องสูบน้ำดับเพลิง (Fire Pump) พร้อมบริการ PM/CM",
   path: "/services",
   keywords: ["บริการงานระบบ", "รับติดตั้งระบบ", "ผู้รับเหมางานระบบ"],
 });
@@ -34,7 +34,7 @@ export default function ServicesPage() {
       <PageHeader
         eyebrow="บริการของเรา"
         title="งานระบบที่เรารับผิดชอบตั้งแต่ออกแบบจนส่งมอบ"
-        description="ครอบคลุมทั้งระบบความปลอดภัยและงานระบบอาคาร ดูแลโดยทีมวิศวกรที่มีประสบการณ์ทำงานมากกว่า 10 ปี"
+        description="ครอบคลุมระบบความปลอดภัยและระบบป้องกันอัคคีภัย ดูแลโดยทีมวิศวกรที่มีประสบการณ์ทำงานมากกว่า 10 ปี"
       />
 
       <Section>

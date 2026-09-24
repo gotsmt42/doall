@@ -26,6 +26,8 @@ export type Article = {
   keywords: readonly string[];
   publishedAt: string;
   updatedAt?: string;
+  /** รูปปก (ไม่บังคับ) — มาจากระบบหลังบ้าน */
+  cover?: { src: string; alt: string; width: number; height: number };
   /** นาทีโดยประมาณ — คำนวณจากความยาวจริงด้วย readingMinutes() ไม่ต้องกรอกเอง */
   body: readonly ArticleBlock[];
 };
@@ -149,7 +151,6 @@ export const ARTICLES: readonly Article[] = [
   },
 ] as const;
 
-export const articleBySlug = (slug: string) => ARTICLES.find((a) => a.slug === slug);
 
 /** เวลาอ่านโดยประมาณ — คนไทยอ่านราว 250–300 ตัวอักษรต่อนาทีสำหรับเนื้อหาเทคนิค */
 export const readingMinutes = (a: Article): number => {

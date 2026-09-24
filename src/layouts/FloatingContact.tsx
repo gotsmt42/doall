@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUp, Mail, MessageCircle, Phone, Plus, X } from "lucide-react";
 
 import { cx } from "@/components/ui";
-import { contactChannels, type ContactChannel } from "@/data/company";
+import type { ContactChannel } from "@/data/company";
 
 /**
  * ปุ่มลอยมุมขวาล่าง — ช่องทางติดต่อ + ปุ่มขึ้นบนสุด
@@ -14,11 +14,10 @@ import { contactChannels, type ContactChannel } from "@/data/company";
  * ⚠️ ต้องเผื่อระยะขอบล่างให้พ้นแถบนำทางของ iOS (env safe-area) ไม่งั้นปุ่มจะโดนแถบบัง
  *    บน iPhone ที่ไม่มีปุ่มโฮม
  */
-export default function FloatingContact() {
+export default function FloatingContact({ channels }: { channels: ContactChannel[] }) {
   const [open, setOpen] = useState(false);
   const [showTop, setShowTop] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
-  const channels = contactChannels();
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 600);

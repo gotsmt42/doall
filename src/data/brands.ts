@@ -14,17 +14,18 @@ export type Brand = { name: string; category: string };
 
 /**
  * ⚠️ เรียง Fire Alarm ขึ้นก่อนโดยตั้งใจ — บริษัทต้องการเน้นระบบนี้เป็นหลัก
- * ✅ Edwards, Hochiki, Nohmi, Asenware: บริษัทระบุเอง (24 ก.ย. 2569)
- * ⚠️ TODO(ข้อมูลจริง): ยี่ห้อที่เหลือยังไม่ได้ยืนยันกับบริษัท
+ * ✅ แบรนด์หลัก Fire Alarm คือ Notifier และ Edwards · รองลงมา Hochiki, Nohmi, Asenware
+ *    (บริษัทยืนยันทั้งหมด 24 ก.ย. 2569) — ห้ามสลับลำดับสองตัวแรก
+ * ⚠️ ตัด Honeywell ออก — บริษัทระบุยี่ห้อ Fire Alarm มาสองครั้งแล้วไม่มี Honeywell
+ * ⚠️ TODO(ข้อมูลจริง): ยี่ห้อหมวดอื่น (CCTV / Security / Network) ยังไม่ได้ยืนยันกับบริษัท
  * ⚠️ ตัดยี่ห้อหมวดไฟฟ้า (Schneider Electric, ABB) ออกตามที่บริษัทสั่ง "ตัดระบบไฟฟ้าออกก่อน"
  */
 export const BRANDS: readonly Brand[] = [
+  { name: "Notifier", category: "Fire Alarm" },
   { name: "Edwards", category: "Fire Alarm" },
   { name: "Hochiki", category: "Fire Alarm" },
   { name: "Nohmi", category: "Fire Alarm" },
   { name: "Asenware", category: "Fire Alarm" },
-  { name: "Notifier", category: "Fire Alarm" },
-  { name: "Honeywell", category: "Fire Alarm" },
   { name: "Hikvision", category: "CCTV" },
   { name: "Dahua", category: "CCTV" },
   { name: "Axis", category: "CCTV" },

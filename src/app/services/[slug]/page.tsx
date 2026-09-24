@@ -6,7 +6,7 @@ import { ArrowRight, Building2, ChevronDown } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import ServiceIcon from "@/components/ServiceIcon";
 import { ButtonLink, Card, CheckList, Container, JsonLd, Section, SectionHeading } from "@/components/ui";
-import { PROJECTS } from "@/data/projects";
+import { getContent } from "@/lib/cms";
 import { SERVICES, serviceBySlug } from "@/data/services";
 import Breadcrumb from "@/layouts/Breadcrumb";
 import { faqJsonLd, serviceJsonLd } from "@/lib/jsonld";
@@ -19,10 +19,13 @@ import { CtaBand } from "@/sections/BrandsAndCta";
  *
  * ⚠️ Next.js 16: params เป็น Promise และต้อง await เสมอ — เข้าถึงแบบ sync ถูกถอดออกแล้ว
  *    (ดู node_modules/next/dist/docs/01-app/02-guides/upgrading/version-16.md)
- * ⚠️ dynamicParams = false → slug ที่ไม่มีอยู่จริงได้ 404 จริง ไม่ใช่หน้าว่างที่ตอบ 200
- *    ("soft 404" ที่ Google ลงโทษ เพราะดูเหมือนเว็บมีหน้าขยะเป็นพันหน้า)
+ * 🐛 ต้องเป็น dynamicParams = true — เคยตั้งเป็น false แล้วพบว่า (Next.js 16) พอระบบหลังบ้านสั่ง
+ *    revalidate หน้าบริการทั้ง 6 หน้าถูกสร้างใหม่ไม่ผ่าน (NoFallbackError) กลายเป็น 404 และ 404 นั้น
+ *    ถูกแคชไว้ = ทุกครั้งที่ผู้ดูแลกดบันทึกอะไรก็ตาม หน้าที่สำคัญที่สุดต่อ SEO ของเว็บจะหายหมด
+ *    (ตรวจเจอจากการทดสอบบนเซิร์ฟเวอร์ production จริง ไม่ใช่ตอน dev)
+ * ✅ slug ที่ไม่มีจริงยังได้ 404 จริงจาก notFound() ด้านล่าง (ตรวจแล้วด้วย curl — ไม่ใช่ soft 404)
  */
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
@@ -47,10 +50,10 @@ export default async function ServiceDetailPage({ params }: Props) {
   const service = serviceBySlug(slug);
   if (!service) notFound();
 
-  // ⚠️ ชื่อบริการบางตัวขึ้นต้นด้วย "งาน" อยู่แล้ว (งานระบบอาคาร) — ต่อ "งาน" หน้าซ้ำจะได้
-  //    "ขอใบเสนอราคางาน งานระบบอาคาร" จึงเติมเฉพาะชื่อที่ยังไม่มี
+  // ⚠️ ชื่อบริการที่ขึ้นต้นด้วย "งาน" อยู่แล้ว ห้ามต่อ "งาน" หน้าซ้ำ (เคยได้ "ขอใบเสนอราคางาน งานระบบ…")
+  //    จึงเติมเฉพาะชื่อที่ยังไม่มี
   const job = service.name.startsWith("งาน") ? service.name : `งาน ${service.name}`;
-  const related = PROJECTS.filter((p) => p.systems.includes(service.slug)).slice(0, 3);
+  const related = (await getContent()).projects.filter((p) => p.systems.includes(service.slug)).slice(0, 3);
   const others = SERVICES.filter((s) => s.slug !== service.slug);
 
   return (

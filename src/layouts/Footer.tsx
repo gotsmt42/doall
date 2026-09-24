@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import { Container } from "@/components/ui";
-import { COMPANY, addressLine, contactChannels } from "@/data/company";
+import { COMPANY, contactChannels, locations } from "@/data/company";
+import { getContent } from "@/lib/cms";
 import { FOOTER_NAV } from "@/data/nav";
 import { SERVICES } from "@/data/services";
 
@@ -14,8 +15,14 @@ import { SERVICES } from "@/data/services";
  * ⚠️ ที่อยู่และเบอร์ในฟุตเตอร์คือสิ่งที่ Google ใช้ยืนยันตัวตนธุรกิจ (ต้องตรงกับที่เขียนใน
  *    Google Business Profile เป๊ะ ทั้งตัวสะกดและรูปแบบ) จึงอ่านจาก company.ts ที่เดียว
  */
-export default function Footer() {
-  const channels = contactChannels();
+/**
+ * ⚠️ ลิงก์ในฟุตเตอร์ทั้งหมด prefetch={false} — อยู่ท้ายหน้า คนส่วนน้อยกด แต่ถ้าปล่อย prefetch
+ *    ทุกหน้าจะโหลดล่วงหน้าอีกเป็นสิบหน้าทุกครั้งที่เลื่อนถึงท้าย (ยังโหลดตอนชี้/แตะอยู่ ไม่ช้าลง)
+ */
+export default async function Footer() {
+  const { contact, settings } = await getContent();
+  const channels = contactChannels(contact);
+  const company = FOOTER_NAV.company.filter((l) => settings.showArticles || l.href !== "/articles");
   const year = new Date().getFullYear() + 543; // แสดงเป็น พ.ศ. ตามที่เอกสารไทยใช้กัน
 
   return (
@@ -27,7 +34,9 @@ export default function Footer() {
           {/* ── บริษัท ── */}
           <div className="lg:col-span-4">
             {/* โลโก้แบบตัวหนังสือขาวสำหรับพื้นเข้ม — ห้ามใช้แบบตัวหนังสือดำตรงนี้ จะมองไม่เห็นเลย */}
-            <Image src="/brand/logo-on-dark.png" alt={COMPANY.shortName} width={1003} height={454} className="h-14 w-auto" />
+            {/* ⚠️ ต้องมี sizes — ไม่ใส่ Next จะเลือกไฟล์กว้าง 2048px (19 KB) ทั้งที่แสดงจริงกว้างราว 125px
+                (วัดจากรายงาน Lighthouse) */}
+            <Image src="/brand/logo-on-dark.png" alt={COMPANY.shortName} width={1003} height={454} sizes="130px" className="h-14 w-auto" />
             <p className="mt-4 text-sm font-medium text-slate-300">{COMPANY.nameTh}</p>
             <p className="mt-4 max-w-sm text-sm leading-relaxed">{COMPANY.tagline}</p>
             <p className="mt-4 text-xs text-slate-400">
@@ -42,7 +51,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2.5">
               {SERVICES.map((s) => (
                 <li key={s.slug}>
-                  <Link href={`/services/${s.slug}`} className="text-sm transition-colors hover:text-white">
+                  <Link prefetch={false} href={`/services/${s.slug}`} className="text-sm transition-colors hover:text-white">
                     {s.name}
                   </Link>
                 </li>
@@ -54,9 +63,9 @@ export default function Footer() {
           <nav aria-labelledby="footer-company" className="lg:col-span-2">
             <p id="footer-company" className="text-sm font-semibold text-white">บริษัท</p>
             <ul className="mt-4 space-y-2.5">
-              {FOOTER_NAV.company.map((l) => (
+              {company.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-sm transition-colors hover:text-white">{l.label}</Link>
+                  <Link prefetch={false} href={l.href} className="text-sm transition-colors hover:text-white">{l.label}</Link>
                 </li>
               ))}
             </ul>
@@ -66,10 +75,15 @@ export default function Footer() {
           <div className="lg:col-span-3">
             <p className="text-sm font-semibold text-white">ติดต่อเรา</p>
             <address className="mt-4 space-y-3 text-sm not-italic">
-              <p className="flex gap-2.5">
-                <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-slate-500" />
-                <span className="leading-relaxed">{addressLine()}</span>
-              </p>
+              {locations().map((l) => (
+                <p key={l.label} className="flex gap-2.5">
+                  <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-slate-500" />
+                  <span className="leading-relaxed">
+                    <span className="block font-semibold text-slate-300">{l.label}</span>
+                    {l.line}
+                  </span>
+                </p>
+              ))}
 
               {/* ⚠️ ช่องทางที่ยังไม่มีข้อมูลจริงจะไม่ถูกแสดง — ไม่มีลิงก์เปล่าให้กดแล้วไม่ไปไหน */}
               {channels.map((c) => {
@@ -91,8 +105,8 @@ export default function Footer() {
               <p className="flex gap-2.5">
                 <Clock aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-slate-500" />
                 <span className="leading-relaxed">
-                  {COMPANY.businessHours.weekdays}
-                  <span className="block text-slate-400">{COMPANY.businessHours.closed}</span>
+                  {settings.businessHoursWeekdays}
+                  <span className="block text-slate-400">{settings.businessHoursClosed}</span>
                 </span>
               </p>
             </address>
@@ -106,7 +120,7 @@ export default function Footer() {
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {FOOTER_NAV.legal.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="text-xs text-slate-400 transition-colors hover:text-slate-300">
+                <Link prefetch={false} href={l.href} className="text-xs text-slate-400 transition-colors hover:text-slate-300">
                   {l.label}
                 </Link>
               </li>

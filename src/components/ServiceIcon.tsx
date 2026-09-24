@@ -1,4 +1,4 @@
-import { Camera, Fingerprint, Flame, Network, Ruler, Wrench } from "lucide-react";
+import { Camera, Droplets, Fingerprint, Flame, Network, Ruler, Wrench } from "lucide-react";
 
 import { cx } from "@/components/ui";
 import type { ServiceIconKey } from "@/data/services";
@@ -15,6 +15,7 @@ const MAP = {
   network: Network,
   wrench: Wrench,
   ruler: Ruler,
+  pump: Droplets,
 } as const;
 
 export default function ServiceIcon({

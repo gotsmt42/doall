@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
 
-import { ARTICLES } from "@/data/articles";
-import { PROJECTS } from "@/data/projects";
 import { SERVICES } from "@/data/services";
+import { getContent } from "@/lib/cms";
 import { SITE_URL } from "@/lib/seo";
 
 /**
@@ -16,7 +15,8 @@ import { SITE_URL } from "@/lib/seo";
  */
 const BUILT_AT = new Date();
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { projects, articles, settings } = await getContent();
   const page = (path: string, priority: number, changeFrequency: "weekly" | "monthly" | "yearly", lastModified: Date = BUILT_AT) => ({
     url: `${SITE_URL}${path}`,
     lastModified,
@@ -31,9 +31,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/about", 0.7, "yearly"),
     page("/products", 0.7, "monthly"),
     page("/projects", 0.7, "monthly"),
-    ...PROJECTS.map((p) => page(`/projects/${p.slug}`, 0.6, "yearly", new Date(p.completedAt))),
-    page("/articles", 0.6, "weekly"),
-    ...ARTICLES.map((a) => page(`/articles/${a.slug}`, 0.6, "yearly", new Date(a.updatedAt || a.publishedAt))),
+    ...projects.map((p) => page(`/projects/${p.slug}`, 0.6, "yearly", new Date(p.completedAt))),
+    // ⚠️ ซ่อนบทความจากหลังบ้านแล้ว = ไม่ใส่ใน sitemap ด้วย (ไม่ชี้ Google ไปหน้าที่ตั้งใจซ่อน)
+    ...(settings.showArticles ? [page("/articles", 0.6, "weekly")] : []),
+    ...articles.map((a) => page(`/articles/${a.slug}`, 0.6, "yearly", new Date(a.updatedAt || a.publishedAt))),
     page("/contact", 0.8, "yearly"),
     page("/quotation", 0.8, "yearly"),
     page("/privacy", 0.2, "yearly"),

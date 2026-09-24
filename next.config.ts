@@ -15,8 +15,10 @@ const nextConfig: NextConfig = {
   images: {
     // ✅ AVIF ก่อน WebP — ไฟล์เล็กกว่าราว 20-30% เบราว์เซอร์ที่ไม่รองรับจะตกไป WebP เอง
     formats: ["image/avif", "image/webp"],
-    // ⚠️ เพิ่มโดเมนที่นี่เมื่อย้ายรูปไปอยู่บน CDN/Cloudinary — ตอนนี้ใช้รูปใน /public ทั้งหมด
-    remotePatterns: [],
+    // ✅ รูปสินค้า/ผลงาน/บทความที่อัปโหลดจากระบบหลังบ้านเก็บบน Cloudinary
+    // 🔒 จำกัดเฉพาะโฟลเดอร์ website/ — ไฟล์แนบของลูกค้า (website-leads) และไฟล์งานภายในต้องผ่าน
+    //    ตัวย่อรูปของเว็บสาธารณะไม่ได้ ไม่งั้นใครก็ใช้เว็บเราเป็นทางลัดเปิดไฟล์ภายในได้
+    remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com", pathname: "/*/image/upload/**/website/**" }],
   },
 
   async headers() {

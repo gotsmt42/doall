@@ -1,14 +1,15 @@
-import { COOKIES } from "@/data/legal";
+import type { Metadata } from "next";
+
+import { cookiesDoc } from "@/data/legal";
 import LegalPage from "@/layouts/LegalPage";
+import { getContent } from "@/lib/cms";
 import { pageMetadata } from "@/lib/seo";
 
-export const metadata = pageMetadata({
-  title: COOKIES.title,
-  description: COOKIES.description,
-  path: "/cookies",
-  keywords: ["นโยบายคุกกี้"],
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const doc = cookiesDoc((await getContent()).contact);
+  return pageMetadata({ title: doc.title, description: doc.description, path: "/cookies", keywords: ["นโยบายคุกกี้"] });
+}
 
-export default function Page() {
-  return <LegalPage doc={COOKIES} href="/cookies" />;
+export default async function Page() {
+  return <LegalPage doc={cookiesDoc((await getContent()).contact)} href="/cookies" />;
 }

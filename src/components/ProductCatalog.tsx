@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useDeferredValue, useMemo, useState } from "react";
-import { FileDown, Search, X } from "lucide-react";
+import { FileDown, ImageIcon, Search, X } from "lucide-react";
 
 import { Badge, ButtonLink, EmptyState, cx } from "@/components/ui";
 import { PRODUCT_CATEGORIES, type Product, type ProductCategory, categoryLabel } from "@/data/products";
@@ -110,7 +111,30 @@ export default function ProductCatalog({ products }: { products: readonly Produc
         <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((p) => (
             <li key={p.id}>
-              <article className="flex h-full flex-col rounded-xl border border-slate-200 bg-white p-5">
+              <article className="flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white">
+                {/* ✅ รูปสินค้า (บริษัทสั่ง "สินค้าต้องมีรูปภาพ") — พื้นขาวกับ object-contain เพราะรูปสินค้า
+                    ส่วนใหญ่เป็นภาพตัดพื้นจากผู้ผลิต ถ้าใช้ cover จะตัดตัวสินค้าขาดขอบ */}
+                <div className="relative aspect-[4/3] border-b border-slate-100 bg-white">
+                  {p.images?.[0] ? (
+                    <Image
+                      src={p.images[0].src}
+                      alt={p.images[0].alt || p.name}
+                      fill
+                      sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
+                      className="object-contain p-4"
+                    />
+                  ) : (
+                    <div className="grid size-full place-items-center bg-slate-50 text-slate-300" aria-hidden="true">
+                      <ImageIcon className="size-10" />
+                    </div>
+                  )}
+                  {p.images && p.images.length > 1 && (
+                    <span className="absolute right-2 bottom-2 rounded-md bg-slate-900/70 px-2 py-0.5 text-xs font-semibold text-white">
+                      {p.images.length} รูป
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col p-5">
                 <div className="flex flex-wrap gap-1.5">
                   <Badge tone="brand">{categoryLabel(p.category)}</Badge>
                   <Badge>{p.type}</Badge>
@@ -150,6 +174,7 @@ export default function ProductCatalog({ products }: { products: readonly Produc
                       Datasheet
                     </a>
                   )}
+                </div>
                 </div>
               </article>
             </li>

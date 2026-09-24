@@ -5,7 +5,15 @@ import { useRef, useState } from "react";
 import { AlertCircle, CheckCircle2, FileText, Loader2, Paperclip, X } from "lucide-react";
 
 import { Button, cx } from "@/components/ui";
-import { BUDGET_OPTIONS, FILE_RULES, contactSchema, formatBytes, quotationSchema } from "@/lib/lead";
+import { BUDGET_OPTIONS, FILE_RULES, formatBytes } from "@/lib/lead-rules";
+
+/**
+ * ⚠️ โหลด schema (zod) เฉพาะเมื่อผู้ใช้เริ่มกรอกฟอร์ม — ไม่ import ตรงๆ
+ *    เหตุผลอยู่ที่หัวไฟล์ lib/lead-rules.ts (zod ~94 KB ถูก prefetch ไปทุกหน้าผ่านปุ่มบนแถบบน)
+ *    โหลดครั้งเดียวแล้วใช้ซ้ำทั้งเว็บ
+ */
+let schemasPromise: Promise<typeof import("@/lib/lead")> | null = null;
+const loadSchemas = () => (schemasPromise ??= import("@/lib/lead"));
 
 /**
  * ฟอร์ม "ติดต่อเรา" และ "ขอใบเสนอราคา" (คอมโพเนนต์เดียว สองโหมด)
@@ -41,9 +49,10 @@ export default function LeadForm({
   //    ตั้งค่าตอนผู้ใช้เริ่มโต้ตอบกับฟอร์มครั้งแรก (focus) — เป็นเวลาฝั่งเบราว์เซอร์จริงเสมอ
   //    และไม่ต้องใช้ effect/state (ไม่ทำให้ render ซ้ำ)
   const startedAt = useRef(0);
-  const markStart = () => { if (!startedAt.current) startedAt.current = Date.now(); };
-
-  const schema = kind === "quotation" ? quotationSchema : contactSchema;
+  const markStart = () => {
+    if (!startedAt.current) startedAt.current = Date.now();
+    loadSchemas(); // เริ่มโหลดตัวตรวจข้อมูลทันทีที่ผู้ใช้แตะฟอร์ม — กดส่งเมื่อไรก็พร้อมแล้ว
+  };
 
   const collect = () => {
     const fd = new FormData(formRef.current!);
@@ -53,7 +62,9 @@ export default function LeadForm({
     return obj;
   };
 
-  const validate = (): Errors => {
+  const validate = async (): Promise<Errors> => {
+    const { contactSchema, quotationSchema } = await loadSchemas();
+    const schema = kind === "quotation" ? quotationSchema : contactSchema;
     const r = schema.safeParse(collect());
     if (r.success) return {};
     const out: Errors = {};
@@ -65,7 +76,7 @@ export default function LeadForm({
   };
 
   // หลังกดส่งครั้งแรกแล้ว ตรวจใหม่ทุกครั้งที่แก้ — error หายทันทีที่แก้ถูก ไม่ต้องกดส่งซ้ำเพื่อดู
-  const revalidate = () => { if (submitted) setErrors(validate()); };
+  const revalidate = () => { if (submitted) validate().then(setErrors); };
 
   const addFiles = (list: FileList | null) => {
     setFileError("");
@@ -90,7 +101,7 @@ export default function LeadForm({
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    const errs = validate();
+    const errs = await validate();
     setErrors(errs);
     if (Object.keys(errs).length) {
       // เลื่อนโฟกัสไปช่องแรกที่ผิด ตามลำดับในฟอร์ม

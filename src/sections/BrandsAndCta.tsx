@@ -1,15 +1,15 @@
 import { ArrowRight } from "lucide-react";
 
 import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
-import { BRANDS, BRANDS_DISCLAIMER } from "@/data/brands";
-import { COMPANY } from "@/data/company";
+import { BRANDS_DISCLAIMER, type Brand } from "@/data/brands";
+import { getContent } from "@/lib/cms";
 
 /**
  * ยี่ห้ออุปกรณ์ที่เราทำงานด้วย
  * ⚠️ หัวข้อต้องเป็น "ยี่ห้อที่เราทำงานด้วย" เสมอ ห้ามเปลี่ยนเป็น "พาร์ตเนอร์" หรือ
  *    "ตัวแทนจำหน่าย" จนกว่าจะมีหนังสือแต่งตั้งจริง (เหตุผลเต็มอยู่ใน data/brands.ts)
  */
-export function Brands() {
+export function Brands({ brands }: { brands: readonly Brand[] }) {
   return (
     <Section tone="subtle" className="!py-14 sm:!py-16">
       <Container>
@@ -18,9 +18,11 @@ export function Brands() {
           eyebrow="Brands & Products We Work With"
           title="ยี่ห้ออุปกรณ์ที่เราจัดหาและติดตั้ง"
         />
-        <ul className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-3 lg:grid-cols-6">
-          {BRANDS.map((b) => (
-            <li key={b.name} className="flex flex-col items-center justify-center bg-white px-4 py-6 text-center">
+        {/* ⚠️ จำนวนยี่ห้อเปลี่ยนได้จากระบบหลังบ้าน — ใช้ flex จัดกึ่งกลาง ไม่ใช่กริดตายตัว
+            กริด 6 ช่องกับ 11 ยี่ห้อจะเหลือแถวล่างเป็นช่องโหว่ ดูเหมือนข้อมูลหาย */}
+        <ul className="mt-10 flex flex-wrap justify-center gap-3">
+          {brands.map((b) => (
+            <li key={b.name} className="flex w-[calc(50%-0.375rem)] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-5 text-center sm:w-40">
               <span className="text-base font-bold tracking-tight text-slate-800">{b.name}</span>
               <span className="mt-1 text-xs text-slate-500">{b.category}</span>
             </li>
@@ -37,13 +39,15 @@ export function Brands() {
  * ⚠️ ทุกหน้าต้องจบด้วยทางไปต่อเสมอ คนที่อ่านจนสุดหน้าคือคนที่สนใจที่สุด
  *    ถ้าปล่อยให้เจอแค่ฟุตเตอร์ เท่ากับปล่อยคนที่พร้อมที่สุดหลุดไป
  */
-export function CtaBand({
+export async function CtaBand({
   title = "กำลังมองหาผู้เชี่ยวชาญด้านระบบความปลอดภัยและงานวิศวกรรม?",
-  description = "เล่ารายละเอียดงานให้เราฟัง ทีมงานจะติดต่อกลับเพื่อสอบถามเพิ่มเติมและนัดสำรวจหน้างาน ปรึกษาเบื้องต้นไม่มีค่าใช้จ่าย",
+  description = "เล่ารายละเอียดงานให้เราฟัง ทีมงานจะติดต่อกลับเพื่อสอบถามเพิ่มเติมและนัดสำรวจหน้างาน ให้คำปรึกษาฟรี",
 }: {
   title?: string;
   description?: string;
 }) {
+  // ⚠️ เบอร์โทรมาจากหลังบ้าน (ตั้งค่าองค์กร) — getContent() ใช้ผลเดียวกับทั้งหน้า ไม่ยิงซ้ำ
+  const { contact } = await getContent();
   return (
     <section className="bg-slate-900" data-no-print>
       <Container className="py-16 sm:py-20">
@@ -51,11 +55,11 @@ export function CtaBand({
           <div className="max-w-2xl">
             <h2 className="text-2xl font-bold text-white sm:text-3xl">{title}</h2>
             <p className="mt-4 text-base leading-relaxed text-slate-400">{description}</p>
-            {COMPANY.telRaw && (
+            {contact.telRaw && (
               <p className="mt-4 text-sm text-slate-400">
                 หรือโทร{" "}
-                <a href={`tel:${COMPANY.telRaw}`} className="font-semibold text-white underline-offset-4 hover:underline">
-                  {COMPANY.tel}
+                <a href={`tel:${contact.telRaw}`} className="font-semibold text-white underline-offset-4 hover:underline">
+                  {contact.tel || contact.telRaw}
                 </a>
               </p>
             )}

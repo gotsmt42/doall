@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "ขอใบเสนอราคา — งานระบบ Fire Alarm, CCTV, Access Control, Network",
   description:
-    "ขอใบเสนอราคางานติดตั้งและบำรุงรักษาระบบ Fire Alarm, CCTV, Access Control, Network และงานระบบอาคาร " +
+    "ขอใบเสนอราคางานติดตั้งและบำรุงรักษาระบบ Fire Alarm, CCTV, Access Control, Network และ Fire Pump " +
     "แนบแบบหรือรูปหน้างานได้ ทีมงานติดต่อกลับเพื่อประเมินงานภายในวันทำการถัดไป",
   path: "/quotation",
   keywords: ["ขอใบเสนอราคา fire alarm", "ราคาติดตั้ง cctv", "ใบเสนอราคางานระบบ"],
@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
 
 const NEXT_STEPS = [
   { icon: PhoneCall, title: "ติดต่อกลับ", detail: "ทีมงานโทรสอบถามรายละเอียดเพิ่มเติมภายในวันทำการถัดไป" },
-  { icon: FileSearch, title: "สำรวจหน้างาน", detail: "นัดเข้าดูพื้นที่จริง ไม่มีค่าใช้จ่ายในพื้นที่ให้บริการปกติ" },
+  { icon: FileSearch, title: "สำรวจหน้างาน", detail: "นัดเข้าดูพื้นที่จริงเพื่อประเมินงานให้ถูกต้อง" },
   { icon: ClipboardList, title: "เสนอราคา", detail: "ใบเสนอราคาระบุขอบเขตงาน อุปกรณ์ ระยะเวลา และการรับประกันชัดเจน" },
 ] as const;
 

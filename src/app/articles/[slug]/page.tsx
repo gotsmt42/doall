@@ -5,7 +5,8 @@ import { ArrowRight, Clock, Info } from "lucide-react";
 
 import ServiceIcon from "@/components/ServiceIcon";
 import { Badge, ButtonLink, Card, Container, JsonLd } from "@/components/ui";
-import { ARTICLES, type ArticleBlock, articleBySlug, readingMinutes, thaiShortDate } from "@/data/articles";
+import { type ArticleBlock, readingMinutes, thaiShortDate } from "@/data/articles";
+import { getContent } from "@/lib/cms";
 import { COMPANY } from "@/data/company";
 import { serviceBySlug } from "@/data/services";
 import Breadcrumb from "@/layouts/Breadcrumb";
@@ -13,18 +14,23 @@ import { articleJsonLd } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/seo";
 import { CtaBand } from "@/sections/BrandsAndCta";
 
-/** ⚠️ slug ที่ไม่มีจริง = 404 จริง */
-export const dynamicParams = false;
+/**
+ * ⚠️ dynamicParams = true (ตั้งเหมือนกันทุกหน้า [slug]) — ผลงาน/บทความเพิ่มจากหลังบ้านหลัง build แล้ว
+ *    ถ้าเป็น false รายการใหม่ทุกรายการจะ 404 จนกว่าจะ deploy ใหม่ ซึ่งทำให้ระบบหลังบ้านไร้ความหมาย
+ *    slug ที่ไม่มีจริงยังได้ 404 จริงจาก notFound() (ตรวจแล้วด้วย curl — ไม่ใช่ soft 404)
+ */
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return ARTICLES.map((a) => ({ slug: a.slug }));
+export async function generateStaticParams() {
+  const { articles } = await getContent();
+  return articles.map((a) => ({ slug: a.slug }));
 }
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = articleBySlug(slug);
+  const article = (await getContent()).articles.find((a) => a.slug === slug);
   if (!article) return {};
   return pageMetadata({
     title: article.title,
@@ -102,11 +108,12 @@ function Block({ block }: { block: ArticleBlock }) {
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
-  const article = articleBySlug(slug);
+  const { articles } = await getContent();
+  const article = articles.find((a) => a.slug === slug);
   if (!article) notFound();
 
   const service = serviceBySlug(article.relatedService);
-  const more = ARTICLES.filter((a) => a.slug !== article.slug).slice(0, 2);
+  const more = articles.filter((a) => a.slug !== article.slug).slice(0, 2);
 
   return (
     <>
@@ -166,7 +173,7 @@ export default async function ArticlePage({ params }: Props) {
               )}
               <Card className="bg-slate-900 p-6">
                 <p className="font-bold text-white">ต้องการคำแนะนำสำหรับอาคารของคุณ?</p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">ทีมวิศวกรพร้อมสำรวจหน้างานและให้คำปรึกษาเบื้องต้นโดยไม่มีค่าใช้จ่าย</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">ทีมวิศวกรพร้อมให้คำปรึกษาฟรี และนัดสำรวจหน้างานเพื่อประเมินงาน</p>
                 <ButtonLink href="/quotation" className="mt-5 w-full">ขอใบเสนอราคา</ButtonLink>
               </Card>
             </div>
