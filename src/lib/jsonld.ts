@@ -84,7 +84,8 @@ export function localBusinessJsonLd(contact: ContactInfo, serviceAreas: readonly
       postalCode: COMPANY.office.postalCode,
       addressCountry: COMPANY.office.country,
     },
-    areaServed: serviceAreas.map((a) => ({ "@type": "AdministrativeArea", name: a })),
+    // ✅ ให้บริการทั่วประเทศ — ประกาศทั้งประเทศก่อน แล้วตามด้วยภูมิภาค/พื้นที่ที่หลังบ้านระบุ
+    areaServed: [{ "@type": "Country", name: "Thailand" }, ...serviceAreas.map((a) => ({ "@type": "AdministrativeArea", name: a }))],
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
