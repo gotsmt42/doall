@@ -2,7 +2,7 @@ import { cache } from "react";
 
 import { ARTICLES, type Article, type ArticleBlock } from "@/data/articles";
 import { BRANDS, logoFor, type Brand } from "@/data/brands";
-import { COMPANY } from "@/data/company";
+import { COMPANY, type ContactInfo } from "@/data/company";
 import { PRODUCTS, type Product, type ProductCategory } from "@/data/products";
 import { PROJECTS, type Project } from "@/data/projects";
 
@@ -38,7 +38,7 @@ export type SiteSettings = {
   serviceImages: { slug: string; src: string; width: number; height: number; alt: string }[];
 };
 
-export type SiteContact = { tel: string; telRaw: string; email: string; lineUrl: string; facebookUrl: string };
+export type SiteContact = ContactInfo;
 
 export type SiteContent = {
   /** "cms" = ข้อมูลจากหลังบ้าน · "fallback" = เนื้อหาตั้งต้นในโค้ด (หลังบ้านไม่ตอบ) */
@@ -69,6 +69,8 @@ const FALLBACK_SETTINGS: SiteSettings = {
 const FALLBACK_CONTACT: SiteContact = {
   tel: COMPANY.tel,
   telRaw: COMPANY.telRaw,
+  hotline: COMPANY.hotline,
+  hotlineRaw: COMPANY.hotline.replace(/[^\d+]/g, ""),
   email: COMPANY.email,
   lineUrl: COMPANY.lineUrl,
   facebookUrl: COMPANY.facebookUrl,
@@ -178,6 +180,9 @@ function normalize(data: any): SiteContent {
     contact: {
       tel,
       telRaw: tel ? telOnly(tel) : FALLBACK_CONTACT.telRaw,
+      // ⚠️ สายด่วนอาจเป็นเลขสั้น 4 หลัก (เช่น 1xxx) — จึงตรวจแค่ว่ามีตัวเลขอย่างน้อย 4 ตัว
+      hotline: telOnly(str(c.hotline)).replace(/\D/g, "").length >= 4 ? str(c.hotline) : FALLBACK_CONTACT.hotline,
+      hotlineRaw: telOnly(str(c.hotline)).replace(/\D/g, "").length >= 4 ? telOnly(str(c.hotline)) : FALLBACK_CONTACT.hotlineRaw,
       email: validEmail(str(c.email)) || FALLBACK_CONTACT.email,
       lineUrl: validUrl(str(c.lineUrl)) || FALLBACK_CONTACT.lineUrl,
       facebookUrl: validUrl(str(c.facebookUrl)) || FALLBACK_CONTACT.facebookUrl,

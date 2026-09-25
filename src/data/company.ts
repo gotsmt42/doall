@@ -81,6 +81,8 @@ export const COMPANY = {
   tel: "",
   telRaw: "",
   telSecondary: "",
+  /** สายด่วน/Hotline งานฉุกเฉิน — ตั้งจากหลังบ้าน (ตั้งค่าองค์กร) */
+  hotline: "",
   email: "",
   lineId: "",
   lineUrl: "",
@@ -141,7 +143,7 @@ export const locations = (): { label: string; line: string; mapUrl: string }[] =
   }));
 
 export type ContactChannel = {
-  key: "tel" | "email" | "line" | "facebook";
+  key: "tel" | "hotline" | "email" | "line" | "facebook";
   label: string;
   /** ข้อความที่แสดงให้ผู้ใช้เห็น */
   value: string;
@@ -151,7 +153,9 @@ export type ContactChannel = {
 };
 
 /** ข้อมูลติดต่อที่หน้าเว็บใช้ — มาจากหลังบ้าน (ตั้งค่าองค์กร) ผ่าน lib/cms.ts */
-export type ContactInfo = { tel: string; telRaw: string; email: string; lineUrl: string; facebookUrl: string };
+export type ContactInfo = {
+  tel: string; telRaw: string; hotline: string; hotlineRaw: string; email: string; lineUrl: string; facebookUrl: string;
+};
 
 /**
  * ช่องทางติดต่อที่ "มีข้อมูลจริงแล้วเท่านั้น"
@@ -163,6 +167,8 @@ export type ContactInfo = { tel: string; telRaw: string; email: string; lineUrl:
  */
 export const contactChannels = (c: ContactInfo): ContactChannel[] => {
   const out: ContactChannel[] = [];
+  // ✅ บริษัทสั่ง (25 ก.ย. 2569): "เพิ่มส่วนของเบอร์โทร และ hotline" — สายด่วนขึ้นก่อน (งานฉุกเฉินต้องเจอเร็วที่สุด)
+  if (c.hotlineRaw) out.push({ key: "hotline", label: "สายด่วน (Hotline)", value: c.hotline || c.hotlineRaw, href: `tel:${c.hotlineRaw}`, external: false });
   if (c.telRaw) out.push({ key: "tel", label: "โทรศัพท์", value: c.tel || c.telRaw, href: `tel:${c.telRaw}`, external: false });
   if (c.email) out.push({ key: "email", label: "อีเมล", value: c.email, href: `mailto:${c.email}`, external: false });
   if (c.lineUrl) out.push({ key: "line", label: "LINE", value: "แชทผ่าน LINE", href: c.lineUrl, external: true });

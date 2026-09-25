@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
+import ChannelIcon from "@/components/ChannelIcon";
 
 import { Container } from "@/components/ui";
 import { COMPANY, contactChannels, locations } from "@/data/company";
@@ -84,16 +85,15 @@ export default async function Footer() {
 
               {/* ⚠️ ช่องทางที่ยังไม่มีข้อมูลจริงจะไม่ถูกแสดง — ไม่มีลิงก์เปล่าให้กดแล้วไม่ไปไหน */}
               {channels.map((c) => {
-                const Icon = c.key === "tel" ? Phone : c.key === "email" ? Mail : MessageCircle;
                 return (
-                  <p key={c.key} className="flex gap-2.5">
-                    <Icon aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-slate-500" />
+                  <p key={c.key} className="flex items-center gap-2.5">
+                    <ChannelIcon channelKey={c.key} muted="text-slate-500" className="size-4" />
                     <a
                       href={c.href}
                       {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       className="transition-colors hover:text-white"
                     >
-                      {c.value}
+                      {c.key === "hotline" ? <><span className="text-slate-400">สายด่วน </span><span className="font-semibold text-white">{c.value}</span></> : c.value}
                     </a>
                   </p>
                 );

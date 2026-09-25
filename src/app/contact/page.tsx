@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Clock, Mail, MapPin, MessageCircle, Phone, Siren } from "lucide-react";
+import { Clock, MapPin, Siren } from "lucide-react";
+import ChannelIcon from "@/components/ChannelIcon";
 
 import LeadForm from "@/components/LeadForm";
 import { Card, Container, Section } from "@/components/ui";
@@ -70,10 +71,9 @@ export default async function ContactPage() {
                     </p>
                   ))}
                   {channels.map((c) => {
-                    const Icon = c.key === "tel" ? Phone : c.key === "email" ? Mail : MessageCircle;
                     return (
                       <p key={c.key} className="flex gap-3">
-                        <Icon aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-red-600" />
+                        <ChannelIcon channelKey={c.key} className="mt-0.5 size-5" />
                         <span>
                           <span className="block text-xs text-slate-500">{c.label}</span>
                           <a

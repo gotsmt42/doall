@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, Mail, MessageCircle, Phone, Plus, X } from "lucide-react";
+import { ArrowUp, Plus, X } from "lucide-react";
+import ChannelIcon from "@/components/ChannelIcon";
 
 import { cx } from "@/components/ui";
 import type { ContactChannel } from "@/data/company";
@@ -40,8 +41,6 @@ export default function FloatingContact({ channels }: { channels: ContactChannel
     };
   }, [open]);
 
-  const iconOf = (c: ContactChannel) =>
-    c.key === "tel" ? Phone : c.key === "email" ? Mail : MessageCircle;
 
   return (
     <div
@@ -66,7 +65,6 @@ export default function FloatingContact({ channels }: { channels: ContactChannel
           {open && (
             <ul className="flex flex-col items-end gap-2">
               {channels.map((c) => {
-                const Icon = iconOf(c);
                 return (
                   <li key={c.key}>
                     <a
@@ -74,7 +72,7 @@ export default function FloatingContact({ channels }: { channels: ContactChannel
                       {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       className="flex min-h-11 items-center gap-2.5 rounded-full border border-slate-200 bg-white pr-4 pl-3 text-sm font-semibold text-slate-800 shadow-lg transition-colors hover:border-slate-300"
                     >
-                      <Icon aria-hidden="true" className="size-4 text-red-600" />
+                      <ChannelIcon channelKey={c.key} className="size-4" />
                       {c.label}
                     </a>
                   </li>
