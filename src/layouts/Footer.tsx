@@ -102,8 +102,11 @@ export default async function Footer() {
               <p className="flex gap-2.5">
                 <Clock aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-slate-500" />
                 <span className="leading-relaxed">
+                  {/* 🐛 เดิมแสดงแค่วันธรรมดา + วันหยุด (ไม่มีวันเสาร์ และไม่มีคำว่า "ปิด") ผู้ใช้แจ้งว่าแสดงไม่ครบ
+                      ✅ ครบ 3 บรรทัดเหมือนหน้าติดต่อเรา — ช่องที่หลังบ้านเว้นว่างไว้ไม่แสดง */}
                   {settings.businessHoursWeekdays}
-                  <span className="block text-slate-400">{settings.businessHoursClosed}</span>
+                  {settings.businessHoursSaturday && <span className="block">{settings.businessHoursSaturday}</span>}
+                  {settings.businessHoursClosed && <span className="block text-slate-400">ปิด{settings.businessHoursClosed}</span>}
                 </span>
               </p>
             </address>

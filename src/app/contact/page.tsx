@@ -91,8 +91,8 @@ export default async function ContactPage() {
                     <Clock aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-red-600" />
                     <span className="leading-relaxed text-slate-700">
                       {settings.businessHoursWeekdays}
-                      <span className="block">{settings.businessHoursSaturday}</span>
-                      <span className="block text-slate-500">ปิด{settings.businessHoursClosed}</span>
+                      {settings.businessHoursSaturday && <span className="block">{settings.businessHoursSaturday}</span>}
+                      {settings.businessHoursClosed && <span className="block text-slate-500">ปิด{settings.businessHoursClosed}</span>}
                     </span>
                   </p>
                 </address>
