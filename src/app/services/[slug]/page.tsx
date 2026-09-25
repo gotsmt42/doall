@@ -118,7 +118,6 @@ export default async function ServiceDetailPage({ params }: Props) {
                         </li>
                       ))}
                     </ul>
-                    <p className="mt-3 text-xs leading-relaxed text-slate-500">มิได้หมายความว่าเป็นตัวแทนจำหน่ายอย่างเป็นทางการ</p>
                   </>
                 )}
               </Card>

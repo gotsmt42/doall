@@ -1,11 +1,11 @@
 import Link from "next/link";
 import {
-  ArrowRight, Camera, Fingerprint, Flame, Info, Network, Package, ShieldCheck, type LucideIcon,
+  ArrowRight, Camera, Fingerprint, Flame, Network, Package, ShieldCheck, type LucideIcon,
 } from "lucide-react";
 
 import BrandMark from "@/components/BrandMark";
 import { ButtonLink, Container, Section, SectionHeading, cx } from "@/components/ui";
-import { BRANDS_DISCLAIMER, type Brand } from "@/data/brands";
+import type { Brand } from "@/data/brands";
 import { getContent } from "@/lib/cms";
 
 /** ไอคอนของแต่ละหมวด — หมวดที่ไม่รู้จัก (เพิ่มใหม่จากหลังบ้าน) ใช้ไอคอนกลาง */
@@ -156,10 +156,6 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
           </ul>
         )}
 
-        <p className="mt-6 flex items-start gap-2 text-xs leading-relaxed text-slate-500">
-          <Info aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
-          {BRANDS_DISCLAIMER}
-        </p>
       </Container>
     </Section>
   );

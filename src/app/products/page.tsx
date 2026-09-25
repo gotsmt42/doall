@@ -1,6 +1,5 @@
 import ProductCatalog from "@/components/ProductCatalog";
 import { ButtonLink, Container, EmptyState, Section } from "@/components/ui";
-import { BRANDS_DISCLAIMER } from "@/data/brands";
 import { getContent } from "@/lib/cms";
 import Breadcrumb, { PageHeader } from "@/layouts/Breadcrumb";
 import { pageMetadata } from "@/lib/seo";
@@ -37,7 +36,6 @@ export default async function ProductsPage() {
           ) : (
             <ProductCatalog products={products} />
           )}
-          <p className="mt-10 text-xs leading-relaxed text-slate-500">{BRANDS_DISCLAIMER}</p>
         </Container>
       </Section>
       <CtaBand />
