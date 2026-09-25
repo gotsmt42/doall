@@ -108,7 +108,7 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
 
                   {others.length > 0 && (
                     <>
-                      <p className="mt-6 text-xs font-semibold tracking-wide text-slate-500 uppercase">รองรับเพิ่มเติม</p>
+                      <p className="mt-6 text-xs font-semibold tracking-wide text-slate-500 uppercase">แบรนด์ชั้นนำอื่น ๆ</p>
                       <ul className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
                         {others.map((b) => (
                           <li key={b.name} className="flex h-16 items-center justify-center rounded-xl border border-slate-200 bg-white px-2.5 sm:h-20 sm:px-4 transition-[border-color,box-shadow] duration-200 hover:border-slate-300 hover:shadow-sm">
