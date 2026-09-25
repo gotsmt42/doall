@@ -16,7 +16,6 @@ export const PRODUCT_CATEGORIES: readonly { value: ProductCategory; label: strin
   { value: "fire-alarm", label: "Fire Alarm" },
   { value: "cctv", label: "CCTV" },
   { value: "access-control", label: "Access Control" },
-  { value: "network", label: "Network" },
   { value: "security", label: "Security" },
   { value: "accessories", label: "อุปกรณ์เสริม" },
 ] as const;
@@ -271,40 +270,6 @@ export const PRODUCTS: readonly Product[] = [
     datasheet: "",
   },
 
-  // ── Network ──
-  {
-    id: "net-switch",
-    category: "network",
-    type: "อุปกรณ์เครือข่าย",
-    name: "Network Switch สำหรับองค์กร",
-    brand: "Cisco",
-    model: "",
-    description: "สวิตช์เครือข่ายสำหรับเชื่อมต่อคอมพิวเตอร์ กล้อง และอุปกรณ์ในองค์กร รองรับการจ่ายไฟผ่านสาย LAN",
-    specs: [{ label: "การจ่ายไฟผ่านสาย", value: "รองรับ PoE (ตามรุ่น)" }],
-    datasheet: "",
-  },
-  {
-    id: "net-access-point",
-    category: "network",
-    type: "อุปกรณ์เครือข่าย",
-    name: "จุดกระจายสัญญาณ Wi-Fi (Access Point)",
-    brand: "Ubiquiti",
-    model: "",
-    description: "กระจายสัญญาณ Wi-Fi ครอบคลุมทั้งชั้น บริหารจัดการจากศูนย์กลางได้",
-    specs: [{ label: "การติดตั้ง", value: "ติดเพดานหรือผนัง" }],
-    datasheet: "",
-  },
-  {
-    id: "net-rack",
-    category: "network",
-    type: "ตู้และสาย",
-    name: "ตู้ Rack และ Patch Panel",
-    brand: "หลายยี่ห้อ",
-    model: "",
-    description: "ตู้จัดเก็บอุปกรณ์เครือข่ายพร้อมแผงเชื่อมต่อสาย จัดระเบียบสายให้ตรวจสอบและแก้ไขได้ง่าย",
-    specs: [{ label: "ขนาด", value: "เลือกตามจำนวนอุปกรณ์" }],
-    datasheet: "",
-  },
 
   // ── Security ──
   {

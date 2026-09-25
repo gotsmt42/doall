@@ -20,8 +20,8 @@ export default async function ServicesGrid() {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading
             eyebrow="บริการของเรา"
-            title="งานระบบที่เรารับผิดชอบตั้งแต่ต้นจนจบ"
-            description="ตั้งแต่สำรวจหน้างานและออกแบบ ไปจนถึงติดตั้ง ทดสอบ ส่งมอบ และดูแลต่อเนื่องหลังการขาย"
+            title="บริการงานระบบครบวงจร"
+            description="ครอบคลุมระบบป้องกันอัคคีภัยและระบบความปลอดภัยของอาคาร ตั้งแต่ออกแบบ ติดตั้ง ทดสอบ ส่งมอบ จนถึงบำรุงรักษาหลังการขาย"
           />
           <ButtonLink href="/services" variant="secondary" className="shrink-0">
             ดูบริการทั้งหมด

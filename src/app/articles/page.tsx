@@ -7,10 +7,10 @@ import { pageMetadata } from "@/lib/seo";
 import { CtaBand } from "@/sections/BrandsAndCta";
 
 export const metadata = pageMetadata({
-  title: "บทความและความรู้งานระบบ Fire Alarm, Fire Pump, CCTV, Access Control และ Network",
+  title: "บทความและความรู้งานระบบ Fire Alarm, Fire Protection, Fire Pump, CCTV และ Access Control",
   description:
     "บทความความรู้สำหรับเจ้าของอาคารและผู้จัดการโครงการ เรื่องระบบแจ้งเหตุเพลิงไหม้ ระบบ Fire Pump กล้องวงจรปิด " +
-    "ระบบควบคุมการเข้าออก งานเดินสายเครือข่าย และการบำรุงรักษา เขียนโดยทีมวิศวกร",
+    "ระบบควบคุมการเข้าออก และการบำรุงรักษา เขียนโดยทีมวิศวกร",
   path: "/articles",
   keywords: ["ความรู้ fire alarm", "ความรู้ fire pump", "ความรู้กล้องวงจรปิด", "access control", "บทความงานระบบ"],
 });

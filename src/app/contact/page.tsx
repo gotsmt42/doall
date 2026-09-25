@@ -11,7 +11,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "ติดต่อเรา — สอบถามงานระบบและนัดสำรวจหน้างาน",
-  description: `ติดต่อ ${COMPANY.nameTh} ออฟฟิศรามอินทรา เขตคันนายาว กรุงเทพฯ สอบถามงานระบบ Fire Alarm, CCTV, Access Control, Network และ Fire Pump หรือนัดสำรวจหน้างาน`,
+  description: `ติดต่อ ${COMPANY.nameTh} ออฟฟิศรามอินทรา เขตคันนายาว กรุงเทพฯ สอบถามงานระบบ Fire Alarm, Fire Protection, Fire Pump, CCTV และ Access Control หรือนัดสำรวจหน้างาน`,
   path: "/contact",
   keywords: ["ติดต่อผู้รับเหมางานระบบ", "ติดตั้ง fire alarm รามอินทรา", "ผู้รับเหมางานระบบ คันนายาว", "ผู้รับเหมางานระบบ กรุงเทพ", "ผู้รับเหมางานระบบ นนทบุรี"],
 });

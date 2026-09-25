@@ -11,10 +11,10 @@ import { pageMetadata } from "@/lib/seo";
 import { CtaBand } from "@/sections/BrandsAndCta";
 
 export const metadata = pageMetadata({
-  title: "บริการงานระบบ Fire Alarm, Fire Protection, Fire Pump, CCTV, Access Control และ Network",
+  title: "บริการงานระบบ Fire Alarm, Fire Protection, Fire Pump, CCTV และ Access Control",
   description:
     "บริการออกแบบ ติดตั้ง ทดสอบ และบำรุงรักษางานระบบแจ้งเหตุเพลิงไหม้ ระบบป้องกันอัคคีภัย กล้องวงจรปิด ระบบควบคุมการเข้าออก " +
-    "ระบบเครือข่าย และระบบเครื่องสูบน้ำดับเพลิง (Fire Pump) พร้อมบริการ PM/CM",
+    "และระบบเครื่องสูบน้ำดับเพลิง (Fire Pump) พร้อมบริการ PM/CM",
   path: "/services",
   keywords: ["บริการงานระบบ", "รับติดตั้งระบบ", "ผู้รับเหมางานระบบ"],
 });

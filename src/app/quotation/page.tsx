@@ -7,9 +7,9 @@ import Breadcrumb, { PageHeader } from "@/layouts/Breadcrumb";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "ขอใบเสนอราคา — งานระบบ Fire Alarm, CCTV, Access Control, Network",
+  title: "ขอใบเสนอราคา — งานระบบ Fire Alarm, Fire Protection, Fire Pump, CCTV, Access Control",
   description:
-    "ขอใบเสนอราคางานติดตั้งและบำรุงรักษาระบบ Fire Alarm, CCTV, Access Control, Network และ Fire Pump " +
+    "ขอใบเสนอราคางานติดตั้งและบำรุงรักษาระบบ Fire Alarm, Fire Protection, Fire Pump, CCTV และ Access Control " +
     "แนบแบบหรือรูปหน้างานได้ ทีมงานติดต่อกลับเพื่อประเมินงานภายในวันทำการถัดไป",
   path: "/quotation",
   keywords: ["ขอใบเสนอราคา fire alarm", "ราคาติดตั้ง cctv", "ใบเสนอราคางานระบบ"],

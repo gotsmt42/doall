@@ -15,7 +15,7 @@ export const metadata = pageMetadata({
   title: "เกี่ยวกับเรา — ประวัติบริษัท วิสัยทัศน์ และพันธกิจ",
   description:
     `${COMPANY.nameTh} รับออกแบบ จำหน่าย ติดตั้ง และบำรุงรักษาระบบ Fire Alarm ` +
-    "CCTV, Access Control, Network และ Fire Pump ดูแลโดยทีมวิศวกรประสบการณ์กว่า 10 ปี",
+    "Fire Protection, Fire Pump, CCTV และ Access Control ดูแลโดยทีมวิศวกรประสบการณ์กว่า 10 ปี",
   path: "/about",
   keywords: ["ประวัติบริษัท", "ผู้รับเหมางานระบบ", "บริษัทรับเหมางานระบบ นนทบุรี", "DO ALL ARCHITECT AND ENGINEERING"],
 });

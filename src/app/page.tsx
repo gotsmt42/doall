@@ -16,7 +16,7 @@ import { pageMetadata } from "@/lib/seo";
  *    ยาวเกินจะถูก Google ตัดท้ายเป็น "..." ส่วนที่ถูกตัดคือชื่อบริษัทพอดี
  */
 export const metadata = pageMetadata({
-  title: "ติดตั้งระบบ Fire Alarm, CCTV, Access Control, Network | DO ALL ARCHITECT AND ENGINEERING",
+  title: "ติดตั้งระบบ Fire Alarm, Fire Protection, CCTV, Access Control | DO ALL ARCHITECT AND ENGINEERING",
   description: COMPANY.descriptionTh,
   path: "/",
 });
