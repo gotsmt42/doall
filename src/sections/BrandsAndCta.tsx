@@ -65,8 +65,8 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading
             eyebrow="Brands & Products We Work With"
-            title="ยี่ห้ออุปกรณ์ที่เราจัดหาและติดตั้ง"
-            description="เลือกอุปกรณ์จากผู้ผลิตที่มีมาตรฐานรองรับและหาอะไหล่ทดแทนได้ พร้อมดูแลระบบเดิมได้หลายยี่ห้อ"
+            title="แบรนด์อุปกรณ์ที่เราเลือกใช้"
+            description="คัดเลือกอุปกรณ์จากผู้ผลิตชั้นนำที่เป็นที่ยอมรับ เหมาะกับลักษณะอาคารและงบประมาณของแต่ละโครงการ"
           />
           <Link
             href="/contact"
@@ -92,7 +92,7 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
                   </span>
                   <span>
                     <span className="block text-lg font-bold text-white">{g.category}</span>
-                    <span className="block text-sm text-slate-400">{CATEGORY_TH[g.category] ?? "ยี่ห้อที่เราติดตั้งและดูแล"}</span>
+                    <span className="block text-sm text-slate-400">{CATEGORY_TH[g.category] ?? "แบรนด์ที่เราเลือกใช้"}</span>
                   </span>
                 </div>
 
@@ -142,7 +142,7 @@ export function Brands({ brands }: { brands: readonly Brand[] }) {
                     </span>
                     <span>
                       <span className="block font-bold text-slate-900">{g.category}</span>
-                      <span className="block text-xs text-slate-500">{CATEGORY_TH[g.category] ?? "ยี่ห้อที่เราติดตั้งและดูแล"}</span>
+                      <span className="block text-xs text-slate-500">{CATEGORY_TH[g.category] ?? "แบรนด์ที่เราเลือกใช้"}</span>
                     </span>
                   </div>
                   <ul className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-slate-100 pt-3 sm:mt-5 sm:pt-4">

@@ -114,7 +114,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 </ul>
                 {service.brands && service.brands.length > 0 && (
                   <>
-                    <h2 className="mt-6 border-t border-slate-100 pt-6 text-base font-bold">ยี่ห้อที่เราติดตั้งและดูแล</h2>
+                    <h2 className="mt-6 border-t border-slate-100 pt-6 text-base font-bold">ตัวอย่างแบรนด์ที่เราเลือกใช้</h2>
                     <ul className={`mt-4 grid gap-2 ${service.brands.length <= 2 ? "grid-cols-2" : "grid-cols-3"}`}>
                       {service.brands.map((b) => (
                         <li key={b} className="flex h-14 items-center justify-center rounded-lg border border-slate-200 bg-white px-2">

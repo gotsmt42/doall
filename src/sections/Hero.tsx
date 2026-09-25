@@ -30,71 +30,42 @@ export default function Hero() {
         }}
       />
 
-      <Container className="relative py-16 sm:py-20 lg:py-28">
+      <Container className="relative py-12 sm:py-20 lg:py-28">
         <div className="max-w-3xl">
           <p className="inline-flex items-center gap-2 rounded-full border border-red-100 bg-red-50 px-3.5 py-1.5 text-xs font-semibold text-red-700 sm:text-sm">
             <ShieldCheck aria-hidden="true" className="size-4" />
-            งานระบบความปลอดภัยและวิศวกรรมครบวงจร
+            ผู้รับเหมางานระบบอาคารครบวงจร
           </p>
 
-          <h1 className="mt-6 text-[1.75rem] leading-[1.25] font-bold text-slate-900 sm:text-4xl lg:text-[3.25rem] lg:leading-[1.15]">
-            ออกแบบ ติดตั้ง และดูแลระบบ
-            {/* ⚠️ เขียนเป็นประโยคปกติ "A, B, C และ D" โดยห่อแต่ละชื่อไม่ให้ตัดกลางคำ
-                🐛 แบบแรกตัดเป็น "Access / Control" คนละบรรทัด · แบบที่สองใช้จุดคั่น แล้วพอขึ้น
-                   บรรทัดใหม่ จุดไปขึ้นต้นบรรทัด ("• Access Control") ดูผิดที่ทุกความกว้างจอ
-                ✅ ขึ้นบรรทัดหลังจุลภาคเป็นการเรียงพิมพ์ปกติ จึงดูถูกต้องไม่ว่าจะตัดตรงไหน */}
+          {/* ✅ บริษัทสั่ง (25 ก.ย. 2569): "หน้าแรกในมือถือดูรก" + "คำอธิบายไม่มืออาชีพ ให้ใช้สำหรับอาคารทุกขนาด"
+              🐛 เดิม h1 ไล่ชื่อระบบ 6 ชื่อเป็นตัวแดงใหญ่ บนมือถือยาว 6 บรรทัดจนกินทั้งจอ
+              ✅ h1 สั้นลงเหลือ "สิ่งที่เราทำ" · ชื่อระบบย้ายไปเป็นป้ายลิงก์เล็กใต้ย่อหน้า (ยังเป็นลิงก์ภายใน ช่วย SEO เหมือนเดิม)
+              ⚠️ คำค้นชื่อระบบ (Fire Alarm, CCTV ...) ยังอยู่ใน <title> และคำอธิบายหน้าครบ ไม่เสียอันดับ */}
+          <h1 className="mt-6 text-[1.9rem] leading-[1.25] font-bold text-slate-900 sm:text-4xl lg:text-[3.25rem] lg:leading-[1.15]">
+            ออกแบบ ติดตั้ง และดูแล
+            {/* ⚠️ ห่อเป็นสองวลีห้ามตัดกลาง — ภาษาไทยไม่มีช่องว่าง เบราว์เซอร์เคยตัดเป็น "…และความ / ปลอดภัยอาคาร" */}
             <span className="mt-1 block text-red-600">
-              {["Fire Alarm", "Fire Protection", "Fire Pump", "CCTV", "Access Control", "Network"].map((name, i, all) => (
-                <span key={name}>
-                  {i > 0 && (i === all.length - 1 ? " และ " : ", ")}
-                  <span className="whitespace-nowrap">{name}</span>
-                </span>
-              ))}
+              <span className="whitespace-nowrap">งานระบบป้องกันอัคคีภัย</span>{" "}
+              <span className="whitespace-nowrap">และความปลอดภัยอาคาร</span>
             </span>
           </h1>
 
-          {/* ✅ บริษัทสั่ง: "แสดงรายละเอียดให้มืออาชีพกว่านี้ ไม่ใช่แสดงแค่ระบบเดียว เอาสั้นๆ ได้ใจความ"
-              ⚠️ ย่อหน้านี้ต้องพูดถึง "ทั้งบริษัท" ไม่ใช่ระบบใดระบบหนึ่ง — รายชื่อยี่ห้ออยู่ส่วน "ยี่ห้อ" ท้ายหน้าแล้ว
-              ⚠️ ยาวไม่เกินสองบรรทัดบนจอใหญ่ — ส่วนหัวของหน้าแรกคือที่ที่คนอ่านน้อยที่สุด ตัดสินใจเร็วที่สุด */}
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
-            ดูแลครบทุกขั้นตอน ตั้งแต่สำรวจหน้างาน ออกแบบ ติดตั้ง ทดสอบ จนถึงบำรุงรักษา
-            ให้ระบบพร้อมใช้งานจริงทุกวัน สำหรับโรงงาน หน่วยงานราชการ คลังสินค้า และอาคารพาณิชย์
+          {/* ⚠️ พูดถึง "ทั้งบริษัท" และ "อาคารทุกขนาด" (บริษัทสั่ง) — ไม่ไล่ประเภทลูกค้าเป็นรายการยาว */}
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 sm:mt-6 sm:text-lg">
+            บริการครบวงจรสำหรับอาคารทุกขนาด ตั้งแต่สำรวจ ออกแบบ ติดตั้ง ทดสอบ
+            จนถึงบำรุงรักษา โดยทีมวิศวกรผู้เชี่ยวชาญ
           </p>
 
-          {/* จุดเด่นสามข้อ — กวาดตาเดียวรู้ว่าต่างจากผู้รับเหมาทั่วไปตรงไหน
-              ⚠️ ทุกข้อต้องเป็นเรื่องจริงที่บริษัทยืนยันแล้ว: ประสบการณ์ 10 ปี (บริษัทแจ้ง) ·
-                 ปรึกษาฟรี (มีในเว็บเดิมของบริษัท) · รายงานผล/PM (ขอบเขตงานบริการจริง) */}
-          <ul className="mt-5 grid gap-2 sm:grid-cols-3 sm:gap-4">
-            {["ทีมวิศวกรประสบการณ์กว่า 10 ปี", "ให้คำปรึกษาก่อนตัดสินใจ ฟรี", "รายงานผลและบริการ PM หลังส่งมอบ"].map((t) => (
-              <li key={t} className="flex items-start gap-2 text-sm font-medium text-slate-700">
-                <CheckCircle2 aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-red-600" />
-                {t}
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/quotation" size="lg">
-              ขอใบเสนอราคา
-              <ArrowRight aria-hidden="true" className="size-4" />
-            </ButtonLink>
-            <ButtonLink href="/contact" variant="secondary" size="lg">
-              ปรึกษาทีมงาน
-            </ButtonLink>
-          </div>
-
-          {/* ลิงก์ลัดไปบริการแต่ละตัว — ช่วยทั้งผู้ใช้และการเชื่อมโยงภายในเว็บสำหรับ SEO */}
-          <nav aria-label="บริการหลัก" className="mt-10 border-t border-slate-200 pt-6">
-            <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">บริการของเรา</p>
-            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-              {SERVICES.map((s) => (
+          {/* ระบบที่ให้บริการ — ป้ายลิงก์เล็ก กวาดตาเดียวเห็นครบ และเป็นลิงก์ภายในเว็บสำหรับ SEO */}
+          <nav aria-label="ระบบที่ให้บริการ" className="mt-6">
+            <ul className="flex flex-wrap gap-2">
+              {SERVICES.filter((s) => s.slug !== "maintenance").map((s) => (
                 <li key={s.slug}>
-                  {/* ⚠️ ลิงก์ภายในต้องเป็น <Link> เสมอ — <a> ธรรมดาทำให้โหลดหน้าใหม่ทั้งหน้า
-                      (ทิ้ง JS/CSS ที่โหลดไว้แล้ว) แทนที่จะสลับหน้าทันทีแบบ SPA */}
+                  {/* ⚠️ ลิงก์ภายในต้องเป็น <Link> เสมอ — <a> ธรรมดาทำให้โหลดหน้าใหม่ทั้งหน้า */}
                   <Link
                     href={`/services/${s.slug}`}
                     prefetch={false}
-                    className="text-sm font-medium text-slate-700 underline-offset-4 transition-colors hover:text-red-600 hover:underline"
+                    className="inline-flex min-h-9 items-center rounded-full border border-slate-200 bg-white px-3.5 text-sm font-semibold text-slate-700 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-700"
                   >
                     {s.name}
                   </Link>
@@ -102,6 +73,29 @@ export default function Hero() {
               ))}
             </ul>
           </nav>
+
+          {/* ปุ่มสองปุ่มวางคู่กันตั้งแต่มือถือ — ไม่ต้องเลื่อนลงไปหาปุ่มที่สอง */}
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:flex">
+            <ButtonLink href="/quotation" size="lg" className="px-4 whitespace-nowrap">
+              ขอใบเสนอราคา
+              <ArrowRight aria-hidden="true" className="hidden size-4 sm:block" />
+            </ButtonLink>
+            <ButtonLink href="/contact" variant="secondary" size="lg" className="px-4 whitespace-nowrap">
+              ปรึกษาทีมงาน
+            </ButtonLink>
+          </div>
+
+          {/* จุดเด่นสามข้อ — ย้ายมาใต้ปุ่มเป็นแถบเล็ก ให้ปุ่มขึ้นมาอยู่ในจอแรกของมือถือ
+              ⚠️ ทุกข้อต้องเป็นเรื่องจริงที่บริษัทยืนยันแล้ว: ประสบการณ์ 10 ปี (บริษัทแจ้ง) ·
+                 ปรึกษาฟรี (มีในเว็บเดิมของบริษัท) · รายงานผล/PM (ขอบเขตงานบริการจริง) */}
+          <ul className="mt-8 grid gap-2 border-t border-slate-200 pt-6 sm:grid-cols-3 sm:gap-4">
+            {["ทีมวิศวกรประสบการณ์กว่า 10 ปี", "ให้คำปรึกษาก่อนตัดสินใจ ฟรี", "รายงานผลและบริการ PM หลังส่งมอบ"].map((t) => (
+              <li key={t} className="flex items-start gap-2 text-sm font-medium text-slate-700">
+                <CheckCircle2 aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-red-600" />
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </section>
