@@ -20,7 +20,9 @@ import { PROJECTS, type Project } from "@/data/projects";
 export const CONTENT_TAG = "web-content";
 
 /** อัปเดตเองทุก 5 นาทีแม้ไม่มีคนสั่ง — กันกรณีคำสั่งดึงใหม่จาก server ตกหล่น */
-const REVALIDATE_SECONDS = 300;
+// ✅ ลดจาก 5 นาทีเหลือ 1 นาที (25 ก.ย. 2569) — ผู้ใช้เห็นข้อมูลเก่าค้างหลัง deploy server ใหม่
+//    (บันทึกจากหลังบ้านยังสั่งอัปเดตทันทีเหมือนเดิม ตัวนี้คือตาข่ายรองรับกรณีสั่งไม่ถึง)
+const REVALIDATE_SECONDS = 60;
 
 export type SiteSettings = {
   stats: { value: number; suffix: string; label: string; note: string }[];
