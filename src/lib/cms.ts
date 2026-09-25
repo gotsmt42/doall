@@ -34,6 +34,8 @@ export type SiteSettings = {
   emergencyNote: string;
   serviceAreas: string[];
   announcement: string;
+  /** รูปของแต่ละบริการที่อัปจากหลังบ้าน — ไม่มี = ใช้ภาพประกอบที่ติดมากับเว็บ (ดู lib/service-image.ts) */
+  serviceImages: { slug: string; src: string; width: number; height: number; alt: string }[];
 };
 
 export type SiteContact = { tel: string; telRaw: string; email: string; lineUrl: string; facebookUrl: string };
@@ -61,6 +63,7 @@ const FALLBACK_SETTINGS: SiteSettings = {
   emergencyNote: COMPANY.businessHours.emergencyNote,
   serviceAreas: [...COMPANY.serviceAreas],
   announcement: "",
+  serviceImages: [],
 };
 
 const FALLBACK_CONTACT: SiteContact = {
@@ -168,6 +171,9 @@ function normalize(data: any): SiteContent {
     settings: {
       ...FALLBACK_SETTINGS,
       ...Object.fromEntries(Object.entries(s).filter(([, v]) => v !== undefined && v !== null)),
+      serviceImages: (Array.isArray(s.serviceImages) ? s.serviceImages : [])
+        .filter((x: any) => x && validUrl(str(x.url)) && Number(x.width) > 0 && Number(x.height) > 0)
+        .map((x: any) => ({ slug: str(x.slug), src: x.url, width: Number(x.width), height: Number(x.height), alt: str(x.alt) })),
     } as SiteSettings,
     contact: {
       tel,

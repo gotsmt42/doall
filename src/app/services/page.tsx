@@ -2,16 +2,18 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import ServiceIcon from "@/components/ServiceIcon";
+import ServiceImage from "@/components/ServiceImage";
 import { Card, CheckList, Container, Section, SectionHeading } from "@/components/ui";
 import { SERVICES } from "@/data/services";
+import { getContent } from "@/lib/cms";
 import Breadcrumb, { PageHeader } from "@/layouts/Breadcrumb";
 import { pageMetadata } from "@/lib/seo";
 import { CtaBand } from "@/sections/BrandsAndCta";
 
 export const metadata = pageMetadata({
-  title: "บริการงานระบบ Fire Alarm, Fire Pump, CCTV, Access Control และ Network",
+  title: "บริการงานระบบ Fire Alarm, Fire Protection, Fire Pump, CCTV, Access Control และ Network",
   description:
-    "บริการออกแบบ ติดตั้ง ทดสอบ และบำรุงรักษางานระบบแจ้งเหตุเพลิงไหม้ กล้องวงจรปิด ระบบควบคุมการเข้าออก " +
+    "บริการออกแบบ ติดตั้ง ทดสอบ และบำรุงรักษางานระบบแจ้งเหตุเพลิงไหม้ ระบบป้องกันอัคคีภัย กล้องวงจรปิด ระบบควบคุมการเข้าออก " +
     "ระบบเครือข่าย และระบบเครื่องสูบน้ำดับเพลิง (Fire Pump) พร้อมบริการ PM/CM",
   path: "/services",
   keywords: ["บริการงานระบบ", "รับติดตั้งระบบ", "ผู้รับเหมางานระบบ"],
@@ -27,7 +29,8 @@ const PROCESS = [
   { title: "ดูแลหลังการขาย", detail: "รับประกันงานติดตั้ง และบริการบำรุงรักษาตามรอบสำหรับลูกค้าที่ต้องการ" },
 ] as const;
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const { settings } = await getContent();
   return (
     <>
       <Breadcrumb items={[{ name: "บริการ", href: "/services" }]} />
@@ -43,7 +46,9 @@ export default function ServicesPage() {
             {SERVICES.map((s) => (
               <li key={s.slug} data-reveal>
                 <Card interactive className="group h-full">
-                  <Link href={`/services/${s.slug}`} className="flex h-full flex-col p-6 sm:p-8">
+                  <Link href={`/services/${s.slug}`} className="flex h-full flex-col overflow-hidden">
+                    <ServiceImage slug={s.slug} title={s.title} settings={settings} sizes="(min-width:1024px) 580px, 100vw" />
+                    <div className="flex flex-1 flex-col p-6 sm:p-8">
                     <div className="flex items-start gap-4">
                       <ServiceIcon name={s.icon} />
                       <div>
@@ -57,6 +62,7 @@ export default function ServicesPage() {
                       ดูรายละเอียดบริการ
                       <ArrowRight aria-hidden="true" className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
                     </span>
+                    </div>
                   </Link>
                 </Card>
               </li>

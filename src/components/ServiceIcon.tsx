@@ -1,4 +1,4 @@
-import { Camera, Droplets, Fingerprint, Flame, Network, Ruler, Wrench } from "lucide-react";
+import { Camera, Droplets, FireExtinguisher, Fingerprint, Flame, Network, Ruler, Wrench } from "lucide-react";
 
 import { cx } from "@/components/ui";
 import type { ServiceIconKey } from "@/data/services";
@@ -10,6 +10,7 @@ import type { ServiceIconKey } from "@/data/services";
  */
 const MAP = {
   flame: Flame,
+  extinguisher: FireExtinguisher,
   camera: Camera,
   fingerprint: Fingerprint,
   network: Network,

@@ -6,6 +6,7 @@ import { ArrowRight, Building2, ChevronDown } from "lucide-react";
 import BrandMark from "@/components/BrandMark";
 import ProjectCard from "@/components/ProjectCard";
 import ServiceIcon from "@/components/ServiceIcon";
+import ServiceImage from "@/components/ServiceImage";
 import { ButtonLink, Card, CheckList, Container, JsonLd, Section, SectionHeading } from "@/components/ui";
 import { getContent } from "@/lib/cms";
 import { logoFor } from "@/data/brands";
@@ -98,6 +99,9 @@ export default async function ServiceDetailPage({ params }: Props) {
 
             {/* ประเภทอาคารที่ใช้ — ให้ลูกค้ารู้ตัวทันทีว่า "งานแบบของเขา" เราทำได้ */}
             <aside className="lg:col-span-5">
+              {/* ✅ รูปของระบบ (บริษัทสั่ง) — priority เพราะอยู่ส่วนบนของหน้า เป็นภาพแรกที่เห็น */}
+              <ServiceImage slug={service.slug} title={service.title} settings={content.settings} priority
+                sizes="(min-width:1024px) 460px, 100vw" className="mb-6 rounded-2xl border border-slate-200" />
               <Card className="p-6 sm:p-7">
                 <h2 className="flex items-center gap-2 text-base font-bold">
                   <Building2 aria-hidden="true" className="size-5 text-red-600" />

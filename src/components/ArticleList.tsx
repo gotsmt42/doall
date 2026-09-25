@@ -24,7 +24,7 @@ export type ArticleSummary = {
  *    และบทความทุกเรื่องยังอยู่ใน HTML ตั้งแต่แรก (เสิร์ชเอนจินเห็นครบ)
  * ⚠️ ส่งมาแค่ข้อมูลสรุป ไม่ส่งเนื้อหาเต็ม — ไม่งั้นเนื้อหาทุกบทความจะถูกฝังซ้ำในหน้า (หน้าหนักเกินจำเป็น)
  */
-const ORDER = ["Fire Alarm", "Fire Pump", "CCTV", "Access Control", "Network", "Maintenance"];
+const ORDER = ["Fire Alarm", "Fire Protection", "Fire Pump", "CCTV", "Access Control", "Network", "Maintenance"];
 const rank = (c: string) => (ORDER.includes(c) ? ORDER.indexOf(c) : ORDER.length);
 
 export default function ArticleList({ articles }: { articles: readonly ArticleSummary[] }) {

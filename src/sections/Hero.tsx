@@ -44,7 +44,7 @@ export default function Hero() {
                    บรรทัดใหม่ จุดไปขึ้นต้นบรรทัด ("• Access Control") ดูผิดที่ทุกความกว้างจอ
                 ✅ ขึ้นบรรทัดหลังจุลภาคเป็นการเรียงพิมพ์ปกติ จึงดูถูกต้องไม่ว่าจะตัดตรงไหน */}
             <span className="mt-1 block text-red-600">
-              {["Fire Alarm", "Fire Pump", "CCTV", "Access Control", "Network"].map((name, i, all) => (
+              {["Fire Alarm", "Fire Protection", "Fire Pump", "CCTV", "Access Control", "Network"].map((name, i, all) => (
                 <span key={name}>
                   {i > 0 && (i === all.length - 1 ? " และ " : ", ")}
                   <span className="whitespace-nowrap">{name}</span>
