@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Clock, Info } from "lucide-react";
@@ -103,6 +104,23 @@ function Block({ block }: { block: ArticleBlock }) {
           <p className="text-[15px] leading-relaxed text-slate-700">{block.text}</p>
         </aside>
       );
+    case "image":
+      return (
+        <figure className="mt-7">
+          {/* ⚠️ ใช้ความกว้าง/สูงจริงของไฟล์ที่อัป — รูปจึงไม่กระโดดตอนโหลด (CLS) และไม่ถูกยืดผิดสัดส่วน */}
+          <Image
+            src={block.image.src}
+            alt={block.image.alt}
+            width={block.image.width || 1200}
+            height={block.image.height || 800}
+            sizes="(min-width: 1024px) 720px, 100vw"
+            className="h-auto w-full rounded-xl border border-slate-200"
+          />
+          {block.caption ? (
+            <figcaption className="mt-2 text-center text-[14px] text-slate-500">{block.caption}</figcaption>
+          ) : null}
+        </figure>
+      );
   }
 }
 
@@ -151,6 +169,19 @@ export default async function ArticlePage({ params }: Props) {
                 </span>
               </p>
             </header>
+
+            {/* ✅ รูปปกขึ้นหัวบทความด้วย (ผู้ใช้แจ้งว่าอัปรูปปกแล้วไม่เห็นบนเว็บ) — เดิมใช้เฉพาะตอนแชร์ลิงก์ */}
+            {article.cover ? (
+              <Image
+                src={article.cover.src}
+                alt={article.cover.alt}
+                width={article.cover.width || 1200}
+                height={article.cover.height || 630}
+                priority
+                sizes="(min-width: 1024px) 720px, 100vw"
+                className="mt-8 h-auto w-full rounded-xl border border-slate-200"
+              />
+            ) : null}
 
             {/* ⚠️ max-w ~68 ตัวอักษรต่อบรรทัด — บรรทัดยาวกว่านี้ตาต้องกวาดไกล อ่านบทความยาวแล้วล้า */}
             <div className="mt-8 max-w-[68ch] border-t border-slate-200 pt-2">

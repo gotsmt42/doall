@@ -144,7 +144,15 @@ function normalize(data: any): SiteContent {
     publishedAt: isoDate(a.publishedAt),
     updatedAt: isoDate(a.updatedAt) || undefined,
     cover: toImage(a.cover, str(a.title)) ?? undefined,
-    body: (a.body || []) as ArticleBlock[],
+    /**
+     * ⚠️ บล็อกรูปต้องแปลง url → src ให้เหมือนรูปอื่นทั้งเว็บก่อน (API ส่ง url มาตรงจากฐานข้อมูล)
+     * บล็อกรูปที่ยังไม่ได้อัปรูป (image ว่าง) ถูกตัดทิ้ง — ไม่งั้นหน้าเว็บจะมีกรอบรูปเปล่าค้างอยู่
+     */
+    body: (a.body || []).flatMap((b: any) => {
+      if (b?.type !== "image") return [b as ArticleBlock];
+      const image = toImage(b.image, str(a.title));
+      return image ? [{ type: "image", image, caption: str(b.caption) } as ArticleBlock] : [];
+    }),
   }));
 
   const s = data.settings || {};

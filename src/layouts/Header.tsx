@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Menu, Phone, X } from "lucide-react";
+import { ChevronDown, Menu, Phone, Search, X } from "lucide-react";
 
 import { ButtonLink, Container, cx } from "@/components/ui";
 import { COMPANY } from "@/data/company";
@@ -194,6 +194,21 @@ export default function Header({ tel, telRaw, showArticles }: { tel: string; tel
           </nav>
 
           <div className="flex items-center gap-2">
+            {/* ✅ ช่องค้นหาทั้งเว็บ — เป็นฟอร์มธรรมดา (method GET) จึงใช้งานได้ตั้งแต่ HTML ชุดแรก
+                ไม่ต้องรอ JavaScript และไม่ต้องมี state ใดๆ ในไฟล์นี้
+                ⚠️ ซ่อนบนจอเล็กเพราะแถวบนแคบมาก — จอเล็กใช้ช่องค้นหาในเมนูมือถือแทน (ด้านล่าง) */}
+            <form action="/search" role="search" className="relative hidden md:block">
+              <label htmlFor="site-search" className="sr-only">ค้นหาในเว็บไซต์</label>
+              <Search aria-hidden="true" className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" />
+              <input
+                id="site-search"
+                type="search"
+                name="q"
+                placeholder="ค้นหา"
+                className="h-10 w-36 rounded-lg border border-slate-200 bg-slate-50 pr-3 pl-9 text-sm outline-none transition-[width,background-color,border-color] focus:w-56 focus:border-red-400 focus:bg-white focus:ring-2 focus:ring-red-100 lg:w-40 lg:focus:w-64"
+              />
+            </form>
+
             {/* เบอร์โทรบนแถบบน — ลูกค้า B2B จำนวนมากโทรมากกว่ากรอกฟอร์ม
                 ⚠️ ขึ้นเฉพาะเมื่อมีเบอร์จริง (ดู company.ts) */}
             {telRaw && (
@@ -230,6 +245,19 @@ export default function Header({ tel, telRaw, showArticles }: { tel: string; tel
               ถ้าไม่จำกัด ปุ่มล่างสุดจะตกจอจนกดไม่ได้เลย */}
           <nav aria-label="เมนูหลัก (มือถือ)" className="max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
             <Container className="py-3">
+              {/* ✅ ช่องค้นหาของจอเล็ก — อยู่บนสุดของเมนู กดแล้วไปหน้าผลการค้นหาเหมือนจอใหญ่ */}
+              <form action="/search" role="search" className="relative mb-3">
+                <label htmlFor="site-search-mobile" className="sr-only">ค้นหาในเว็บไซต์</label>
+                <Search aria-hidden="true" className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-slate-400" />
+                <input
+                  id="site-search-mobile"
+                  type="search"
+                  name="q"
+                  placeholder="ค้นหาบริการ สินค้า ผลงาน บทความ"
+                  className="h-12 w-full rounded-xl border border-slate-300 bg-white pr-4 pl-11 text-[15px] outline-none focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                />
+              </form>
+
               {nav.map((item) => (
                 <div key={item.href}>
                   <Link

@@ -17,8 +17,14 @@ import { PRODUCT_CATEGORIES, type Product, type ProductCategory, categoryLabel }
  *    (สินค้าหลักร้อยรายการ ถ้ากรองทุกครั้งที่กดแป้น ช่องค้นหาจะรู้สึกหน่วงบนมือถือรุ่นเก่า)
  * ⚠️ ค้นหาได้ทั้ง ชื่อ รุ่น ยี่ห้อ ประเภท และคำอธิบาย แบบไม่สนตัวพิมพ์เล็ก-ใหญ่
  */
-export default function ProductCatalog({ products }: { products: readonly Product[] }) {
-  const [query, setQuery] = useState("");
+/**
+ * @param initialQuery คำค้นตั้งต้นจาก ?q= — หน้าผลการค้นหาทั้งเว็บลิงก์มาที่นี่พร้อมชื่อสินค้า
+ * ⚠️ รับเป็น prop จาก Server Component (ไม่ใช่ useSearchParams) เพราะการอ่าน URL ฝั่งเบราว์เซอร์
+ *    ต้องครอบ Suspense แล้วแค็ตตาล็อกจะหลุดออกจาก HTML ชุดแรกทั้งก้อน = เสิร์ชเอนจินไม่เห็นสินค้าเลย
+ * ⚠️ ใส่เป็นค่าเริ่มต้นของ state เท่านั้น ไม่ sync กลับไปที่ URL — ผู้ใช้พิมพ์ต่อ/ลบทิ้งได้ตามปกติ
+ */
+export default function ProductCatalog({ products, initialQuery = "" }: { products: readonly Product[]; initialQuery?: string }) {
+  const [query, setQuery] = useState(initialQuery);
   const [category, setCategory] = useState<ProductCategory | "all">("all");
   const [brand, setBrand] = useState("all");
   const [type, setType] = useState("all");

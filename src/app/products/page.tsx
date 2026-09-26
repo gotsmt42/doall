@@ -14,7 +14,15 @@ export const metadata = pageMetadata({
   keywords: ["จำหน่ายอุปกรณ์ fire alarm", "Notifier fire alarm", "Edwards fire alarm", "Hochiki", "Asenware", "GST", "จำหน่ายกล้องวงจรปิด", "อุปกรณ์ access control"],
 });
 
-export default async function ProductsPage() {
+/**
+ * ⚠️ หน้านี้เป็น server-rendered ตามคำขอ (ไม่ใช่ static) เพราะรับ ?q= จากหน้าผลการค้นหา
+ *    แลกมาด้วยการไม่ถูกแคชเป็นไฟล์นิ่ง แต่ HTML ยังมีสินค้าครบทุกชิ้นเหมือนเดิม (เสิร์ชเอนจินเห็นครบ)
+ *    — ทางเลือกอื่นคืออ่าน URL ฝั่งเบราว์เซอร์ ซึ่งต้องครอบ Suspense แล้วแค็ตตาล็อกจะหายจาก HTML
+ */
+type Props = { searchParams: Promise<{ q?: string }> };
+
+export default async function ProductsPage({ searchParams }: Props) {
+  const { q = "" } = await searchParams;
   const { products } = await getContent();
   return (
     <>
@@ -34,7 +42,7 @@ export default async function ProductsPage() {
               action={<ButtonLink href="/quotation">สอบถามอุปกรณ์ที่ต้องการ</ButtonLink>}
             />
           ) : (
-            <ProductCatalog products={products} />
+            <ProductCatalog products={products} initialQuery={q.trim()} />
           )}
         </Container>
       </Section>

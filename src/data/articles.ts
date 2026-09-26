@@ -14,7 +14,9 @@ export type ArticleBlock =
   | { type: "h2"; text: string }
   | { type: "list"; items: readonly string[] }
   | { type: "table"; head: readonly string[]; rows: readonly (readonly string[])[] }
-  | { type: "note"; text: string };
+  | { type: "note"; text: string }
+  /** รูปในเนื้อบทความ — อัปจากหลังบ้าน (ไม่ใช่ลิงก์ภายนอก) ดู da-app-server/src/models/WebArticle.js */
+  | { type: "image"; image: { src: string; alt: string; width: number; height: number }; caption?: string };
 
 export type Article = {
   slug: string;
@@ -1251,6 +1253,8 @@ export const readingMinutes = (a: Article): number => {
   const chars = a.body.reduce((n, b) => {
     if (b.type === "list") return n + b.items.join("").length;
     if (b.type === "table") return n + [...b.head, ...b.rows.flat()].join("").length;
+    // ⚠️ บล็อกรูปไม่มีช่อง text — ถ้าไม่ดักไว้จะพังทั้งหน้า (อ่าน .length ของ undefined)
+    if (b.type === "image") return n + (b.caption?.length || 0);
     return n + b.text.length;
   }, 0);
   return Math.max(1, Math.round(chars / 280));
